@@ -293,7 +293,7 @@ const primeraSemanaMayo = [
   {
     texto:
       "Regla pendiente PB1: duplicidad EAN13 en Barcode (escenario real Darnel). Requiere definición de tratamiento por impacto operativo y de negocio.",
-    estado: "completado"
+    estado: "pendiente"
   },
   {
     texto: "NOTA: sesión agendada para ambos puntos el lunes 11 de mayo de 2026.",

@@ -50,6 +50,11 @@ const hitosClave = [
     fecha: "04-08 May",
     titulo: "Semana de consolidación",
     detalle: "Zona Gold al 100% y arquitectura medallion completa."
+  },
+  {
+    fecha: "11-15 May",
+    titulo: "Semana PB2",
+    detalle: "Alineación funcional/negocio e implementación de nuevas reglas de extracción."
   }
 ];
 
@@ -292,6 +297,51 @@ const primeraSemanaMayo = [
   },
   {
     texto: "NOTA: sesión agendada para ambos puntos el lunes 11 de mayo de 2026.",
+    estado: "completado"
+  }
+];
+
+const semana11a15Mayo = [
+  {
+    texto:
+      "Sesiones de contextualización y alineación con equipo funcional y negocio sobre definiciones de nuevas reglas para extracción de PB2.",
+    estado: "completado"
+  },
+  {
+    texto: 'Ubicaciones: regla de exclusión para staging de recepciones ("Puertas -S").',
+    estado: "completado"
+  },
+  {
+    texto: "Ubicaciones: reglas de sustitución de nombres para áreas con longitud superior a 10.",
+    estado: "completado"
+  },
+  {
+    texto: 'Ubicaciones: llenado de aisle, bay y level con "1" cuando la ubicación no está segmentada por ":".',
+    estado: "completado"
+  },
+  {
+    texto: "Ubicaciones: generación columnas min_volume, max_volume y volume_uom_code.",
+    estado: "completado"
+  },
+  {
+    texto: "Items: implementación de regla para manejo de lote por artículo.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Pendiente definición Alexandra (Items): tipo de artículo para almacenamiento dirigido por sistema.",
+    estado: "pendiente"
+  },
+  {
+    texto: "Pendiente definición Alexandra (Items): relación del costo de los artículos.",
+    estado: "pendiente"
+  },
+  {
+    texto: "Implementación de nuevas reglas en la lógica de extracción.",
+    estado: "completado"
+  },
+  {
+    texto: "Pruebas unitarias.",
     estado: "completado"
   }
 ];
@@ -895,6 +945,18 @@ function App() {
             <h2>WMS - Avances semana 4-8 de mayo</h2>
             <div className="task-list">
               {primeraSemanaMayo.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>WMS - Avances semana 11-15 de mayo</h2>
+            <div className="task-list">
+              {semana11a15Mayo.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

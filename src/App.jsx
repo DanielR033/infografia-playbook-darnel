@@ -55,6 +55,11 @@ const hitosClave = [
     fecha: "11-15 May",
     titulo: "Semana PB2",
     detalle: "Alineación funcional/negocio e implementación de nuevas reglas de extracción."
+  },
+  {
+    fecha: "18-22 May",
+    titulo: "Semana de validación PB2",
+    detalle: "Pruebas de extracción, alertas de inconsistencias y coordinación transversal."
   }
 ];
 
@@ -344,6 +349,53 @@ const semana11a15Mayo = [
     texto: "Pruebas unitarias.",
     estado: "completado"
   }
+];
+
+const semana18a22Mayo = [
+  {
+    texto:
+      "Sesiones de pruebas de extracción con equipo funcional sobre casos puntuales de nuevas reglas definidas.",
+    estado: "completado"
+  },
+  {
+    texto:
+      'Ubicaciones: validación y alertamiento de inconsistencias por duplicidad y entendimiento de regla en campos "min_units", "max_units" e "item_alternate_code".',
+    estado: "completado"
+  },
+  {
+    texto:
+      "Lógica de reabastecimiento para ubicaciones activas en validación por Alexandra.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Caso de duplicidad escalado a Oracle: en PB1 se enviaron duplicados y el WMS destino no generó alerta.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Pendiente Alexandra (Items): tipo de artículo para almacenamiento dirigido por sistema.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Pendiente Alexandra (Items): relación del costo de los artículos.",
+    estado: "pendiente"
+  },
+  {
+    texto: "Implementación de nuevas reglas en la lógica de extracción.",
+    estado: "completado"
+  },
+  {
+    texto: "Pruebas unitarias.",
+    estado: "completado"
+  }
+];
+
+const elementosTransversales = [
+  "Asistencia a talleres de familiarización para identificar inventario de datos ERP.",
+  "Habilitar datos en ambientes de prueba para integraciones.",
+  "Sinergia entre brechas funcionales de gestión de impactos y el impacto técnico a nivel de datos."
 ];
 
 const resultadoCantidadesAbr23 = [
@@ -960,6 +1012,30 @@ function App() {
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>WMS - Avances semana 18-22 de mayo</h2>
+            <div className="task-list">
+              {semana18a22Mayo.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Elementos transversales (independientes de módulos)</h2>
+            <div className="task-list">
+              {elementosTransversales.map((item) => (
+                <div className="task-item" key={item}>
+                  <p>{item}</p>
+                  <span className="tag pendiente">Transversal</span>
                 </div>
               ))}
             </div>

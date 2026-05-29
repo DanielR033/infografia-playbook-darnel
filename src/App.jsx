@@ -335,11 +335,11 @@ const semana11a15Mayo = [
   {
     texto:
       "Pendiente definición Alexandra (Items): tipo de artículo para almacenamiento dirigido por sistema.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto: "Pendiente definición Alexandra (Items): relación del costo de los artículos.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto: "Implementación de nuevas reglas en la lógica de extracción.",
@@ -354,33 +354,61 @@ const semana11a15Mayo = [
 const semana18a22Mayo = [
   {
     texto:
-      "Sesiones de pruebas de extracción con equipo funcional sobre casos puntuales de nuevas reglas definidas.",
+      "Implementación de nuevas reglas para extracción PB2.",
     estado: "completado"
   },
   {
     texto:
-      'Ubicaciones: validación y alertamiento de inconsistencias por duplicidad y entendimiento de regla en campos "min_units", "max_units" e "item_alternate_code".',
+      "ARTICULOS - lpns_per_tier al 80% con lógica de priorización de UOM estándar WMS: primero PS_AJ_BU_ITEM_UOM (AJ_STD_UOM_WMS='Y' y BUSINESS_UNIT='AJI03') y, si no existe, PS_AJ_INVUOM_WMS.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Si el atributo existe en PS_AJ_BU_ITEM_UOM, se obtiene std_hand_qty desde t_item_master_bse uniendo por PS_PROD_ITEM.INV_ITEM_ID = t_item_master_bse.item_number y EFF_STATUS='A'.",
     estado: "completado"
   },
   {
     texto:
-      "Lógica de reabastecimiento para ubicaciones activas en validación por Alexandra.",
-    estado: "pendiente"
+      "Si el atributo no existe en PS_AJ_BU_ITEM_UOM y sí en PS_AJ_INVUOM_WMS, se obtiene std_hand_qty desde t_item_master uniendo por PS_PROD_ITEM.INV_ITEM_ID = t_item_master.item_number y EFF_STATUS='A'.",
+    estado: "completado"
   },
   {
-    texto:
-      "Caso de duplicidad escalado a Oracle: en PB1 se enviaron duplicados y el WMS destino no generó alerta.",
+    texto: "ARTICULOS - tiers_per_pallet al 100%.",
+    estado: "completado"
+  },
+  {
+    texto: "ARTICULOS - req_batch_nbr_flg al 100%.",
     estado: "completado"
   },
   {
     texto:
-      "Pendiente Alexandra (Items): tipo de artículo para almacenamiento dirigido por sistema.",
+      "Sesiones de pruebas de extracción con equipo funcional sobre casos puntuales que contemplan las nuevas reglas definidas.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "IMPORTANTE (pendiente): definición Alexandra en Items sobre tipo de artículo para almacenamiento dirigido por sistema.",
     estado: "pendiente"
   },
   {
     texto:
-      "Pendiente Alexandra (Items): relación del costo de los artículos.",
+      "IMPORTANTE (pendiente): definición Alexandra en Items sobre relación del costo de los artículos.",
     estado: "pendiente"
+  },
+  {
+    texto:
+      'IMPORTANTE (pendiente): definición Alexandra en Ubicaciones sobre duplicidad por columnas "min_units", "max_units" e "item_alternate_code".',
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "IMPORTANTE (pendiente): lógica de reabastecimiento para ubicaciones activas en validación por Alexandra.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Caso de duplicidad escalado a Oracle: en PB1 se enviaron casos duplicados y el WMS destino no generó alerta.",
+    estado: "completado"
   },
   {
     texto: "Implementación de nuevas reglas en la lógica de extracción.",
@@ -460,8 +488,10 @@ const temasValidados = [
 ];
 
 const faltantes = [
-  "Revisión de temas de IA.",
-  "Revisión de datos para integración."
+  "Items: definición del tipo de artículo para almacenamiento dirigido por sistema (pendiente Alexandra).",
+  "Items: definición de relación del costo de los artículos (pendiente Alexandra).",
+  'Ubicaciones: definición sobre duplicidad por columnas "min_units", "max_units" e "item_alternate_code" (pendiente Alexandra).',
+  "Ubicaciones: definición de lógica de reabastecimiento para ubicaciones activas (pendiente Alexandra)."
 ];
 
 const planEntidades = [
@@ -1035,7 +1065,7 @@ function App() {
               {elementosTransversales.map((item) => (
                 <div className="task-item" key={item}>
                   <p>{item}</p>
-                  <span className="tag pendiente">Transversal</span>
+                  <span className="tag completado">Completado</span>
                 </div>
               ))}
             </div>

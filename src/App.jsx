@@ -57,7 +57,7 @@ const hitosClave = [
     detalle: "Alineación funcional/negocio e implementación de nuevas reglas de extracción."
   },
   {
-    fecha: "18-22 May",
+    fecha: "25-29 May",
     titulo: "Semana de validación PB2",
     detalle: "Pruebas de extracción, alertas de inconsistencias y coordinación transversal."
   }
@@ -1018,7 +1018,7 @@ function App() {
           </section>
 
           <section className="card">
-            <h2>WMS - Avances semana 18-22 de mayo</h2>
+            <h2>WMS - Avances semana 25-29 de mayo</h2>
             <div className="task-list">
               {semana18a22Mayo.map((item) => (
                 <div className="task-item" key={item.texto}>

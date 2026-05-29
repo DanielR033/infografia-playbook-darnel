@@ -54,12 +54,20 @@ const hitosClave = [
   {
     fecha: "11-15 May",
     titulo: "Semana PB2",
-    detalle: "Alineación funcional/negocio e implementación de nuevas reglas de extracción."
+    detalle: "Alineación funcional/negocio e implementación de nuevas reglas de extracción.",
+    anchor: "semana-11-15-mayo"
+  },
+  {
+    fecha: "18-22 May",
+    titulo: "Semana de validación funcional",
+    detalle: "Pruebas de extracción, alertas de inconsistencias y validaciones pendientes.",
+    anchor: "semana-18-22-mayo"
   },
   {
     fecha: "25-29 May",
     titulo: "Semana de validación PB2",
-    detalle: "Pruebas de extracción, alertas de inconsistencias y coordinación transversal."
+    detalle: "Implementación de nuevas reglas PB2 y pendientes explícitos de Items/Ubicaciones.",
+    anchor: "semana-25-29-mayo"
   }
 ];
 
@@ -359,8 +367,8 @@ const semana18a22Mayo = [
   },
   {
     texto:
-      'Ubicaciones: validación y alertamiento de inconsistencias por duplicidad y entendimiento de regla en campos "min_units", "max_units" e "item_alternate_code".',
-    estado: "completado"
+      'Ubicaciones: validación, detección y generación de alertas sobre inconsistencias. Existen ubicaciones duplicadas por cómo se mapeó el diccionario de datos y hay inconsistencia en el entendimiento de la regla para "min_units", "max_units" e "item_alternate_code"; se encuentra en validación por el equipo funcional de Ileana Cortina.',
+    estado: "pendiente"
   },
   {
     texto:
@@ -374,21 +382,64 @@ const semana18a22Mayo = [
   },
   {
     texto:
-      "Pendiente Alexandra (Items): tipo de artículo para almacenamiento dirigido por sistema.",
+      "IMPORTANTE: pendiente Alexandra (Items): tipo de artículo para almacenamiento dirigido por sistema.",
     estado: "pendiente"
   },
   {
     texto:
-      "Pendiente Alexandra (Items): relación del costo de los artículos.",
+      "IMPORTANTE: pendiente Alexandra (Items): relación del costo de los artículos.",
+    estado: "pendiente"
+  }
+];
+
+const semana25a29Mayo = [
+  {
+    texto:
+      "Implementación de nuevas reglas a tener en cuenta para la extracción de PB2.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "ARTÍCULOS - lpns_per_tier al 80%: se tomará la unidad de medida configurada como estándar WMS, identificada por AJ_STD_UOM_WMS = 'Y'. La consulta prioriza PS_AJ_BU_ITEM_UOM con BUSINESS_UNIT = 'AJI03' y, si no existe, busca en PS_AJ_INVUOM_WMS.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "lpns_per_tier: si el atributo existe en PS_AJ_BU_ITEM_UOM, el valor se recupera desde t_item_master_bse uniendo PS_PROD_ITEM.INV_ITEM_ID = t_item_master_bse.item_number y PS_PROD_ITEM.EFF_STATUS = 'A', tomando std_hand_qty.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "lpns_per_tier: si el atributo solo existe en PS_AJ_INVUOM_WMS, el valor se recupera desde t_item_master uniendo PS_PROD_ITEM.INV_ITEM_ID = t_item_master.item_number y PS_PROD_ITEM.EFF_STATUS = 'A', tomando std_hand_qty.",
+    estado: "en-proceso"
+  },
+  {
+    texto: "ARTÍCULOS - tiers_per_pallet al 100%.",
+    estado: "completado"
+  },
+  {
+    texto: "ARTÍCULOS - req_batch_nbr_flg al 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "IMPORTANTE: pendiente Alexandra (Items): tipo de artículo para almacenamiento dirigido por sistema.",
     estado: "pendiente"
   },
   {
-    texto: "Implementación de nuevas reglas en la lógica de extracción.",
-    estado: "completado"
+    texto:
+      "IMPORTANTE: pendiente Alexandra (Items): relación del costo de los artículos.",
+    estado: "pendiente"
   },
   {
-    texto: "Pruebas unitarias.",
-    estado: "completado"
+    texto:
+      'IMPORTANTE: pendiente Ubicaciones: duplicidad de ubicaciones debido a las columnas "min_units", "max_units" e "item_alternate_code".',
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "IMPORTANTE: pendiente Ubicaciones: lógica de reabastecimiento para ubicaciones activas.",
+    estado: "pendiente"
   }
 ];
 
@@ -709,7 +760,7 @@ const entidadDetalle = {
       {
         negocio: "Incluir solo artículos con unidad de medida Paquete (PQ).",
         tecnica:
-          "CTE principal: AJ_STD_UOM_WMS = 'Y' AND UNIT_OF_MEASURE = 'PQ'. CTE segundaria: AJ_UOM_WMS = 'Y' AND UNIT_OF_MEASURE = 'PQ'."
+          "CTE principal: AJ_STD_UOM_WMS = 'Y' AND UNIT_OF_MEASURE = 'PQ'. CTE secundaria: AJ_UOM_WMS = 'Y' AND UNIT_OF_MEASURE = 'PQ'."
       },
       {
         negocio: "Usar códigos de barras según definición funcional vigente.",
@@ -828,10 +879,10 @@ function App() {
     <main className="layout">
       <header className="hero">
         <p className="pill">Fase actual: Playbook 1</p>
-        <h1>Infografia de avance - Frente de Datos</h1>
+        <h1>Infografía de avance - Frente de Datos</h1>
         <p className="subtitle">
           Contexto inicial: ya se realizaron sesiones de entendimiento de
-          plantillas (paso a paso por tabla y columna) y se negocio acceso a
+          plantillas (paso a paso por tabla y columna) y se negoció acceso a
           Microsoft Fabric con workspace dedicado para procesamiento.
         </p>
         <div className="hero-kpi-grid">
@@ -868,18 +919,24 @@ function App() {
             <h2>Cronograma de hitos clave</h2>
             <div className="flow">
               {hitosClave.map((hito) => (
-                <article className="flow-item" key={hito.fecha + hito.titulo}>
+                <a
+                  className="flow-item"
+                  href={hito.anchor ? `#${hito.anchor}` : undefined}
+                  key={hito.fecha + hito.titulo}
+                >
                   <span className="flow-date">{hito.fecha}</span>
                   <h3>{hito.titulo}</h3>
                   <p>{hito.detalle}</p>
-                </article>
+                </a>
               ))}
             </div>
           </section>
 
           <section className="grid">
-            <article className="card">
-              <h2>WMS - Avances semana 23-27 de marzo</h2>
+            <details className="card week-card">
+              <summary>
+                <h2>WMS - Avances semana 23-27 de marzo</h2>
+              </summary>
               <div className="task-list">
                 {semana23a27Marzo.map((item) => (
                   <div className="task-item" key={item.texto}>
@@ -931,9 +988,11 @@ function App() {
                   </div>
                 </div>
               </div>
-            </article>
-            <article className="card">
-              <h2>WMS - Avances semana 30 de marzo-01 de abril</h2>
+            </details>
+            <details className="card week-card">
+              <summary>
+                <h2>WMS - Avances semana 30 de marzo-01 de abril</h2>
+              </summary>
               <div className="task-list">
                 {semana30Marzoa01Abril.map((item) => (
                   <div className="task-item" key={item.texto}>
@@ -942,11 +1001,13 @@ function App() {
                   </div>
                 ))}
               </div>
-            </article>
+            </details>
           </section>
 
-          <section className="card">
-            <h2>WMS - Avances semana 6-10 de abril</h2>
+          <details className="card week-card">
+            <summary>
+              <h2>WMS - Avances semana 6-10 de abril</h2>
+            </summary>
             <div className="task-list">
               {semana6a10Abril.map((item) => (
                 <div className="task-item" key={item.texto}>
@@ -955,10 +1016,12 @@ function App() {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
 
-          <section className="card">
-            <h2>WMS - Avances semana 13-17 de abril</h2>
+          <details className="card week-card">
+            <summary>
+              <h2>WMS - Avances semana 13-17 de abril</h2>
+            </summary>
             <div className="task-list">
               {semana13a17Abril.map((item) => (
                 <div className="task-item" key={item.texto}>
@@ -967,10 +1030,12 @@ function App() {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
 
-          <section className="card">
-            <h2>WMS - Avances semana 20-24 de abril</h2>
+          <details className="card week-card">
+            <summary>
+              <h2>WMS - Avances semana 20-24 de abril</h2>
+            </summary>
             <div className="task-list">
               {semana20a24Abril.map((item) => (
                 <div className="task-item" key={item.texto}>
@@ -979,10 +1044,12 @@ function App() {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
 
-          <section className="card">
-            <h2>WMS - Avances semana 27-30 de abril</h2>
+          <details className="card week-card">
+            <summary>
+              <h2>WMS - Avances semana 27-30 de abril</h2>
+            </summary>
             <div className="task-list">
               {semana27a30Abril.map((item) => (
                 <div className="task-item" key={item.texto}>
@@ -991,10 +1058,12 @@ function App() {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
 
-          <section className="card">
-            <h2>WMS - Avances semana 4-8 de mayo</h2>
+          <details className="card week-card">
+            <summary>
+              <h2>WMS - Avances semana 4-8 de mayo</h2>
+            </summary>
             <div className="task-list">
               {primeraSemanaMayo.map((item) => (
                 <div className="task-item" key={item.texto}>
@@ -1003,10 +1072,12 @@ function App() {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
 
-          <section className="card">
-            <h2>WMS - Avances semana 11-15 de mayo</h2>
+          <details className="card week-card" id="semana-11-15-mayo">
+            <summary>
+              <h2>WMS - Avances semana 11-15 de mayo</h2>
+            </summary>
             <div className="task-list">
               {semana11a15Mayo.map((item) => (
                 <div className="task-item" key={item.texto}>
@@ -1015,10 +1086,12 @@ function App() {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
 
-          <section className="card">
-            <h2>WMS - Avances semana 25-29 de mayo</h2>
+          <details className="card week-card" id="semana-18-22-mayo" open>
+            <summary>
+              <h2>WMS - Avances semana 18-22 de mayo</h2>
+            </summary>
             <div className="task-list">
               {semana18a22Mayo.map((item) => (
                 <div className="task-item" key={item.texto}>
@@ -1027,7 +1100,23 @@ function App() {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
+
+          {semana25a29Mayo.length > 0 && (
+            <details className="card week-card" id="semana-25-29-mayo" open>
+              <summary>
+                <h2>WMS - Avances semana 25-29 de mayo</h2>
+              </summary>
+              <div className="task-list">
+                {semana25a29Mayo.map((item) => (
+                  <div className="task-item" key={item.texto}>
+                    <p>{item.texto}</p>
+                    <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                  </div>
+                ))}
+              </div>
+            </details>
+          )}
 
           <section className="card">
             <h2>Elementos transversales (independientes de módulos)</h2>

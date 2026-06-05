@@ -68,6 +68,12 @@ const hitosClave = [
     titulo: "Semana de validación PB2",
     detalle: "Implementación de nuevas reglas PB2 y pendientes explícitos de Items/Ubicaciones.",
     anchor: "semana-25-29-mayo"
+  },
+  {
+    fecha: "01-05 Jun",
+    titulo: "Semana de cierre PB2",
+    detalle: "Filtros finales, volumetría PB2 y validaciones de aprobación.",
+    anchor: "semana-01-05-junio"
   }
 ];
 
@@ -443,6 +449,81 @@ const semana25a29Mayo = [
   }
 ];
 
+const semana01a05Junio = [
+  {
+    texto:
+      'ITEMS: implementación de filtro tipo cascada para std_case_qty y std_pack_qty con orden de búsqueda WH 05 -> 01 -> 02 y sucesivos.',
+    estado: "completado"
+  },
+  {
+    texto:
+      'ITEMS: reducción significativa de registros con valor 0. Total actual: 2.548 registros. Se genera archivo de soporte "Items_case_cer" con artículos excluidos por esta casuística.',
+    estado: "completado"
+  },
+  {
+    texto:
+      "ITEMS: implementación de definición de tipo de artículo para almacenamiento dirigido por sistema, según lineamientos.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "ITEMS: aplicación de reglas para manejo de registros duplicados, con reducción significativa de duplicados.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "ITEMS: identificación de 9 artículos duplicados por múltiples unidades de medida estándar WMS y flag AJ_UOM_WMS = Y.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "ITEMS: exclusión de artículos PS502-B, P11U19-980-3000, 551412, C503506711, C563508411, P11U190-860-3000, 8919, P11U19-780-2900 y RA02024132.",
+    estado: "completado"
+  },
+  {
+    texto: "ITEMS: total final posterior a filtros y exclusiones: 43.482 ítems.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "UBICACIONES: implementación de todas las reglas definidas para PB2, con filtros y exclusiones correspondientes.",
+    estado: "completado"
+  },
+  {
+    texto: "UBICACIONES: total final de registros: 24.410 ubicaciones.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "BARCODE: se mantiene la regla actual para manejo de duplicados en vendor_barcode por falta de definición final para duplicidad de EAN13 en múltiples artículos.",
+    estado: "completado"
+  },
+  {
+    texto: "BARCODE: total final de registros: 2.173 códigos.",
+    estado: "completado"
+  },
+  {
+    texto:
+      'Consideración general: todas las plantillas contienen el universo completo de datos. En Items y Barcode se incluye columna adicional PB1 con valor "X" para registros ya migrados en PB1, que deben incluirse nuevamente en PB2 para actualización masiva en WMS.',
+    estado: "completado"
+  },
+  {
+    texto:
+      "Consideración general: la plantilla Ubicaciones no incluye columna PB1 porque se definió previamente migrar el 100% de ubicaciones.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Pendiente: aprobación sobre consistencia de los datos generados y volumetría a migrar en PB2.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Pendiente: confirmación sobre inclusión del 100% de ubicaciones en PB2 y validación de registros adicionales a incluir en esta fase.",
+    estado: "pendiente"
+  }
+];
+
 const elementosTransversales = [
   "Asistencia a talleres de familiarización para identificar inventario de datos ERP.",
   "Habilitar datos en ambientes de prueba para integraciones.",
@@ -542,28 +623,27 @@ const estadoLabel = {
   dependencia: "Dependencia"
 };
 
-const cargaPlaybook1 = {
-  itemsUniverso: 42350,
-  itemsNoCargados: 2,
-  locationsUniverso: 26081,
-  barcodeUniverso: 2228
+const cargaPlaybookActual = {
+  itemsUniverso: 43482,
+  locationsUniverso: 24410,
+  barcodeUniverso: 2173
 };
 
 const cargaPorEntidad = [
   {
     entidad: "Items",
-    universo: cargaPlaybook1.itemsUniverso,
-    cargados: cargaPlaybook1.itemsUniverso - cargaPlaybook1.itemsNoCargados
+    universo: cargaPlaybookActual.itemsUniverso,
+    cargados: cargaPlaybookActual.itemsUniverso
   },
   {
     entidad: "Barcode",
-    universo: cargaPlaybook1.barcodeUniverso,
-    cargados: cargaPlaybook1.barcodeUniverso
+    universo: cargaPlaybookActual.barcodeUniverso,
+    cargados: cargaPlaybookActual.barcodeUniverso
   },
   {
     entidad: "Locations",
-    universo: cargaPlaybook1.locationsUniverso,
-    cargados: cargaPlaybook1.locationsUniverso
+    universo: cargaPlaybookActual.locationsUniverso,
+    cargados: cargaPlaybookActual.locationsUniverso
   }
 ].map((item) => ({
   ...item,
@@ -878,7 +958,7 @@ function App() {
   return (
     <main className="layout">
       <header className="hero">
-        <p className="pill">Fase actual: Playbook 1</p>
+        <p className="pill">Fase actual: Playbook 2</p>
         <h1>Infografía de avance - Frente de Datos</h1>
         <p className="subtitle">
           Contexto inicial: ya se realizaron sesiones de entendimiento de
@@ -1088,7 +1168,7 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-18-22-mayo" open>
+          <details className="card week-card" id="semana-18-22-mayo">
             <summary>
               <h2>WMS - Avances semana 18-22 de mayo</h2>
             </summary>
@@ -1103,7 +1183,7 @@ function App() {
           </details>
 
           {semana25a29Mayo.length > 0 && (
-            <details className="card week-card" id="semana-25-29-mayo" open>
+            <details className="card week-card" id="semana-25-29-mayo">
               <summary>
                 <h2>WMS - Avances semana 25-29 de mayo</h2>
               </summary>
@@ -1117,6 +1197,20 @@ function App() {
               </div>
             </details>
           )}
+
+          <details className="card week-card" id="semana-01-05-junio" open>
+            <summary>
+              <h2>WMS - Avances semana 1-5 de junio</h2>
+            </summary>
+            <div className="task-list">
+              {semana01a05Junio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
 
           <section className="card">
             <h2>Elementos transversales (independientes de módulos)</h2>

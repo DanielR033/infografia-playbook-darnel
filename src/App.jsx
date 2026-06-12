@@ -74,6 +74,12 @@ const hitosClave = [
     titulo: "Semana de cierre PB2",
     detalle: "Filtros finales, volumetría PB2 y validaciones de aprobación.",
     anchor: "semana-01-05-junio"
+  },
+  {
+    fecha: "05-11 Jun",
+    titulo: "Semana de carga PB2",
+    detalle: "Acompañamiento de carga, mejoras de extracción y recopilación de errores.",
+    anchor: "semana-05-11-junio"
   }
 ];
 
@@ -524,6 +530,70 @@ const semana01a05Junio = [
   }
 ];
 
+const semana05a11Junio = [
+  {
+    texto:
+      "Acompañamiento y seguimiento a definiciones pendientes por cerrar dentro del alcance contemplado para PB2.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Análisis e implementación de mejoras sobre inconsistencias reportadas por Alexandra Duarte en la extracción realizada para PB2.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Implementación de nuevas definiciones generadas por el equipo de negocio Darnel.",
+    estado: "completado"
+  },
+  {
+    texto: "Sesiones de acompañamiento para revisión de consistencia de datos.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Sesiones de acompañamiento sobre errores generados durante la ingesta en Oracle.",
+    estado: "completado"
+  },
+  {
+    texto: "ITEMS: 44.820 registros cargados, equivalentes al 98,73%.",
+    estado: "en-proceso"
+  },
+  {
+    texto: "BARCODE: 1.817 registros cargados, equivalentes al 83,58%.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "LOCATIONS: no cargado por definición pendiente del layout de la bodega por parte de Alexandra Duarte y Zaid.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Próximo paso: recopilar y consolidar los errores generados durante el proceso de migración PB2.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Error detectado: duplicidad de artículos ante el nuevo WMS por nomenclaturas casi idénticas; una contiene un carácter NBSP y ambos registros operan como artículos independientes con sus propias medidas WMS.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Error detectado: cantidades decimales en campos definidos como enteros. Se debe contemplar un nuevo flag que permita enviar decimales.",
+    estado: "pendiente"
+  },
+  {
+    texto: "Error detectado: códigos Barcode que no existen como artículos.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Próximo paso: desarrollar queries de extracción de datos de Órdenes de Venta actuales en formato ATP INT13.",
+    estado: "programado"
+  }
+];
+
 const elementosTransversales = [
   "Asistencia a talleres de familiarización para identificar inventario de datos ERP.",
   "Habilitar datos en ambientes de prueba para integraciones.",
@@ -567,50 +637,53 @@ const notaNoCargadosItems = [
 const comparativoPlantillas = [
   {
     plantilla: "ITEMS",
-    universo: "107.077 artículos",
-    resultado: "62.231 artículos",
-    detalle: "Después de filtros definidos y conservando unidades de medida configuradas como WMS."
+    universo: "Corte de carga PB2",
+    resultado: "44.820 cargados / 98,73%",
+    detalle: "Quedan inconsistencias por analizar y corregir del proceso de extracción/carga."
   },
   {
     plantilla: "LOCATIONS",
-    universo: "78.719 ubicaciones",
-    resultado: "76.938 ubicaciones",
-    detalle: 'Posterior a filtrar tipos de ubicación diferentes a "F".'
+    universo: "24.410 ubicaciones preparadas",
+    resultado: "No cargado",
+    detalle: "Pendiente definición del layout de bodega por Alexandra Duarte y Zaid."
   },
   {
     plantilla: "BARCODE",
-    universo: "62.231 artículos en Items",
-    resultado: "2.228 registros / 1.333 artículos únicos",
-    detalle:
-      "Se filtra por unidad de medida PQ (Paquete). Quedan 60.898 artículos sin código de barras en plantilla Barcode."
+    universo: "Corte de carga PB2",
+    resultado: "1.817 cargados / 83,58%",
+    detalle: "Se detectaron códigos Barcode que no existen como artículos."
   }
 ];
 
 const temasValidados = [
-  "La plantilla de código de barras no tendrá la misma cantidad de artículos de Items por definición funcional de filtrar solo unidad de medida Paquete.",
-  "Se validó manejo temporal de duplicidades para la salida actual; queda seguimiento a definición estructural futura."
+  "Se implementaron mejoras sobre inconsistencias reportadas en la extracción PB2.",
+  "Se realizaron sesiones conjuntas de revisión de consistencia y acompañamiento a la ingesta Oracle."
 ];
 
 const faltantes = [
-  "Revisión de temas de IA.",
-  "Revisión de datos para integración."
+  "Cerrar definiciones pendientes dentro del alcance PB2.",
+  "Resolver duplicidad de artículos causada por diferencias de nomenclatura y carácter NBSP.",
+  "Definir flag para permitir cantidades decimales.",
+  "Resolver códigos Barcode que no existen como artículos.",
+  "Definir layout de bodega para habilitar carga de Locations.",
+  "Desarrollar queries de Órdenes de Venta actuales en formato ATP INT13."
 ];
 
 const planEntidades = [
   {
     entidad: "Items",
-    estado: "100% query y muestras liberadas; ajuste adicional solicitado 16-04-2026 en implementación.",
-    siguiente: "Aplicar último alcance y validar con funcional para cierre final."
+    estado: "44.820 registros cargados (98,73%).",
+    siguiente: "Recopilar errores PB2 y corregir duplicidades y manejo de cantidades decimales."
   },
   {
     entidad: "Barcode",
-    estado: "100% query con reglas vigentes; observación por cobertura frente a Items.",
-    siguiente: "Confirmar con negocio si se amplían unidades de medida distintas de Paquete."
+    estado: "1.817 registros cargados (83,58%).",
+    siguiente: "Resolver códigos Barcode que no existen como artículos."
   },
   {
     entidad: "Locations",
-    estado: '100% query con filtros funcionales aplicados (tipos diferentes a "F").',
-    siguiente: "Confirmar volúmenes finales y aprobación para carga definitiva."
+    estado: "No cargado por definición pendiente del layout de bodega.",
+    siguiente: "Cerrar definición con Alexandra Duarte y Zaid para ejecutar la carga."
   }
 ];
 
@@ -623,33 +696,26 @@ const estadoLabel = {
   dependencia: "Dependencia"
 };
 
-const cargaPlaybookActual = {
-  itemsUniverso: 43482,
-  locationsUniverso: 24410,
-  barcodeUniverso: 2173
-};
-
 const cargaPorEntidad = [
   {
     entidad: "Items",
-    universo: cargaPlaybookActual.itemsUniverso,
-    cargados: cargaPlaybookActual.itemsUniverso
+    porcentaje: "98.73",
+    detalle: "44.820 cargados",
+    estado: "partial"
   },
   {
     entidad: "Barcode",
-    universo: cargaPlaybookActual.barcodeUniverso,
-    cargados: cargaPlaybookActual.barcodeUniverso
+    porcentaje: "83.58",
+    detalle: "1.817 cargados",
+    estado: "partial"
   },
   {
     entidad: "Locations",
-    universo: cargaPlaybookActual.locationsUniverso,
-    cargados: cargaPlaybookActual.locationsUniverso
+    porcentaje: "0.00",
+    detalle: "Pendiente layout",
+    estado: "partial"
   }
-].map((item) => ({
-  ...item,
-  porcentaje: ((item.cargados / item.universo) * 100).toFixed(3),
-  estado: item.cargados === item.universo ? "full" : "partial"
-}));
+];
 
 const mostrarArquitecturaToBe = false;
 
@@ -762,9 +828,9 @@ const entidadDetalle = {
   items: {
     titulo: "Items",
     inicial: "61.148 (antes de nuevas definiciones)",
-    actual: "42.350 universo / 8.495 enviados",
+    actual: "44.820 cargados / 98,73%",
     resumen:
-      "Con nuevas definiciones Oracle-Darnel, el universo de Items queda en 42.350 y se envían 8.495 registros a Oracle.",
+      "La carga PB2 de Items alcanzó 44.820 registros. Continúa el análisis de inconsistencias y errores detectados durante la migración.",
     reglas: [
       {
         negocio: "Tomar solo artículos del set corporativo definido para la operación.",
@@ -816,6 +882,18 @@ const entidadDetalle = {
         tecnica:
           "Ajuste de llaves con TRIM contra t_item_uom y uso de factor de conversión 1 cuando primary=case=pack.",
         nueva: true
+      },
+      {
+        negocio: "Resolver artículos duplicados por diferencias mínimas de nomenclatura.",
+        tecnica:
+          "Identificar diferencias por caracteres NBSP y validar cada artículo independiente junto con sus medidas WMS.",
+        nueva: true
+      },
+      {
+        negocio: "Permitir cantidades decimales cuando aplique.",
+        tecnica:
+          "Definir e implementar un nuevo flag para habilitar el envío de valores decimales.",
+        nueva: true
       }
     ],
     tablas: [
@@ -833,9 +911,9 @@ const entidadDetalle = {
   barcode: {
     titulo: "Barcode",
     inicial: "2.228 (alcance previo)",
-    actual: "2.228 universo / 531 enviados",
+    actual: "1.817 cargados / 83,58%",
     resumen:
-      "El universo de Barcode se mantiene en 2.228, pero para envío a Oracle se remiten 531 tras excluir duplicidades EAN13 según definición actual.",
+      "La carga PB2 de Barcode alcanzó 1.817 registros. Se identificaron códigos Barcode que no existen como artículos.",
     reglas: [
       {
         negocio: "Incluir solo artículos con unidad de medida Paquete (PQ).",
@@ -862,6 +940,12 @@ const entidadDetalle = {
         tecnica:
           "Tratamiento temporal: excluir uno de los duplicados y enviar el restante; queda pendiente política definitiva de Darnel.",
         nueva: true
+      },
+      {
+        negocio: "Evitar carga de códigos Barcode sin artículo asociado.",
+        tecnica:
+          "Validar existencia del artículo antes de generar y cargar el registro Barcode.",
+        nueva: true
       }
     ],
     tablas: [
@@ -885,9 +969,9 @@ const entidadDetalle = {
   locations: {
     titulo: "Locations",
     inicial: "76.951 (antes de nuevas exclusiones)",
-    actual: "26.081 universo / 5.216 enviados",
+    actual: "24.410 preparadas / carga pendiente",
     resumen:
-      "Con nuevas reglas funcionales de exclusión, el universo de ubicaciones queda en 26.081 y se envían 5.216 a Oracle.",
+      "La plantilla PB2 contiene 24.410 ubicaciones, pero la carga está detenida hasta cerrar la definición del layout de bodega con Alexandra Duarte y Zaid.",
     reglas: [
       {
         negocio: "Excluir ubicaciones de tipo no operativo para la plantilla final.",
@@ -970,10 +1054,7 @@ function App() {
             <article className={`hero-kpi-card ${kpi.estado}`} key={kpi.entidad}>
               <small>{kpi.entidad}</small>
               <strong>{kpi.porcentaje}%</strong>
-              <span>
-                {kpi.cargados.toLocaleString("es-CO")} /{" "}
-                {kpi.universo.toLocaleString("es-CO")}
-              </span>
+              <span>{kpi.detalle}</span>
               <i className={`kpi-dot ${kpi.estado}`} aria-hidden="true" />
             </article>
           ))}
@@ -1198,12 +1279,26 @@ function App() {
             </details>
           )}
 
-          <details className="card week-card" id="semana-01-05-junio" open>
+          <details className="card week-card" id="semana-01-05-junio">
             <summary>
               <h2>WMS - Avances semana 1-5 de junio</h2>
             </summary>
             <div className="task-list">
               {semana01a05Junio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-05-11-junio" open>
+            <summary>
+              <h2>WMS - Avances semana 5-11 de junio</h2>
+            </summary>
+            <div className="task-list">
+              {semana05a11Junio.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

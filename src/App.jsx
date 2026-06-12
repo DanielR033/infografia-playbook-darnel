@@ -534,7 +534,7 @@ const semana05a11Junio = [
   {
     texto:
       "Acompañamiento y seguimiento a definiciones pendientes por cerrar dentro del alcance contemplado para PB2.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
@@ -557,11 +557,11 @@ const semana05a11Junio = [
   },
   {
     texto: "ITEMS: 44.820 registros cargados, equivalentes al 98,73%.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto: "BARCODE: 1.817 registros cargados, equivalentes al 83,58%.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:

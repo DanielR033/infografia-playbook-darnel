@@ -80,6 +80,12 @@ const hitosClave = [
     titulo: "Semana de carga PB2",
     detalle: "Acompañamiento de carga, mejoras de extracción y recopilación de errores.",
     anchor: "semana-05-11-junio"
+  },
+  {
+    fecha: "15-18 Jun",
+    titulo: "ERP/SCM e integraciones",
+    detalle: "Estrategia de datos, nuevas definiciones WMS PB2 e integración de tablas ATP INT13.",
+    anchor: "semana-15-18-junio"
   }
 ];
 
@@ -594,10 +600,65 @@ const semana05a11Junio = [
   }
 ];
 
+const semana15a18Junio = [
+  {
+    texto:
+      "ERP/SCM - Estrategia de datos: trabajo sobre reglas de negocio, fuentes de información y formatos.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "ERP/SCM: familiarización y sesiones de diligenciamiento de plantillas para entendimiento inicial de datos, reglas de negocio, fuentes de información y formatos.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB2: implementación de nuevas definiciones generadas sobre el proceso de ingesta en WMS.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB2 - lpns_per_tier: tratamiento de datos cuando el valor supera 5 dígitos de longitud y la unidad de medida es GM; afecta directamente std_case_qty, max_case_qty y primary_uom_code.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB2: std_pack_qty, std_case_qty y max_case_qty están definidos como enteros en la plantilla Oracle, pero pueden recibir decimales; para estos casos se debe activar handle_decimal_qty_flg.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Pendiente funcional: duplicidad de artículos ante el nuevo WMS por nomenclaturas casi idénticas; una contiene un carácter NBSP y cada artículo opera independiente con sus propias medidas WMS.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Pendiente funcional: Oracle requiere que la unidad de medida pack sea igual que la primaria; la actualización se realizó manualmente porque no estaba definida previamente.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "INTEGRACIONES: con apoyo de Aníbal se logró acceso a nuevas tablas que intervienen en Órdenes de Venta actuales en formato ATP INT13.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "INTEGRACIONES: implementación de integración en Fabric de 16 nuevas tablas provenientes de PeopleSoft y WMS.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Próximo paso: culminar query de extracción de Órdenes de Venta actuales en formato ATP INT13 para generar todo el universo de datos y referencia PB2.",
+    estado: "programado"
+  }
+];
+
 const elementosTransversales = [
   "Asistencia a talleres de familiarización para identificar inventario de datos ERP.",
   "Habilitar datos en ambientes de prueba para integraciones.",
-  "Sinergia entre brechas funcionales de gestión de impactos y el impacto técnico a nivel de datos."
+  "Sinergia entre brechas funcionales de gestión de impactos y el impacto técnico a nivel de datos.",
+  "ERP/SCM: estrategia de datos sobre reglas de negocio, fuentes de información y formatos.",
+  "Integraciones: acceso a nuevas tablas ATP INT13 e integración Fabric de 16 tablas PeopleSoft/WMS."
 ];
 
 const resultadoCantidadesAbr23 = [
@@ -657,23 +718,25 @@ const comparativoPlantillas = [
 
 const temasValidados = [
   "Se implementaron mejoras sobre inconsistencias reportadas en la extracción PB2.",
-  "Se realizaron sesiones conjuntas de revisión de consistencia y acompañamiento a la ingesta Oracle."
+  "Se realizaron sesiones conjuntas de revisión de consistencia y acompañamiento a la ingesta Oracle.",
+  "Se habilitó acceso a nuevas tablas para Órdenes de Venta actuales en formato ATP INT13.",
+  "Se implementó integración en Fabric de 16 nuevas tablas de PeopleSoft y WMS."
 ];
 
 const faltantes = [
-  "Cerrar definiciones pendientes dentro del alcance PB2.",
+  "Alinear definiciones funcionales pendientes dentro del alcance PB2.",
   "Resolver duplicidad de artículos causada por diferencias de nomenclatura y carácter NBSP.",
-  "Definir flag para permitir cantidades decimales.",
+  "Confirmar definición Oracle sobre unidad de medida pack igual a la primaria.",
   "Resolver códigos Barcode que no existen como artículos.",
   "Definir layout de bodega para habilitar carga de Locations.",
-  "Desarrollar queries de Órdenes de Venta actuales en formato ATP INT13."
+  "Culminar query de Órdenes de Venta actuales en formato ATP INT13."
 ];
 
 const planEntidades = [
   {
     entidad: "Items",
     estado: "44.820 registros cargados (98,73%).",
-    siguiente: "Recopilar errores PB2 y corregir duplicidades y manejo de cantidades decimales."
+    siguiente: "Alinear duplicidades por NBSP y regla Oracle de unidad pack igual a primaria."
   },
   {
     entidad: "Barcode",
@@ -684,6 +747,11 @@ const planEntidades = [
     entidad: "Locations",
     estado: "No cargado por definición pendiente del layout de bodega.",
     siguiente: "Cerrar definición con Alexandra Duarte y Zaid para ejecutar la carga."
+  },
+  {
+    entidad: "Integraciones",
+    estado: "16 nuevas tablas PeopleSoft/WMS integradas en Fabric para ATP INT13.",
+    siguiente: "Culminar query de extracción de Órdenes de Venta actuales y universo PB2."
   }
 ];
 
@@ -893,6 +961,24 @@ const entidadDetalle = {
         negocio: "Permitir cantidades decimales cuando aplique.",
         tecnica:
           "Definir e implementar un nuevo flag para habilitar el envío de valores decimales.",
+        nueva: true
+      },
+      {
+        negocio: "Tratar valores de lpns_per_tier superiores a 5 dígitos con UOM GM.",
+        tecnica:
+          "Aplicar tratamiento específico porque impacta std_case_qty, max_case_qty y primary_uom_code.",
+        nueva: true
+      },
+      {
+        negocio: "Activar manejo decimal en campos enteros de Oracle cuando aplique.",
+        tecnica:
+          "Para std_pack_qty, std_case_qty y max_case_qty con decimales, activar handle_decimal_qty_flg.",
+        nueva: true
+      },
+      {
+        negocio: "Alinear regla Oracle de unidad pack igual a la unidad primaria.",
+        tecnica:
+          "Definición pendiente; la actualización inicial se realizó manualmente por no estar definida previamente.",
         nueva: true
       }
     ],
@@ -1293,12 +1379,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-05-11-junio" open>
+          <details className="card week-card" id="semana-05-11-junio">
             <summary>
               <h2>WMS - Avances semana 5-11 de junio</h2>
             </summary>
             <div className="task-list">
               {semana05a11Junio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-15-18-junio" open>
+            <summary>
+              <h2>ERP/SCM - WMS PB2 - Integraciones semana 15-18 de junio</h2>
+            </summary>
+            <div className="task-list">
+              {semana15a18Junio.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

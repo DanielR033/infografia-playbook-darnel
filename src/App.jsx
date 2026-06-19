@@ -764,27 +764,6 @@ const estadoLabel = {
   dependencia: "Dependencia"
 };
 
-const cargaPorEntidad = [
-  {
-    entidad: "Items",
-    porcentaje: "98.73",
-    detalle: "44.820 cargados",
-    estado: "partial"
-  },
-  {
-    entidad: "Barcode",
-    porcentaje: "83.58",
-    detalle: "1.817 cargados",
-    estado: "partial"
-  },
-  {
-    entidad: "Locations",
-    porcentaje: "0.00",
-    detalle: "Pendiente layout",
-    estado: "partial"
-  }
-];
-
 const mostrarArquitecturaToBe = false;
 
 const leccionesAprendidas = [
@@ -797,81 +776,487 @@ const frameworkCarga = [
   {
     paso: 1,
     titulo: "Entendimiento de plantilla o ajuste a plantilla existente",
+    fase: "Definir",
+    aprobador: "Oracle",
     responsable: "Oracle",
     consultado: "Darnel",
-    informado: "Azurian"
+    informado: "Azurian",
+    entregable: "Plantilla y criterios Oracle entendidos.",
+    criterio: "Columnas, formatos, obligatoriedad y restricciones documentadas."
   },
   {
     paso: 2,
     titulo: "Entendimiento de fuentes de información que consolidan el dato",
+    fase: "Definir",
+    aprobador: "Darnel",
     responsable: "Darnel",
     consultado: "-",
-    informado: "Oracle, Azurian"
+    informado: "Oracle, Azurian",
+    entregable: "Inventario de fuentes y dueños de datos.",
+    criterio: "Fuentes, llaves, universo y reglas base identificadas."
   },
   {
     paso: 3,
     titulo: "Levantamiento de fuente e inclusión en Microsoft Fabric",
-    responsable: "Darnel",
-    consultado: "Azurian",
-    informado: "Oracle"
+    fase: "Construir",
+    aprobador: "Darnel",
+    responsable: "Azurian",
+    consultado: "Darnel",
+    informado: "Oracle",
+    entregable: "Fuente disponible en Fabric.",
+    criterio: "Acceso, permisos, conteos iniciales y trazabilidad técnica confirmados."
   },
   {
     paso: 4,
     titulo: "Desarrollo ETL y primer llenado para validación",
+    fase: "Construir",
+    aprobador: "Azurian",
     responsable: "Azurian",
     consultado: "Darnel",
-    informado: "Oracle"
+    informado: "Oracle",
+    entregable: "Producto de datos inicial y archivo de validación.",
+    criterio: "Reglas implementadas, log de ejecución y controles técnicos disponibles."
   },
   {
     paso: 5,
     titulo: "Validación del primer volcado de datos",
+    fase: "Validar",
+    aprobador: "Darnel",
     responsable: "Darnel, Oracle",
     consultado: "Azurian",
     informado: "-",
+    entregable: "Primer volcado aprobado o defectos clasificados.",
+    criterio: "Conciliación contra fuente, estructura y reglas críticas dentro de tolerancia.",
     decision: "Si no aprueba, se refina y retorna al paso 4."
   },
   {
     paso: 6,
     titulo: "Validación de casos de uso",
-    responsable: "Darnel Negocio",
+    fase: "Validar",
+    aprobador: "Darnel",
+    responsable: "Darnel",
     consultado: "Azurian",
     informado: "Oracle",
+    entregable: "Casos de uso funcionales aprobados.",
+    criterio: "Negocio confirma que los datos soportan la operación esperada.",
     decision: "Si no aprueba, retorna al paso 4."
   },
   {
     paso: 7,
     titulo: "Carga de insumo de prueba",
+    fase: "Validar",
+    aprobador: "Oracle",
     responsable: "Oracle",
     consultado: "Azurian",
     informado: "Darnel",
+    entregable: "Resultado de carga de prueba y log de errores Oracle.",
+    criterio: "Errores clasificados por severidad y plan de corrección definido.",
     decision: "Si falla, retorna al paso 4."
   },
   {
     paso: 8,
-    titulo: "Completitud del porcentaje de información comprometido",
+    titulo: "Validación de completitud, calidad y conciliación",
+    fase: "Aprobar",
+    aprobador: "Darnel",
     responsable: "Darnel, Oracle, Azurian",
     consultado: "-",
-    informado: "-"
+    informado: "-",
+    entregable: "Acta de completitud y calidad.",
+    criterio: "Universo, exclusiones, errores remanentes y tolerancias aceptadas."
   },
   {
     paso: 9,
-    titulo: "Repetición de validaciones",
+    titulo: "Validación de regresión y cierre de defectos",
+    fase: "Aprobar",
+    aprobador: "PMO",
     responsable: "Darnel, Oracle, Azurian",
     consultado: "-",
-    informado: "-"
+    informado: "-",
+    entregable: "Matriz de defectos cerrada o aceptada.",
+    criterio: "Sin defectos críticos abiertos y plan definido para excepciones."
   },
   {
     paso: 10,
-    titulo: "Comité de carga en vivo (mínimo 2 horas)",
-    responsable: "Todos los equipos",
+    titulo: "Go-live, control de excepciones y cierre de carga",
+    fase: "Ejecutar",
+    aprobador: "PMO",
+    responsable: "Oracle, Darnel, Azurian",
     consultado: "-",
-    informado: "-",
+    informado: "Darnel",
+    entregable: "Acta de go-live, excepciones y cierre.",
+    criterio: "Go/no-go, rollback, monitoreo y decisión sobre casos no cargados.",
     decision:
       "Se resuelve, acuerda y corrige en tiempo real hasta carga exitosa o decisión de no cargar casos específicos."
   }
 ];
 
-const actoresRaci = ["Oracle", "Darnel", "Azurian", "Darnel Negocio", "Todos los equipos"];
+const methodologyPhases = [
+  {
+    nombre: "Definir",
+    rango: "Pasos 1-2",
+    objetivo: "Alinear plantilla, fuentes, reglas y alcance antes de construir.",
+    color: "define"
+  },
+  {
+    nombre: "Construir",
+    rango: "Pasos 3-4",
+    objetivo: "Habilitar fuentes en Fabric y preparar el primer producto de datos.",
+    color: "build"
+  },
+  {
+    nombre: "Validar",
+    rango: "Pasos 5-7",
+    objetivo: "Probar calidad, reglas funcionales, casos de uso e ingesta Oracle.",
+    color: "validate"
+  },
+  {
+    nombre: "Aprobar",
+    rango: "Pasos 8-9",
+    objetivo: "Cerrar completitud, defectos, excepciones y readiness.",
+    color: "approve"
+  },
+  {
+    nombre: "Ejecutar",
+    rango: "Paso 10",
+    objetivo: "Tomar decisión go/no-go, ejecutar carga y cerrar evidencias.",
+    color: "execute"
+  }
+];
+
+const methodologyControls = [
+  { titulo: "Gates", detalle: "Cada fase avanza con evidencia, criterio de salida y aprobador explícito." },
+  { titulo: "RAID", detalle: "Riesgos, supuestos, issues y decisiones se registran con dueño y fecha compromiso." },
+  { titulo: "KPIs", detalle: "% carga exitosa, errores por severidad, defectos abiertos/cerrados y aging de definiciones." },
+  { titulo: "Escalamiento", detalle: "Bloqueos funcionales o técnicos se elevan por severidad y tiempo de permanencia." }
+];
+
+const roleMandates = {
+  Oracle:
+    "Define qué datos necesita, cómo los necesita, restricciones de plantilla, formatos objetivo y reglas de ingesta Oracle.",
+  Darnel:
+    "Define qué información debe tomarse, desde qué tablas o sistemas, reglas de negocio, alcance funcional y aprobación del dato.",
+  Azurian:
+    "Consolida, cruza, transforma, aplica reglas y estandariza en Microsoft Fabric bajo arquitectura medallion para reutilizar en futuras unidades o locaciones.",
+  PMO:
+    "Gobierna plan, gates, RAID, escalamiento, evidencias y decisiones de avance o bloqueo."
+};
+
+const medallionTrace = [
+  {
+    capa: "Fuente",
+    objetivo: "Sistemas origen",
+    detalle: "Darnel confirma tablas, llaves, dueños funcionales y universo esperado."
+  },
+  {
+    capa: "Bronze",
+    objetivo: "Dato crudo",
+    detalle: "Azurian ingesta en Fabric con trazabilidad, conteos y control técnico inicial."
+  },
+  {
+    capa: "Silver",
+    objetivo: "Dato normalizado",
+    detalle: "Homologación, limpieza, tipado, cruces y aplicación de reglas acordadas."
+  },
+  {
+    capa: "Gold",
+    objetivo: "Plantilla objetivo",
+    detalle: "Producto de datos validable para Oracle WMS/Fusion, con exclusiones y evidencias."
+  }
+];
+
+const ganttWmsPB3 = [
+  {
+    task: "Playback 3 WMS Madrid / Alamos",
+    start: "02 Jul",
+    end: "31 Ago",
+    span: "2 Jul - 31 Ago",
+    type: "summary",
+    tipo: "Macro",
+    lane: "Programa",
+    owner: "PMO",
+    note: "Plan macro PB3. El playback inicia el 2 de julio."
+  },
+  {
+    task: "Readiness de datos PB3: Items, Barcode y Locations",
+    start: "02 Jul",
+    end: "02 Jul",
+    span: "2 Jul",
+    type: "milestone",
+    tipo: "Hito",
+    lane: "Datos",
+    owner: "Darnel / Azurian",
+    note: "Llegar con cambios PB2 incorporados y últimos datos PB3 listos para arranque."
+  },
+  {
+    task: "Preparación PB3 · Instancia TEST",
+    start: "02 Jul",
+    end: "23 Jul",
+    span: "2 - 23 Jul",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "Preparación",
+    owner: "PMO",
+    note: "Ambientes, accesos, customizaciones y ajustes iniciales."
+  },
+  {
+    task: "Habilitación de entornos y accesos",
+    start: "02 Jul",
+    end: "08 Jul",
+    span: "2 - 8 Jul",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "Preparación",
+    owner: "Darnel",
+    note: "Entornos de prueba legados y aseguramiento de accesos."
+  },
+  {
+    task: "Configuración y ajustes pendientes para PB3",
+    start: "02 Jul",
+    end: "08 Jul",
+    span: "2 - 8 Jul",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "SIT",
+    owner: "Oracle",
+    note: "Ajustes de configuración requeridos antes de pruebas."
+  },
+  {
+    task: "Sizing Playback 3",
+    start: "02 Jul",
+    end: "22 Jul",
+    span: "2 - 22 Jul",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "Sizing",
+    owner: "Oracle",
+    note: "Levantamiento, cuestionario, SR y aprobación de sizing PB3."
+  },
+  {
+    task: "Levantamiento de volúmenes de datos WMS PB3",
+    start: "02 Jul",
+    end: "03 Jul",
+    span: "2 - 3 Jul",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "Sizing",
+    owner: "Darnel",
+    note: "Volúmenes base para Items, Barcode y Locations."
+  },
+  {
+    task: "Completar cuestionario estándar sizing",
+    start: "06 Jul",
+    end: "06 Jul",
+    span: "6 Jul",
+    type: "milestone",
+    tipo: "Hito",
+    lane: "Sizing",
+    owner: "Oracle",
+    note: "Insumo estándar requerido para sizing."
+  },
+  {
+    task: "Evaluación de sizing · apertura SR PB3",
+    start: "07 Jul",
+    end: "07 Jul",
+    span: "7 Jul",
+    type: "milestone",
+    tipo: "Hito",
+    lane: "Sizing",
+    owner: "Oracle",
+    note: "Apertura SR para evaluación Oracle."
+  },
+  {
+    task: "Aprobación de sizing PB3",
+    start: "08 Jul",
+    end: "22 Jul",
+    span: "8 - 22 Jul",
+    type: "gate",
+    tipo: "Gate",
+    lane: "Sizing",
+    owner: "Oracle",
+    note: "Gate de sizing. La carga 15-16 Jul queda condicionada si la aprobación final continúa hasta el 22 Jul."
+  },
+  {
+    task: "Pruebas SIT",
+    start: "07 Jul",
+    end: "15 Jul",
+    span: "7 - 15 Jul",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "SIT",
+    owner: "Oracle / Azurian",
+    note: "Incluye SIT WMS-People y desarrollos WMS completados."
+  },
+  {
+    task: "Preparación de datos 80% PB3",
+    start: "09 Jul",
+    end: "14 Jul",
+    span: "9 - 14 Jul",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "Datos",
+    owner: "Azurian",
+    note: "Preparación del primer volumen operativo para PB3."
+  },
+  {
+    task: "Carga de datos en el sistema PB3",
+    start: "15 Jul",
+    end: "16 Jul",
+    span: "15 - 16 Jul",
+    type: "gate",
+    tipo: "Gate condicionado",
+    lane: "Datos",
+    owner: "Oracle",
+    note: "Carga técnica condicionada a trazabilidad de sizing, logs Oracle y aceptación de riesgos abiertos."
+  },
+  {
+    task: "Confirmación de escenarios y roles custom",
+    start: "15 Jul",
+    end: "22 Jul",
+    span: "15 - 22 Jul",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "SIT",
+    owner: "Darnel",
+    note: "Escenarios de prueba, roles custom y carga de escenarios en Jira."
+  },
+  {
+    task: "Kickoff Playback 3",
+    start: "23 Jul",
+    end: "23 Jul",
+    span: "23 Jul",
+    type: "milestone",
+    tipo: "Hito",
+    lane: "Playback",
+    owner: "PMO",
+    note: "Inicio formal de Playback 3."
+  },
+  {
+    task: "Ejecución Playback 3 · pruebas E2E",
+    start: "24 Jul",
+    end: "14 Ago",
+    span: "24 Jul - 14 Ago",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "Playback",
+    owner: "Darnel / Oracle / Azurian",
+    note: "Recepción, almacenamiento, conteos cíclicos, planeación de olas, picking y despacho."
+  },
+  {
+    task: "Ejecución BS PB3",
+    start: "18 Ago",
+    end: "20 Ago",
+    span: "18 - 20 Ago",
+    type: "work",
+    tipo: "Trabajo",
+    lane: "Playback",
+    owner: "Darnel",
+    note: "Ejecución de business scenarios PB3."
+  },
+  {
+    task: "Aceptación Playback 3",
+    start: "21 Ago",
+    end: "24 Ago",
+    span: "21 - 24 Ago",
+    type: "gate",
+    tipo: "Gate",
+    lane: "Playback",
+    owner: "Darnel",
+    note: "Cierre formal de aceptación del Playback 3."
+  },
+  {
+    task: "Estabilización y cierre administrativo",
+    start: "25 Ago",
+    end: "31 Ago",
+    span: "25 - 31 Ago",
+    type: "work",
+    tipo: "Cierre",
+    lane: "Cierre",
+    owner: "PMO",
+    note: "Remediación de excepciones aceptadas, actas finales, transición y cierre administrativo."
+  }
+];
+
+const timelineErpFusionPB1 = [
+  {
+    fase: "Formularios y reglas",
+    estado: "En curso",
+    responsable: "Darnel",
+    tareas: "Cerrar definiciones de formularios después de sesiones de familiarización."
+  },
+  {
+    fase: "Identificación de fuentes",
+    estado: "Siguiente",
+    responsable: "Darnel / Azurian",
+    tareas: "Mapear fuentes ERP/SCM, dueños, llaves, formatos y reglas de negocio."
+  },
+  {
+    fase: "Plan de extracción PB1",
+    estado: "Por fechar",
+    responsable: "Azurian / PMO",
+    tareas: "Diseñar queries, contratos de datos, criterios de calidad y plan de validación."
+  }
+];
+
+const equipoFechasClavePB3 = [
+  {
+    equipo: "Oracle",
+    foco: "Requerimientos, sizing, ingesta y criterios Oracle.",
+    fechas: "6-22 Jul",
+    entrega:
+      "Cuestionario sizing, apertura/evaluación SR, aprobación de sizing y soporte a carga PB3.",
+    gate: "Sizing aprobado antes de ejecución PB3."
+  },
+  {
+    equipo: "Darnel",
+    foco: "Fuentes, reglas de negocio, layout, escenarios y validación funcional.",
+    fechas: "2-22 Jul",
+    entrega:
+      "Volúmenes PB3, fuentes/tablas confirmadas, escenarios PB3, roles custom y aprobación funcional.",
+    gate: "Readiness de datos y escenarios antes del kickoff del 23 Jul."
+  },
+  {
+    equipo: "Azurian",
+    foco: "Consolidación, cruces, transformación, reglas y estandarización en Fabric.",
+    fechas: "2-16 Jul",
+    entrega:
+      "Cambios PB2 incorporados, datos PB3 preparados para Items/Barcode/Locations y carga inicial.",
+    gate: "Datos 80% preparados al 14 Jul y carga inicial 15-16 Jul."
+  },
+  {
+    equipo: "PMO",
+    foco: "Plan integrado, RAID, dependencias, evidencias y escalamiento.",
+    fechas: "2 Jul - 24 Ago",
+    entrega:
+      "Control de gates, seguimiento de bloqueos, coordinación de kickoff, E2E y aceptación PB3.",
+    gate: "Go/no-go y aceptación Playback 3 entre 21-24 Ago."
+  }
+];
+
+const gatesCriticosPB3 = [
+  { fecha: "2 Jul", hito: "Inicio PB3", accountable: "PMO", evidencia: "Checklist PB2/PB3 y acta de readiness." },
+  { fecha: "6 Jul", hito: "Cuestionario sizing", accountable: "Oracle", evidencia: "Cuestionario estándar completo y enviado." },
+  { fecha: "8-22 Jul", hito: "Aprobación sizing", accountable: "Oracle", evidencia: "SR Oracle, respuesta de sizing y riesgos aceptados." },
+  { fecha: "15-16 Jul", hito: "Carga inicial PB3", accountable: "Oracle", evidencia: "Log Oracle, conteo cargado y errores clasificados." },
+  { fecha: "23 Jul", hito: "Kickoff Playback 3", accountable: "PMO", evidencia: "Escenarios Jira, roles, accesos TEST y datos listos." },
+  { fecha: "21-24 Ago", hito: "Aceptación Playback 3", accountable: "Darnel", evidencia: "Acta firmada, excepciones y dueños por pendiente." }
+];
+
+const bloqueantesReadinessPB3 = [
+  { item: "Layout de Locations", owner: "Darnel", fecha: "2 Jul", criterio: "Definición cerrada o riesgo aceptado para PB3." },
+  { item: "Duplicidad NBSP", owner: "Darnel / Azurian", fecha: "2 Jul", criterio: "Regla definida y aplicada en preparación de datos." },
+  { item: "handle_decimal_qty_flg", owner: "Azurian", fecha: "14 Jul", criterio: "Regla implementada y trazable en Fabric." },
+  { item: "Pack igual a UOM primaria", owner: "Oracle / Darnel", fecha: "14 Jul", criterio: "Definición confirmada y mapeada." },
+  { item: "Política EAN13 / Barcode", owner: "Darnel", fecha: "14 Jul", criterio: "Criterio de exclusión o corrección aprobado." }
+];
+
+const cadenciaGobiernoPB3 = [
+  { cadencia: "Daily readiness", ventana: "2-23 Jul", regla: "Bloqueos de datos/accesos/configuración se revisan diariamente." },
+  { cadencia: "Daily defectos E2E", ventana: "24 Jul-14 Ago", regla: "Defectos críticos con dueño y fecha compromiso el mismo día." },
+  { cadencia: "Comité de gates", ventana: "Cada hito crítico", regla: "Si un gate se bloquea, escalamiento PMO en menos de 24h." },
+  { cadencia: "Steering semanal", ventana: "Jul-Ago", regla: "Impacto en fecha, alcance o go/no-go se eleva a dirección." }
+];
+
+const actoresRaci = ["Oracle", "Darnel", "Azurian", "PMO"];
 
 function parseActores(valor) {
   if (!valor || valor === "-") return [];
@@ -882,10 +1267,12 @@ function parseActores(valor) {
 }
 
 function getRolPasoActor(paso, actor) {
+  const aprobadores = parseActores(paso.aprobador);
   const responsables = parseActores(paso.responsable);
   const consultados = parseActores(paso.consultado);
   const informados = parseActores(paso.informado);
 
+  if (aprobadores.includes(actor)) return "A";
   if (responsables.includes(actor)) return "R";
   if (consultados.includes(actor)) return "C";
   if (informados.includes(actor)) return "I";
@@ -1118,12 +1505,15 @@ function App() {
   const [tabActiva, setTabActiva] = useState("general");
   const tabs = [
     { id: "general", label: "General" },
+    { id: "transversales", label: "Transversales" },
+    { id: "metodologia", label: "Metodología" },
     { id: "items", label: "Items" },
     { id: "barcode", label: "Barcode" },
     { id: "locations", label: "Locations" }
   ];
   const detalle = entidadDetalle[tabActiva];
   const bloquesFlujo = [frameworkCarga.slice(0, 5), frameworkCarga.slice(5, 10)];
+  const hitosJunio = hitosClave.filter((hito) => hito.fecha.includes("Jun"));
 
   return (
     <main className="layout">
@@ -1135,16 +1525,6 @@ function App() {
           plantillas (paso a paso por tabla y columna) y se negoció acceso a
           Microsoft Fabric con workspace dedicado para procesamiento.
         </p>
-        <div className="hero-kpi-grid">
-          {cargaPorEntidad.map((kpi) => (
-            <article className={`hero-kpi-card ${kpi.estado}`} key={kpi.entidad}>
-              <small>{kpi.entidad}</small>
-              <strong>{kpi.porcentaje}%</strong>
-              <span>{kpi.detalle}</span>
-              <i className={`kpi-dot ${kpi.estado}`} aria-hidden="true" />
-            </article>
-          ))}
-        </div>
       </header>
 
       <nav className="tabs card">
@@ -1165,7 +1545,7 @@ function App() {
           <section className="card">
             <h2>Cronograma de hitos clave</h2>
             <div className="flow">
-              {hitosClave.map((hito) => (
+              {hitosJunio.map((hito) => (
                 <a
                   className="flow-item"
                   href={hito.anchor ? `#${hito.anchor}` : undefined}
@@ -1408,18 +1788,6 @@ function App() {
           </details>
 
           <section className="card">
-            <h2>Elementos transversales (independientes de módulos)</h2>
-            <div className="task-list">
-              {elementosTransversales.map((item) => (
-                <div className="task-item" key={item}>
-                  <p>{item}</p>
-                  <span className="tag pendiente">Transversal</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="card">
             <h2>Resultado de cantidades (corte 23-04-2026)</h2>
             <div className="table-wrap">
               <table>
@@ -1575,106 +1943,332 @@ function App() {
             </section>
           )}
 
-          {!mostrarArquitecturaToBe && (
-            <section className="card">
-              <h2>Lecciones aprendidas y framework operativo</h2>
-              <div className="lessons-box">
-                <h3>Lecciones aprendidas</h3>
-                <div className="task-list">
-                  {leccionesAprendidas.map((item) => (
-                    <div className="task-item" key={item}>
-                      <p>{item}</p>
-                      <span className="tag completado">Clave</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+        </>
+      )}
 
-              <div className="framework-flow">
-                <h3>Diagrama de flujo (step by step)</h3>
-                <div className="process-blocks">
-                  {bloquesFlujo.map((bloque, bloqueIdx) => (
-                    <div className="process-chain" key={`bloque-${bloqueIdx}`}>
-                      {bloque.map((item, index) => (
-                        <React.Fragment key={`flow-${item.paso}`}>
-                          <div className="process-node">
-                            <span className="process-num">Paso {item.paso}</span>
-                            <p>{item.titulo}</p>
-                          </div>
-                          {index < bloque.length - 1 && (
-                            <div className="process-link" aria-hidden="true">
-                              →
-                            </div>
-                          )}
-                        </React.Fragment>
+      {tabActiva === "transversales" && (
+        <>
+          <section className="card">
+            <h2>Elementos transversales</h2>
+            <div className="task-list">
+              {elementosTransversales.map((item) => (
+                <div className="task-item" key={item}>
+                  <p>{item}</p>
+                  <span className="tag pendiente">Transversal</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Lecciones aprendidas</h2>
+            <div className="task-list">
+              {leccionesAprendidas.map((item) => (
+                <div className="task-item" key={item}>
+                  <p>{item}</p>
+                  <span className="tag completado">Clave</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
+      {tabActiva === "metodologia" && (
+        <>
+          <section className="card method-hero">
+            <div>
+              <p className="method-eyebrow">Modelo de gobierno de carga</p>
+              <h2>Metodología de ejecución, validación y cierre</h2>
+              <p>
+                Esta metodología define cómo se gobiernan las cargas de datos: quién define,
+                quién construye, quién valida, quién aprueba y qué evidencia habilita el avance
+                entre fases. El objetivo es avanzar por readiness, no solo por calendario.
+              </p>
+            </div>
+            <div className="method-chip-row">
+              <span>5 fases</span>
+              <span>10 pasos</span>
+              <span>4 actores</span>
+              <span>Accountable por paso</span>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Flujo de ejecución por fases</h2>
+            <div className="method-flow-board">
+              {methodologyPhases.map((fase) => {
+                const pasosFase = frameworkCarga.filter((paso) => paso.fase === fase.nombre);
+                return (
+                  <article className={`method-lane ${fase.color}`} key={fase.nombre}>
+                    <div className="method-lane-head">
+                      <span>{fase.rango}</span>
+                      <h3>{fase.nombre}</h3>
+                      <p>{fase.objetivo}</p>
+                    </div>
+                    <div className="method-lane-steps">
+                      {pasosFase.map((paso) => (
+                        <div className={`method-step ${paso.decision ? "gate" : ""}`} key={paso.paso}>
+                          <span className="method-step-num">{String(paso.paso).padStart(2, "0")}</span>
+                          <strong>{paso.titulo}</strong>
+                          <small>A: {paso.aprobador}</small>
+                          {paso.decision && <em>Gate</em>}
+                        </div>
                       ))}
                     </div>
-                  ))}
-                  <div className="process-block-note">
-                    Flujo continuo: Paso 1 → ... → Paso 10
-                  </div>
-                </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
 
-                <div className="framework-notes">
-                  {frameworkCarga
-                    .filter((item) => item.decision)
-                    .map((item) => (
-                      <p className="fw-decision" key={`decision-${item.paso}`}>
-                        <strong>Paso {item.paso}:</strong> {item.decision}
+          <section className="card">
+            <h2>Gates, evidencia y criterio de salida</h2>
+            <div className="gate-grid">
+              {frameworkCarga
+                .filter((paso) => paso.decision || paso.fase === "Aprobar" || paso.fase === "Ejecutar")
+                .map((paso) => (
+                  <article className="gate-card" key={`gate-${paso.paso}`}>
+                    <div className="gate-card-head">
+                      <span>Gate {paso.paso}</span>
+                      <strong>{paso.titulo}</strong>
+                    </div>
+                    <p>
+                      <b>Accountable:</b> {paso.aprobador}
+                    </p>
+                    <p>
+                      <b>Evidencia:</b> {paso.entregable}
+                    </p>
+                    <p>
+                      <b>Criterio:</b> {paso.criterio}
+                    </p>
+                  </article>
+                ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Trazabilidad de datos en Fabric</h2>
+            <p className="section-note">
+              El patrón de WMS PB3 deja una base reutilizable para ERP Oracle Fusion PB1:
+              Darnel define la fuente y la regla de negocio, Oracle define el formato objetivo
+              y Azurian estandariza el dato en arquitectura medallion para futuras unidades o locaciones.
+            </p>
+            <div className="medallion-flow">
+              {medallionTrace.map((item) => (
+                <article className="medallion-card" key={item.capa}>
+                  <span>{item.capa}</span>
+                  <strong>{item.objetivo}</strong>
+                  <p>{item.detalle}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="method-grid-2">
+            <article className="card">
+              <h2>Accountability por rol</h2>
+              <div className="role-card-grid">
+                {actoresRaci.map((actor) => {
+                  const aprobaciones = frameworkCarga
+                    .filter((paso) => getRolPasoActor(paso, actor) === "A")
+                    .map((paso) => paso.paso);
+                  const responsabilidades = frameworkCarga
+                    .filter((paso) => parseActores(paso.responsable).includes(actor))
+                    .map((paso) => paso.paso);
+                  return (
+                    <div className="role-card" key={actor}>
+                      <h3>{actor}</h3>
+                      <p className="role-mandate">{roleMandates[actor]}</p>
+                      <p>
+                        <span className="raci-chip a">A</span>
+                        {aprobaciones.length ? ` Aprueba pasos ${aprobaciones.join(", ")}` : " Sin aprobación directa"}
                       </p>
-                    ))}
-                </div>
+                      <p>
+                        <span className="raci-chip r">R</span>
+                        {responsabilidades.length
+                          ? ` Ejecuta pasos ${responsabilidades.join(", ")}`
+                          : " Sin ejecución directa"}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
+            </article>
 
-              <div className="raci-matrix">
-                <h3>Matriz RACI · Propiedad por actor</h3>
-                <div className="table-wrap raci-wrap">
-                  <table className="raci-table">
-                    <thead>
-                      <tr>
-                        <th>Paso</th>
-                        <th>Actividad</th>
-                        {actoresRaci.map((actor) => (
-                          <th key={`head-${actor}`}>{actor}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {frameworkCarga.map((item) => (
-                        <tr key={`raci-${item.paso}`}>
-                          <td>{item.paso}</td>
-                          <td>{item.titulo}</td>
-                          {actoresRaci.map((actor) => {
-                            const rol = getRolPasoActor(item, actor);
-                            return (
-                              <td key={`cell-${item.paso}-${actor}`}>
-                                {rol ? (
-                                  <span className={`raci-chip ${rol.toLowerCase()}`}>{rol}</span>
-                                ) : (
-                                  <span className="raci-chip empty">-</span>
-                                )}
-                              </td>
-                            );
-                          })}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="raci-legend">
-                  <span>
-                    <i className="dot r" /> R · Responsable
-                  </span>
-                  <span>
-                    <i className="dot c" /> C · Consultado
-                  </span>
-                  <span>
-                    <i className="dot i" /> I · Informado
-                  </span>
-                </div>
+            <article className="card">
+              <h2>Control PMO</h2>
+              <div className="control-list">
+                {methodologyControls.map((control) => (
+                  <div className="control-item" key={control.titulo}>
+                    <strong>{control.titulo}</strong>
+                    <p>{control.detalle}</p>
+                  </div>
+                ))}
               </div>
-            </section>
-          )}
+              <div className="cadence-list">
+                {cadenciaGobiernoPB3.map((item) => (
+                  <div className="cadence-item" key={item.cadencia}>
+                    <span>{item.ventana}</span>
+                    <strong>{item.cadencia}</strong>
+                    <p>{item.regla}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </section>
+
+          <section className="card">
+            <h2>Matriz RACI extendida</h2>
+            <div className="raci-matrix compact">
+              <div className="table-wrap raci-wrap">
+                <table className="raci-table">
+                  <thead>
+                    <tr>
+                      <th>Paso</th>
+                      <th>Actividad</th>
+                      {actoresRaci.map((actor) => (
+                        <th key={`head-${actor}`}>{actor}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {frameworkCarga.map((item) => (
+                      <tr key={`raci-${item.paso}`}>
+                        <td>{item.paso}</td>
+                        <td>{item.titulo}</td>
+                        {actoresRaci.map((actor) => {
+                          const rol = getRolPasoActor(item, actor);
+                          return (
+                            <td key={`cell-${item.paso}-${actor}`}>
+                              {rol ? (
+                                <span className={`raci-chip ${rol.toLowerCase()}`}>{rol}</span>
+                              ) : (
+                                <span className="raci-chip empty">-</span>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="raci-legend">
+                <span>
+                  <i className="dot a" /> A · Accountable
+                </span>
+                <span>
+                  <i className="dot r" /> R · Responsable
+                </span>
+                <span>
+                  <i className="dot c" /> C · Consultado
+                </span>
+                <span>
+                  <i className="dot i" /> I · Informado
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section className="timeline-section">
+            <article className="card gantt-card">
+              <h2>Responsables, entregables y fechas clave · PB3</h2>
+              <p className="section-note">
+                Los gates tienen un accountable único para evitar ambigüedad. Cuando un hito depende de
+                sizing, layout, reglas funcionales o carga Oracle, se controla con evidencia verificable
+                y decisión explícita de avance, corrección o aceptación de riesgo.
+              </p>
+              <div className="critical-gates">
+                {gatesCriticosPB3.map((gate) => (
+                  <div className="critical-gate" key={gate.fecha + gate.hito}>
+                    <span>{gate.fecha}</span>
+                    <strong>{gate.hito}</strong>
+                    <p>
+                      <b>A:</b> {gate.accountable}
+                    </p>
+                    <p>{gate.evidencia}</p>
+                  </div>
+                ))}
+              </div>
+              <h3 className="subsection-title">Bloqueantes PB2 que condicionan readiness PB3</h3>
+              <div className="blocker-grid">
+                {bloqueantesReadinessPB3.map((item) => (
+                  <div className="blocker-card" key={item.item}>
+                    <span>{item.fecha}</span>
+                    <strong>{item.item}</strong>
+                    <p>
+                      <b>Dueño:</b> {item.owner}
+                    </p>
+                    <p>{item.criterio}</p>
+                  </div>
+                ))}
+              </div>
+              <h3 className="subsection-title">Resumen por equipo</h3>
+              <div className="owner-deadline-grid">
+                {equipoFechasClavePB3.map((item) => (
+                  <div className="owner-deadline-card" key={item.equipo}>
+                    <div>
+                      <span>{item.fechas}</span>
+                      <h3>{item.equipo}</h3>
+                    </div>
+                    <p>{item.foco}</p>
+                    <p>
+                      <b>Entregable:</b> {item.entrega}
+                    </p>
+                    <p>
+                      <b>Gate:</b> {item.gate}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <article className="card gantt-card">
+              <h2>Cierre WMS · PB3</h2>
+              <p className="section-note">
+                Playback 3 inicia el 2 de julio de 2026. Para esa fecha deben estar incorporados los cambios
+                de PB2 y alistados los últimos datos PB3 de Items, Barcode y Locations. La aceptación
+                funcional se concentra entre el 21 y 24 de agosto de 2026; el plan macro conserva margen hasta
+                el 31 de agosto de 2026 para estabilización y cierre administrativo.
+              </p>
+              <div className="gantt-table">
+                <div className="gantt-head">
+                  <span>Frente</span>
+                  <span>Dueño</span>
+                  <span>Tarea</span>
+                  <span>Ventana</span>
+                  <span>Tipo</span>
+                </div>
+                {ganttWmsPB3.map((item) => (
+                  <div className={`gantt-row ${item.type}`} key={item.task}>
+                    <span className="gantt-lane">{item.lane}</span>
+                    <span className="gantt-owner">{item.owner}</span>
+                    <div>
+                      <strong>{item.task}</strong>
+                      <p>{item.note}</p>
+                    </div>
+                    <span>{item.span}</span>
+                    <span className={`gantt-state ${item.type}`}>{item.tipo}</span>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <article className="card">
+              <h2>Inicio ERP Oracle Fusion · PB1</h2>
+              <div className="timeline-track">
+                {timelineErpFusionPB1.map((item) => (
+                  <div className="timeline-item" key={item.fase}>
+                    <span>{item.estado}</span>
+                    <strong>{item.fase}</strong>
+                    <small>Responsable: {item.responsable}</small>
+                    <p>{item.tareas}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </section>
         </>
       )}
 

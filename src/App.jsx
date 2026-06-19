@@ -786,14 +786,14 @@ const frameworkCarga = [
   },
   {
     paso: 2,
-    titulo: "Entendimiento de fuentes de información que consolidan el dato",
+    titulo: "Entendimiento de fuentes y definición de reglas de negocio",
     fase: "Definir",
     aprobador: "Darnel",
     responsable: "Darnel",
     consultado: "-",
     informado: "Oracle, Azurian",
-    entregable: "Inventario de fuentes y dueños de datos.",
-    criterio: "Fuentes, llaves, universo y reglas base identificadas."
+    entregable: "Inventario de fuentes, dueños de datos y reglas de negocio definidas.",
+    criterio: "Fuentes, llaves, universo, reglas de negocio, excepciones y criterios de exclusión identificados."
   },
   {
     paso: 3,
@@ -939,6 +939,13 @@ const roleMandates = {
     "Consolida, cruza, transforma, aplica reglas y estandariza en Microsoft Fabric bajo arquitectura medallion para reutilizar en futuras unidades o locaciones.",
   PMO:
     "Gobierna plan, gates, RAID, escalamiento, evidencias y decisiones de avance o bloqueo."
+};
+
+const responsablesRaci = {
+  Oracle: "Julian Bacca",
+  Darnel: "Alexandra Duarte e Ileana Cortina",
+  Azurian: "Fabian Alomia",
+  PMO: "Fredy Mayorga, Balmore Ortíz y David Higuera"
 };
 
 const medallionTrace = [
@@ -1250,6 +1257,12 @@ const bloqueantesReadinessPB3 = [
 ];
 
 const cadenciaGobiernoPB3 = [
+  {
+    cadencia: "Daily PB2 · Locations y errores",
+    ventana: "22 Jun-2 Jul",
+    regla:
+      "Seguimiento diario a carga de Locations PB2 y a errores identificados en pruebas para llegar a PB3 con decisiones cerradas."
+  },
   { cadencia: "Daily readiness", ventana: "2-23 Jul", regla: "Bloqueos de datos/accesos/configuración se revisan diariamente." },
   { cadencia: "Daily defectos E2E", ventana: "24 Jul-14 Ago", regla: "Defectos críticos con dueño y fecha compromiso el mismo día." },
   { cadencia: "Comité de gates", ventana: "Cada hito crítico", regla: "Si un gate se bloquea, escalamiento PMO en menos de 24h." },
@@ -1276,6 +1289,7 @@ function getRolPasoActor(paso, actor) {
   if (responsables.includes(actor)) return "R";
   if (consultados.includes(actor)) return "C";
   if (informados.includes(actor)) return "I";
+  if (actor === "PMO") return "I";
   return "";
 }
 
@@ -2128,7 +2142,10 @@ function App() {
                       <th>Paso</th>
                       <th>Actividad</th>
                       {actoresRaci.map((actor) => (
-                        <th key={`head-${actor}`}>{actor}</th>
+                        <th key={`head-${actor}`}>
+                          {actor}
+                          <small>{responsablesRaci[actor]}</small>
+                        </th>
                       ))}
                     </tr>
                   </thead>
@@ -2255,8 +2272,10 @@ function App() {
               </div>
             </article>
 
-            <article className="card">
-              <h2>Inicio ERP Oracle Fusion · PB1</h2>
+            <details className="card week-card gantt-card compact-method-card">
+              <summary>
+                <h2>Inicio ERP Oracle Fusion · PB1 (en proceso de construcción)</h2>
+              </summary>
               <div className="timeline-track">
                 {timelineErpFusionPB1.map((item) => (
                   <div className="timeline-item" key={item.fase}>
@@ -2267,7 +2286,7 @@ function App() {
                   </div>
                 ))}
               </div>
-            </article>
+            </details>
           </section>
         </>
       )}

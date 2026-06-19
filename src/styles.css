@@ -628,6 +628,17 @@ tbody tr:last-child td {
   letter-spacing: 0.02em;
 }
 
+.raci-table th small {
+  display: block;
+  margin-top: 0.18rem;
+  color: #476580;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.18;
+  text-transform: none;
+}
+
 .raci-table td:first-child {
   width: 54px;
   font-weight: 700;
@@ -1104,6 +1115,14 @@ tbody tr:last-child td {
 
 .gantt-card {
   grid-column: 1 / -1;
+}
+
+.compact-method-card {
+  padding: 0;
+}
+
+.compact-method-card > .timeline-track {
+  margin: 0 1rem 1rem;
 }
 
 .critical-gates {

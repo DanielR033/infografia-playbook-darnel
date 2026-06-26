@@ -86,6 +86,12 @@ const hitosClave = [
     titulo: "ERP/SCM e integraciones",
     detalle: "Estrategia de datos, nuevas definiciones WMS PB2 e integración de tablas ATP INT13.",
     anchor: "semana-15-18-junio"
+  },
+  {
+    fecha: "22-26 Jun",
+    titulo: "ATP INT13 y reingesta WMS PB2",
+    detalle: "Culminación y envío del script de Órdenes de Venta ATP INT13, reextracción de los 555 artículos y definiciones de daily (NBSP, lpns_per_tier, decimales).",
+    anchor: "semana-22-26-junio"
   }
 ];
 
@@ -604,7 +610,7 @@ const semana15a18Junio = [
   {
     texto:
       "ERP/SCM - Estrategia de datos: trabajo sobre reglas de negocio, fuentes de información y formatos.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
@@ -629,12 +635,12 @@ const semana15a18Junio = [
   {
     texto:
       "Pendiente funcional: duplicidad de artículos ante el nuevo WMS por nomenclaturas casi idénticas; una contiene un carácter NBSP y cada artículo opera independiente con sus propias medidas WMS.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Pendiente funcional: Oracle requiere que la unidad de medida pack sea igual que la primaria; la actualización se realizó manualmente porque no estaba definida previamente.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
@@ -649,7 +655,55 @@ const semana15a18Junio = [
   {
     texto:
       "Próximo paso: culminar query de extracción de Órdenes de Venta actuales en formato ATP INT13 para generar todo el universo de datos y referencia PB2.",
-    estado: "programado"
+    estado: "completado"
+  }
+];
+
+const semana22a26Junio = [
+  {
+    texto:
+      "INTEGRACIONES: se culmina el ajuste y desarrollo del script de Órdenes de Venta actuales en formato ATP INT13; se realiza la extracción y envío a Andrés Moreno posterior a la sesión de empalme.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB2: se alinea la duda sobre la definición en la plantilla de artículos — para las referencias cruzadas el part_a y el barcode deben coincidir (ser iguales). Surge porque en la ingesta 555 artículos no pudieron cargarse al estar ya registrados en PB1 y asignados a otro part_a.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB2: se realiza nuevamente la extracción de los 555 artículos; esta versión contempla parte de las nuevas reglas definidas durante la marcha del proceso de ingesta, que en su momento se implementaron manualmente.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Daily — Duplicidad de artículos ante el nuevo WMS: existen dos artículos con nomenclatura casi idéntica (uno contiene un carácter NBSP) y cada uno opera como artículo independiente con sus propias medidas WMS (ej. P17138-36-1402S). Definición: quedarse con el que no tiene tabulador.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Daily — Oracle: la unidad de medida pack debe ser igual que la primaria; la actualización se realizó a mano porque no estaba definida previamente.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Daily — Duplicidad de EAN13 en códigos de barras: se requiere confirmar si en PB3 se dará el mismo manejo que en PB2 o si ya existe una definición.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Daily — Columna lpns_per_tier (plantilla artículos): debe ser siempre entera y de máximo 5 caracteres. Para PB2 debe contemplarse el manejo dado a las unidades de medida tipo GM (se cambió a KG y se disminuyó la cantidad estándar). Ej. artículo 87465 (GM CASE y PACK en KG): lpns_per_tier 400000.0000 y std_case_qty 1000 → lpns_per_tier 400, std_case_qty 1, primary_uom_code KG (división por 1000). Caso por definir: el artículo 2721 tenía lpns_per_tier 2000000 → 2000, pero std_pack_qty, std_case_qty y max_case_qty venían en 500 y pasaron directamente a 1 (no a 500/1000); definir qué tratamiento se le dará.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Daily — Columnas std_pack_qty, std_case_qty y max_case_qty en decimal: se resolvió activar el flag handle_decimal_qty_flg, pero WMS no inserta el decimal, lo redondea e ingesta entero. Julián escaló la consulta y respondieron: el flag es para el manejo del inventario; los campos Std Pack Qty, Std Case Qty y Max Case Qty deben ir en números enteros, los decimales sólo aplican para el inventario que entra en WMS.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Daily — Definiciones pendientes de ubicaciones: charla pendiente con Zaid.",
+    estado: "pendiente"
   }
 ];
 
@@ -1787,12 +1841,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-15-18-junio" open>
+          <details className="card week-card" id="semana-15-18-junio">
             <summary>
               <h2>ERP/SCM - WMS PB2 - Integraciones semana 15-18 de junio</h2>
             </summary>
             <div className="task-list">
               {semana15a18Junio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-22-26-junio" open>
+            <summary>
+              <h2>ERP/SCM - WMS PB2 - Integraciones semana 22-26 de junio</h2>
+            </summary>
+            <div className="task-list">
+              {semana22a26Junio.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

@@ -716,52 +716,52 @@ const semana22a26Junio = [
 const semana30Junioa03Julio = [
   {
     texto:
-      "WMS PB3 — Cerrado: duplicidad de artículos ante el nuevo WMS.",
+      "Duplicidad de artículos ante el nuevo WMS.",
     estado: "completado"
   },
   {
     texto:
-      "WMS PB3 — Cerrado: la unidad de medida pack debe ser igual que la primaria.",
+      "La unidad de medida pack debe ser igual que la primaria.",
     estado: "completado"
   },
   {
     texto:
-      "WMS PB3 — Cerrado: se realizan nuevas definiciones de reglas sobre la plantilla de ubicaciones, específicamente las columnas \"position\" y \"bin\"; estas ya se encuentran actualizadas en la plantilla.",
+      "Se realizan nuevas definiciones de reglas sobre la plantilla de ubicaciones, específicamente las columnas \"position\" y \"bin\"; estas ya se encuentran actualizadas en la plantilla.",
     estado: "completado"
   },
   {
     texto:
-      "WMS PB3 — Cerrado: configuración de UM en WMS para evitar problemas en migración (TRR, TM y BBG).",
+      "Configuración de UM en WMS para evitar problemas en migración (TRR, TM y BBG).",
     estado: "completado"
   },
   {
     texto:
-      "WMS PB3 — Cerrado: implementación en la lógica de extracción sobre las nuevas reglas cerradas al 100%.",
+      "Implementación en la lógica de extracción sobre las nuevas reglas cerradas al 100%.",
     estado: "completado"
   },
   {
     texto:
-      "WMS PB3 — Pendiente: duplicidad de EAN13 en plantilla de códigos de barras; confirmar si ya existe una definición para tratar esta duplicidad o se dará el mismo manejo que en PB1 y PB2.",
+      "Duplicidad de EAN13 en plantilla de códigos de barras; confirmar si ya existe una definición para tratar esta duplicidad o se dará el mismo manejo que en PB1 y PB2.",
     estado: "pendiente"
   },
   {
     texto:
-      "WMS PB3 — Pendiente: columna lpns_per_tier (plantilla de artículos). Alexandra Duarte y Andrés Steven Moreno Menjura gestionan el diligenciamiento de la regla dentro de la plantilla para cuando el valor de la columna supere la longitud máxima permitida (28144), ya que habría que actualizar las unidades de medida, las cantidades estándar y la propia columna lpns_per_tier (manualidad implementada sobre el Excel en PB2).",
+      "Columna lpns_per_tier (plantilla de artículos). Alexandra Duarte y Andrés Steven Moreno Menjura gestionan el diligenciamiento de la regla dentro de la plantilla para cuando el valor de la columna supere la longitud máxima permitida (28144), ya que habría que actualizar las unidades de medida, las cantidades estándar y la propia columna lpns_per_tier (manualidad implementada sobre el Excel en PB2).",
     estado: "pendiente"
   },
   {
     texto:
-      "WMS PB3 — Pendiente: depuración por parte de Andrés Steven Moreno Menjura sobre las UM del origen PeopleSoft en referencia a las diferencias que presentan con el WMS actual, debido al inconveniente al migrar artículos con unidades de medida primaria y case que no son de la misma clase.",
+      "Depuración por parte de Andrés Steven Moreno Menjura sobre las UM del origen PeopleSoft en referencia a las diferencias que presentan con el WMS actual, debido al inconveniente al migrar artículos con unidades de medida primaria y case que no son de la misma clase.",
     estado: "pendiente"
   },
   {
     texto:
-      "WMS PB3 — Pendiente: validación por parte de Alexandra Duarte sobre artículos con decimales en las cantidades.",
+      "Validación por parte de Alexandra Duarte sobre artículos con decimales en las cantidades.",
     estado: "pendiente"
   },
   {
     texto:
-      "WMS PB3 — Pendiente: validación de ubicaciones que no son de tipo estantería.",
+      "Validación de ubicaciones que no son de tipo estantería.",
     estado: "pendiente"
   }
 ];

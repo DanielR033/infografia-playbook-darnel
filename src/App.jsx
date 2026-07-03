@@ -92,6 +92,12 @@ const hitosClave = [
     titulo: "ATP INT13 y reingesta WMS PB2",
     detalle: "Culminación y envío del script de Órdenes de Venta ATP INT13, reextracción de los 555 artículos y definiciones de daily (NBSP, lpns_per_tier, decimales).",
     anchor: "semana-22-26-junio"
+  },
+  {
+    fecha: "30 Jun-03 Jul",
+    titulo: "WMS PB3: avances y pendientes",
+    detalle: "Cierre de reglas WMS (duplicidad, UM pack=primaria, ubicaciones position/bin, config UM TRR/TM/BBG) y pendientes para PB3 (EAN13, lpns_per_tier, depuración UM PeopleSoft, decimales y ubicaciones no estantería).",
+    anchor: "semana-30-junio-03-julio"
   }
 ];
 
@@ -683,17 +689,17 @@ const semana22a26Junio = [
   {
     texto:
       "Daily — Oracle: la unidad de medida pack debe ser igual que la primaria; la actualización se realizó a mano porque no estaba definida previamente.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Daily — Duplicidad de EAN13 en códigos de barras: se requiere confirmar si en PB3 se dará el mismo manejo que en PB2 o si ya existe una definición.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Daily — Columna lpns_per_tier (plantilla artículos): debe ser siempre entera y de máximo 5 caracteres. Para PB2 debe contemplarse el manejo dado a las unidades de medida tipo GM (se cambió a KG y se disminuyó la cantidad estándar). Ej. artículo 87465 (GM CASE y PACK en KG): lpns_per_tier 400000.0000 y std_case_qty 1000 → lpns_per_tier 400, std_case_qty 1, primary_uom_code KG (división por 1000). Caso por definir: el artículo 2721 tenía lpns_per_tier 2000000 → 2000, pero std_pack_qty, std_case_qty y max_case_qty venían en 500 y pasaron directamente a 1 (no a 500/1000); definir qué tratamiento se le dará.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
@@ -703,6 +709,59 @@ const semana22a26Junio = [
   {
     texto:
       "Daily — Definiciones pendientes de ubicaciones: charla pendiente con Zaid.",
+    estado: "completado"
+  }
+];
+
+const semana30Junioa03Julio = [
+  {
+    texto:
+      "WMS PB3 — Cerrado: duplicidad de artículos ante el nuevo WMS.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB3 — Cerrado: la unidad de medida pack debe ser igual que la primaria.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB3 — Cerrado: se realizan nuevas definiciones de reglas sobre la plantilla de ubicaciones, específicamente las columnas \"position\" y \"bin\"; estas ya se encuentran actualizadas en la plantilla.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB3 — Cerrado: configuración de UM en WMS para evitar problemas en migración (TRR, TM y BBG).",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB3 — Cerrado: implementación en la lógica de extracción sobre las nuevas reglas cerradas al 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "WMS PB3 — Pendiente: duplicidad de EAN13 en plantilla de códigos de barras; confirmar si ya existe una definición para tratar esta duplicidad o se dará el mismo manejo que en PB1 y PB2.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "WMS PB3 — Pendiente: columna lpns_per_tier (plantilla de artículos). Alexandra Duarte y Andrés Steven Moreno Menjura gestionan el diligenciamiento de la regla dentro de la plantilla para cuando el valor de la columna supere la longitud máxima permitida (28144), ya que habría que actualizar las unidades de medida, las cantidades estándar y la propia columna lpns_per_tier (manualidad implementada sobre el Excel en PB2).",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "WMS PB3 — Pendiente: depuración por parte de Andrés Steven Moreno Menjura sobre las UM del origen PeopleSoft en referencia a las diferencias que presentan con el WMS actual, debido al inconveniente al migrar artículos con unidades de medida primaria y case que no son de la misma clase.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "WMS PB3 — Pendiente: validación por parte de Alexandra Duarte sobre artículos con decimales en las cantidades.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "WMS PB3 — Pendiente: validación de ubicaciones que no son de tipo estantería.",
     estado: "pendiente"
   }
 ];
@@ -1855,12 +1914,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-22-26-junio" open>
+          <details className="card week-card" id="semana-22-26-junio">
             <summary>
               <h2>ERP/SCM - WMS PB2 - Integraciones semana 22-26 de junio</h2>
             </summary>
             <div className="task-list">
               {semana22a26Junio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-30-junio-03-julio" open>
+            <summary>
+              <h2>WMS PB3 - Avances y pendientes semana 30 de junio al 3 de julio</h2>
+            </summary>
+            <div className="task-list">
+              {semana30Junioa03Julio.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

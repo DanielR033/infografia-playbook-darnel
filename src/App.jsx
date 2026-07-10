@@ -98,6 +98,12 @@ const hitosClave = [
     titulo: "WMS PB3: avances y pendientes",
     detalle: "Cierre de reglas WMS (duplicidad, UM pack=primaria, ubicaciones position/bin, config UM TRR/TM/BBG) y pendientes para PB3 (EAN13, lpns_per_tier, depuración UM PeopleSoft, decimales y ubicaciones no estantería).",
     anchor: "semana-30-junio-03-julio"
+  },
+  {
+    fecha: "06-10 Jul",
+    titulo: "WMS PB3: ubicaciones y artículos",
+    detalle: "Cierre de definiciones de ubicaciones (task_zone_code, location_lock_code, replenishment_zone_code y regla de 'type' re-pack) y de artículos (config UM BBG/TM/TRR y decimales); pendientes de Barcode, lpns_per_tier, UM PeopleSoft y putaway_seq.",
+    anchor: "semana-06-10-julio"
   }
 ];
 
@@ -742,26 +748,69 @@ const semana30Junioa03Julio = [
   {
     texto:
       "Duplicidad de EAN13 en plantilla de códigos de barras; confirmar si ya existe una definición para tratar esta duplicidad o se dará el mismo manejo que en PB1 y PB2.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Columna lpns_per_tier (plantilla de artículos). Alexandra Duarte y Andrés Steven Moreno Menjura gestionan el diligenciamiento de la regla dentro de la plantilla para cuando el valor de la columna supere la longitud máxima permitida (28144), ya que habría que actualizar las unidades de medida, las cantidades estándar y la propia columna lpns_per_tier (manualidad implementada sobre el Excel en PB2).",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Depuración por parte de Andrés Steven Moreno Menjura sobre las UM del origen PeopleSoft en referencia a las diferencias que presentan con el WMS actual, debido al inconveniente al migrar artículos con unidades de medida primaria y case que no son de la misma clase.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Validación por parte de Alexandra Duarte sobre artículos con decimales en las cantidades.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Validación de ubicaciones que no son de tipo estantería.",
+    estado: "completado"
+  }
+];
+
+const semana06a10Julio = [
+  {
+    texto:
+      "Ubicaciones: definición de las columnas \"task_zone_code\", \"location_lock_code\" y \"replenishment_zone_code\".",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Ubicaciones: alcance a la regla actual definida para la generación del valor de la columna \"type\" (ubicaciones re-pack).",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Artículos: configuración de UM en WMS BBG, TM y TRR.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Artículos: validación y depuración desde el origen por parte de Alexandra Duarte sobre artículos con decimales en las cantidades.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Barcode: duplicidad de EAN13 en plantilla de códigos de barras; confirmar si ya existe una definición para tratar esta duplicidad o se dará el mismo manejo que en PB1 y PB2.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Artículos: columna lpns_per_tier (plantilla de artículos). Alexandra Duarte y Andrés Steven Moreno Menjura gestionan el diligenciamiento de la regla dentro de la plantilla para cuando el valor de la columna supere la longitud máxima permitida (28144), ya que habría que actualizar las unidades de medida, las cantidades estándar y la propia columna lpns_per_tier (manualidad implementada sobre el Excel en PB2).",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Artículos: depuración por parte de Andrés Steven Moreno Menjura sobre las UM del origen PeopleSoft en referencia a las diferencias que presentan con el WMS actual, debido al inconveniente al migrar artículos con unidades de medida primaria y case que no son de la misma clase.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Ubicaciones: definición de la columna \"putaway_seq\" y envío del Excel con la relación de la ubicación y el valor.",
     estado: "pendiente"
   }
 ];
@@ -1640,7 +1689,9 @@ function App() {
   ];
   const detalle = entidadDetalle[tabActiva];
   const bloquesFlujo = [frameworkCarga.slice(0, 5), frameworkCarga.slice(5, 10)];
-  const hitosJunio = hitosClave.filter((hito) => hito.fecha.includes("Jun"));
+  const hitosJunioJulio = hitosClave.filter(
+    (hito) => hito.fecha.includes("Jun") || hito.fecha.includes("Jul")
+  );
 
   return (
     <main className="layout">
@@ -1672,7 +1723,7 @@ function App() {
           <section className="card">
             <h2>Cronograma de hitos clave</h2>
             <div className="flow">
-              {hitosJunio.map((hito) => (
+              {hitosJunioJulio.map((hito) => (
                 <a
                   className="flow-item"
                   href={hito.anchor ? `#${hito.anchor}` : undefined}
@@ -1928,12 +1979,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-30-junio-03-julio" open>
+          <details className="card week-card" id="semana-30-junio-03-julio">
             <summary>
               <h2>WMS PB3 - Avances y pendientes semana 30 de junio al 3 de julio</h2>
             </summary>
             <div className="task-list">
               {semana30Junioa03Julio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-06-10-julio" open>
+            <summary>
+              <h2>WMS PB3 - Avances y pendientes semana 6 al 10 de julio</h2>
+            </summary>
+            <div className="task-list">
+              {semana06a10Julio.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

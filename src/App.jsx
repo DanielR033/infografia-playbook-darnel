@@ -104,6 +104,12 @@ const hitosClave = [
     titulo: "WMS PB3: ubicaciones y artículos",
     detalle: "Cierre de definiciones de ubicaciones (task_zone_code, location_lock_code, replenishment_zone_code y regla de 'type' re-pack) y de artículos (config UM BBG/TM/TRR y decimales); pendientes de Barcode, lpns_per_tier, UM PeopleSoft y putaway_seq.",
     anchor: "semana-06-10-julio"
+  },
+  {
+    fecha: "13-17 Jul",
+    titulo: "WMS PB3: cierres de artículos y ubicaciones",
+    detalle: "Cierre de artículos (decimales, UM CS→CJ, duplicidad part_a, clase de UM primaria/secundaria) y de ubicaciones (regla '-C' PUERTA→PTA, item_alternate_code en 5 casos, reempaque cust_field_1); pendiente parametrización de putaway_seq.",
+    anchor: "semana-13-17-julio"
   }
 ];
 
@@ -796,21 +802,64 @@ const semana06a10Julio = [
   {
     texto:
       "Barcode: duplicidad de EAN13 en plantilla de códigos de barras; confirmar si ya existe una definición para tratar esta duplicidad o se dará el mismo manejo que en PB1 y PB2.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Artículos: columna lpns_per_tier (plantilla de artículos). Alexandra Duarte y Andrés Steven Moreno Menjura gestionan el diligenciamiento de la regla dentro de la plantilla para cuando el valor de la columna supere la longitud máxima permitida (28144), ya que habría que actualizar las unidades de medida, las cantidades estándar y la propia columna lpns_per_tier (manualidad implementada sobre el Excel en PB2).",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Artículos: depuración por parte de Andrés Steven Moreno Menjura sobre las UM del origen PeopleSoft en referencia a las diferencias que presentan con el WMS actual, debido al inconveniente al migrar artículos con unidades de medida primaria y case que no son de la misma clase.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Ubicaciones: definición de la columna \"putaway_seq\" y envío del Excel con la relación de la ubicación y el valor.",
+    estado: "completado"
+  }
+];
+
+const semana13a17Julio = [
+  {
+    texto:
+      "Artículos: valores decimales en columnas de cantidades.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Artículos: modificación de la unidad de medida CS a CJ.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Artículos: duplicidad de la columna part_a; se define que únicamente para los duplicados se debe conservar el artículo que sí tiene relación con la fuente de productos y prescindir del otro registro.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Artículos: clase de unidad de medida incorrecta entre primaria y secundaria; corregido directamente desde la fuente por Alexandra Duarte y Andrés Steven Moreno Menjura.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Ubicaciones: ubicaciones que terminan en \"-C\"; se define modificar la palabra \"PUERTA\" por \"PTA\" para subsanar la novedad de caracteres máximo permitido en la columna \"area\".",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Ubicaciones: 5 ubicaciones con la columna item_alternate_code poblada sin estar creada como item; se enviará vacío dicho campo, al igual que max_units y min_units (únicamente para estos 5 casos).",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Ubicaciones: ubicaciones de reempaque; se queda a la espera del envío del archivo Excel con la relación de id_bodega, id_ubicacion y origen_no_conformidad para Álamos y Madrid, con el objetivo de poblar la columna cust_field_1.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Ubicaciones: parametrización del campo \"putaway_seq\".",
     estado: "pendiente"
   }
 ];
@@ -1993,12 +2042,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-06-10-julio" open>
+          <details className="card week-card" id="semana-06-10-julio">
             <summary>
               <h2>WMS PB3 - Avances y pendientes semana 6 al 10 de julio</h2>
             </summary>
             <div className="task-list">
               {semana06a10Julio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-13-17-julio" open>
+            <summary>
+              <h2>WMS PB3 - Avances y pendientes semana 13 al 17 de julio</h2>
+            </summary>
+            <div className="task-list">
+              {semana13a17Julio.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

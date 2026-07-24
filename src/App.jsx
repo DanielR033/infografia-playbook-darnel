@@ -1681,10 +1681,12 @@ function getRolPasoActor(paso, actor) {
 const entidadDetalle = {
   items: {
     titulo: "Items",
-    inicial: "61.148 (antes de nuevas definiciones)",
-    actual: "44.820 cargados / 98,73%",
+    destinoBrief: "Items",
+    pb2: 44820,
+    pb3: 46807,
+    estadoCargue: "cargado",
     resumen:
-      "La carga PB2 de Items alcanzó 44.820 registros. Continúa el análisis de inconsistencias y errores detectados durante la migración.",
+      "La extracción PB3 de Items genera 46.807 registros a partir de 13 tablas fuente, tras aplicar 26 reglas de negocio (19 nuevas o redefinidas para PB3). La plantilla fue cargada en WMS al 23-07-2026.",
     reglas: [
       {
         negocio: "Tomar solo artículos del set corporativo definido para la operación.",
@@ -1854,10 +1856,12 @@ const entidadDetalle = {
   },
   barcode: {
     titulo: "Barcode",
-    inicial: "2.228 (alcance previo)",
-    actual: "1.817 cargados / 83,58%",
+    destinoBrief: "Barcode",
+    pb2: 1817,
+    pb3: 2163,
+    estadoCargue: "cargado",
     resumen:
-      "La carga PB2 de Barcode alcanzó 1.817 registros. Se identificaron códigos Barcode que no existen como artículos.",
+      "La extracción PB3 de Barcode genera 2.163 registros, el mayor crecimiento relativo de las tres plantillas. La validación contra el universo PB3 descarta los códigos sin artículo asociado y la deduplicación por vendor_barcode resuelve la duplicidad de EAN13. Cargada en WMS al 23-07-2026.",
     reglas: [
       {
         negocio: "Tomar solo artículos del set corporativo definido para la operación.",
@@ -1934,10 +1938,12 @@ const entidadDetalle = {
   },
   locations: {
     titulo: "Locations",
-    inicial: "76.951 (antes de nuevas exclusiones)",
-    actual: "24.410 preparadas / carga pendiente",
+    destinoBrief: "Ubicaciones",
+    pb2: 24410,
+    pb3: 24503,
+    estadoCargue: "pendiente",
     resumen:
-      "La plantilla PB2 contiene 24.410 ubicaciones, pero la carga está detenida hasta cerrar la definición del layout de bodega con Alexandra Duarte y Zaid.",
+      "La plantilla PB3 contiene 24.503 ubicaciones validadas, tras aplicar 17 reglas de negocio (11 nuevas para PB3). El cargue está detenido: Oracle condiciona el visto bueno al cierre de un escenario en revisión con Darnel.",
     reglas: [
       {
         negocio: "Limpiar el identificador de ubicación antes de cualquier cálculo.",
@@ -2083,6 +2089,14 @@ function App() {
   const tasaConversion = (totalSalidaPb3 / totalFuentes) * 100;
   const plantillasCargadas = briefSalida.filter((s) => s.estadoCargue === "cargado").length;
   const detalle = entidadDetalle[tabActiva];
+  // KPIs de la entidad activa, derivados del mismo origen que el Brief
+  const fuentesEntidad = detalle
+    ? briefFuentes.filter((f) => f.destino.includes(detalle.destinoBrief))
+    : [];
+  const origenEntidad = fuentesEntidad.reduce((acc, f) => acc + f.registros, 0);
+  const deltaEntidad = detalle ? detalle.pb3 - detalle.pb2 : 0;
+  const deltaPctEntidad = detalle ? (deltaEntidad / detalle.pb2) * 100 : 0;
+  const reglasNuevasEntidad = detalle ? detalle.reglas.filter((r) => r.nueva).length : 0;
   const bloquesFlujo = [frameworkCarga.slice(0, 5), frameworkCarga.slice(5, 10)];
   const hitosJunioJulio = hitosClave.filter(
     (hito) => hito.fecha.includes("Jun") || hito.fecha.includes("Jul")
@@ -2091,7 +2105,7 @@ function App() {
   return (
     <main className="layout">
       <header className="hero">
-        <p className="pill">Fase actual: Playbook 2</p>
+        <p className="pill">Fase actual: Playbook 3 (SIT)</p>
         <h1>Infografía de avance - Frente de Datos</h1>
         <p className="subtitle">
           Contexto inicial: ya se realizaron sesiones de entendimiento de
@@ -3341,12 +3355,42 @@ function App() {
             <h2>Entidad: {detalle.titulo}</h2>
             <div className="entity-kpis">
               <article className="kpi-card">
-                <small>Registros iniciales</small>
-                <strong>{detalle.inicial}</strong>
+                <small>Registros en origen</small>
+                <strong>{nf(origenEntidad)}</strong>
+                <span className="kpi-foot">{fuentesEntidad.length} tablas fuente</span>
               </article>
               <article className="kpi-card">
-                <small>Registros actuales</small>
-                <strong>{detalle.actual}</strong>
+                <small>Salida PB2</small>
+                <strong>{nf(detalle.pb2)}</strong>
+                <span className="kpi-foot">Referencia del playbook anterior</span>
+              </article>
+              <article className="kpi-card">
+                <small>Salida PB3</small>
+                <strong>{nf(detalle.pb3)}</strong>
+                <span className="kpi-foot">
+                  <span className={`delta ${deltaEntidad >= 0 ? "up" : "down"}`}>
+                    {deltaEntidad >= 0 ? "+" : ""}
+                    {nf(deltaEntidad)} ({deltaPctEntidad >= 0 ? "+" : ""}
+                    {deltaPctEntidad.toFixed(2)}%)
+                  </span>{" "}
+                  frente a PB2
+                </span>
+              </article>
+              <article className="kpi-card">
+                <small>Reglas de negocio</small>
+                <strong>{detalle.reglas.length}</strong>
+                <span className="kpi-foot">{reglasNuevasEntidad} nuevas o redefinidas en PB3</span>
+              </article>
+              <article className="kpi-card">
+                <small>Estado de cargue a WMS</small>
+                <strong>
+                  <span
+                    className={`tag ${detalle.estadoCargue === "cargado" ? "completado" : "pendiente"}`}
+                  >
+                    {detalle.estadoCargue === "cargado" ? "Cargado" : "Pendiente"}
+                  </span>
+                </strong>
+                <span className="kpi-foot">Corte {briefCorte}</span>
               </article>
             </div>
             <p className="entity-summary">{detalle.resumen}</p>

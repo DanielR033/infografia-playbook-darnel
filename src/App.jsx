@@ -110,6 +110,12 @@ const hitosClave = [
     titulo: "WMS PB3: cierres de artículos y ubicaciones",
     detalle: "Cierre de artículos (decimales, UM CS→CJ, duplicidad part_a, clase de UM primaria/secundaria) y de ubicaciones (regla '-C' PUERTA→PTA, item_alternate_code en 5 casos, reempaque cust_field_1); pendiente parametrización de putaway_seq.",
     anchor: "semana-13-17-julio"
+  },
+  {
+    fecha: "21-24 Jul",
+    titulo: "WMS y ERP: validación de items y fuentes",
+    detalle: "Validación de novedades sobre 45 items con Julián y, en el frente ERP, acompañamiento a la unificación de UoM e identificación del catálogo de fuentes de datos.",
+    anchor: "semana-21-24-julio"
   }
 ];
 
@@ -860,7 +866,25 @@ const semana13a17Julio = [
   {
     texto:
       "Ubicaciones: parametrización del campo \"putaway_seq\".",
-    estado: "pendiente"
+    estado: "completado"
+  }
+];
+
+const semana21a24Julio = [
+  {
+    texto:
+      "WMS: validación de novedades sobre 45 items en conjunto con Julián — posibles duplicidades e items activos con configuración establecida.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "ERP: acompañamiento a usuario funcional para la unificación de UoM, revisión de necesidades de UoM para los cuestionarios y propuesta de unificación para casos especiales del negocio (Millar, Metros, Mililitro, entre otros).",
+    estado: "completado"
+  },
+  {
+    texto:
+      "ERP: identificación y catálogo de fuentes de datos del ERP, con el fin de mapear posibles fuentes candidatas a partir de las sesiones de familiarización y los cuestionarios diligenciados.",
+    estado: "completado"
   }
 ];
 
@@ -963,6 +987,156 @@ const planEntidades = [
     entidad: "Integraciones",
     estado: "16 nuevas tablas PeopleSoft/WMS integradas en Fabric para ATP INT13.",
     siguiente: "Culminar query de extracción de Órdenes de Venta actuales y universo PB2."
+  }
+];
+
+// ---------------------------------------------------------------------------
+// BRIEF PB3 - SIT: definición de datos WMS, reglas vs integraciones
+// Corte 23-07-2026. Punto de partida para el plan 360 de pruebas PB3 y UAT.
+// ---------------------------------------------------------------------------
+
+const briefCorte = "23-07-2026";
+
+const briefFuentes = [
+  { tabla: "PS_MASTER_ITEM_TBL", registros: 187129, destino: ["Items"] },
+  { tabla: "PS_INV_ITEM_UOM", registros: 372102, destino: ["Items"] },
+  { tabla: "PS_AJ_INVUOM_WMS", registros: 263098, destino: ["Items", "Barcode"] },
+  { tabla: "PS_AJ_BU_ITEM_UOM", registros: 4197, destino: ["Items", "Barcode"] },
+  { tabla: "PS_SET_CNTRL_REC", registros: 8662570, destino: ["Items"] },
+  { tabla: "PS_BU_ITEMS_INV", registros: 1423325, destino: ["Items"] },
+  { tabla: "t_item_master_bse", registros: 55624, destino: ["Items"] },
+  { tabla: "t_item_master", registros: 281298, destino: ["Items"] },
+  { tabla: "PS_AJ_UOMSTOCK_DIM", registros: 256714, destino: ["Items"] },
+  { tabla: "t_item_uom", registros: 379845, destino: ["Items"] },
+  { tabla: "PS_PROD_ITEM", registros: 115697, destino: ["Items"] },
+  { tabla: "PS_PROD_ITEM_LNG", registros: 140374, destino: ["Items"] },
+  { tabla: "vida_util", registros: 322, destino: ["Items"] },
+  { tabla: "PS_AJ_MASTER_ITEM", registros: 179830, destino: ["Barcode"] },
+  { tabla: "t_location", registros: 77187, destino: ["Ubicaciones"] },
+  { tabla: "t_fwd_pick_bse", registros: 2381, destino: ["Ubicaciones"] },
+  { tabla: "ubicaciones_reempaque", registros: 49, destino: ["Ubicaciones"] }
+];
+
+const briefLookups = [
+  { tabla: "uom_class", uso: "Clase de UoM para validar primaria vs caja en Items." },
+  { tabla: "maestro_wms_articulos", uso: "Maestro actual del WMS para derivar CREATE/UPDATE/DELETE." },
+  { tabla: "lkp_item_pb3", uso: "Universo PB3 para validar integridad referencial en Barcode y Ubicaciones." }
+];
+
+const briefSalida = [
+  {
+    plantilla: "Items",
+    pb2: 44820,
+    pb3: 46807,
+    estadoCargue: "cargado",
+    reglas: 26,
+    reglasNuevas: 19,
+    fuentes: 13
+  },
+  {
+    plantilla: "Barcode",
+    pb2: 1817,
+    pb3: 2163,
+    estadoCargue: "cargado",
+    reglas: 9,
+    reglasNuevas: 4,
+    fuentes: 3
+  },
+  {
+    plantilla: "Ubicaciones",
+    pb2: 24410,
+    pb3: 24503,
+    estadoCargue: "pendiente",
+    reglas: 17,
+    reglasNuevas: 11,
+    fuentes: 3
+  }
+];
+
+const briefCargueNota =
+  'El equipo de Oracle manifiesta: "se está revisando un escenario con Darnel, con el cierre de esa prueba nos dan el visto bueno para el plan de acción del cargue de ubicaciones".';
+
+const briefConsideraciones = [
+  "Las tablas fuente fueron previamente depuradas por el usuario funcional para eliminar datos basura detectados durante las fases de exploración y validación de la información.",
+  "Los volúmenes de las plantillas de salida corresponden a los registros resultantes después de aplicar la lógica de transformación y las reglas funcionales definidas conjuntamente entre el equipo técnico y el usuario funcional.",
+  "Las reglas aplicadas incluyen filtros de exclusión, validaciones de integridad referencial, deduplicación y normalización de datos.",
+  "Del conteo de fuentes se excluyeron las tablas de control y referencia, que no aportan registros de negocio sino que operan como lookup para validaciones y mapeos."
+];
+
+const briefIntegraciones = {
+  total: 15,
+  entregadas: 1,
+  pendientesValidacion: 14,
+  flujos: [
+    { nombre: "PeopleSoft → WMS", cantidad: 8, tono: "entrada" },
+    { nombre: "WMS → PeopleSoft", cantidad: 6, tono: "salida" },
+    { nombre: "Sin flujo definido", cantidad: 1, tono: "sin" }
+  ],
+  plantilla: [
+    { nombre: "Plantilla completa", cantidad: 11, tono: "ok" },
+    { nombre: "Plantilla parcial", cantidad: 3, tono: "medio" },
+    { nombre: "Sin diseño", cantidad: 1, tono: "malo" }
+  ],
+  muestra: [
+    { nombre: "Con datos de muestra", cantidad: 4, tono: "ok" },
+    { nombre: "Sin datos de muestra", cantidad: 11, tono: "malo" }
+  ]
+};
+
+const briefIntegracionesDetalle = [
+  { int: "13/19/32", nombre: "Sincronización Órdenes de Venta y Transferencias", flujo: "PS → ATP → WMS", plantilla: "completa", muestra: true, estado: "entregado" },
+  { int: "12", nombre: "Creación de Carga de Salida", flujo: "PS + Logisfrete → WMS", plantilla: "completa", muestra: true, estado: "validacion" },
+  { int: "21", nombre: "Orden de transferencia de entrada", flujo: "PS → WMS", plantilla: "completa", muestra: true, estado: "validacion" },
+  { int: "33", nombre: "Confirmación Recepción Orden de Trabajo", flujo: "WMS → PS", plantilla: "completa", muestra: true, estado: "validacion" },
+  { int: "015", nombre: "Generación ASN PO Importación", flujo: "Fusion SCM → WMS", plantilla: "completa", muestra: false, estado: "validacion" },
+  { int: "022", nombre: "Recepción de Orden de Transferencia", flujo: "WMS → PS", plantilla: "completa", muestra: false, estado: "validacion" },
+  { int: "20/14", nombre: "Confirmación Órdenes de Venta y Transferencias", flujo: "WMS → ATP → PS", plantilla: "completa", muestra: false, estado: "validacion" },
+  { int: "D020", nombre: "Sincronización Artículos y Referencias Cruzadas", flujo: "PS → WMS", plantilla: "completa", muestra: false, estado: "validacion" },
+  { int: "—", nombre: "ITEM_SYNC — Catálogo de productos", flujo: "PS → WMS", plantilla: "completa", muestra: false, estado: "validacion" },
+  { int: "—", nombre: "AJ_VENDOR_TO_WMS — Proveedores", flujo: "PS → WMS", plantilla: "completa", muestra: false, estado: "validacion" },
+  { int: "—", nombre: "TMS_ORDER_RELEASE — Envío de Órdenes de Venta", flujo: "PS → WMS", plantilla: "completa", muestra: false, estado: "validacion" },
+  { int: "—", nombre: "Confirmación de Cumplimiento de Órdenes", flujo: "WMS → PS", plantilla: "parcial", muestra: false, estado: "validacion" },
+  { int: "—", nombre: "Orden de transferencia salida — Confirmación", flujo: "WMS → PS", plantilla: "parcial", muestra: false, estado: "validacion" },
+  { int: "—", nombre: "Confirmación recepción RMA", flujo: "WMS → PS", plantilla: "parcial", muestra: false, estado: "validacion" },
+  { int: "—", nombre: "Retroalimentación de inventarios", flujo: "Sin definir", plantilla: "sin", muestra: false, estado: "sin" }
+];
+
+const briefBloqueos = [
+  {
+    titulo: "Cargue de Ubicaciones detenido",
+    impacto: "Bloquea el plan 360",
+    detalle:
+      "24.503 registros listos y validados, sin cargar a WMS. Oracle condiciona el visto bueno al cierre de un escenario en revisión con Darnel. Sin Ubicaciones no se pueden probar los flujos de recepción, putaway ni picking."
+  },
+  {
+    titulo: "Retroalimentación de inventarios sin diseño",
+    impacto: "Sin cobertura de pruebas",
+    detalle:
+      "Es la integración que cierra el ciclo de stock entre WMS y ERP. No existe documento de diseño ni plantilla, por lo que no puede incluirse en el alcance de pruebas de PB3."
+  },
+  {
+    titulo: "Tres contratos de integración sin diligenciar",
+    impacto: "Criterios de prueba indefinidos",
+    detalle:
+      "Cumplimiento de Órdenes, Transferencia de salida y RMA tienen los parámetros de entrada EIP, pero requisitos, eventos disparadores, precondiciones y poscondiciones están en blanco o en N/A."
+  },
+  {
+    titulo: "Frecuencias de integración sin definir",
+    impacto: "Sin criterio de aceptación",
+    detalle:
+      "INT 21, INT 20/14 e INT 022 registran la frecuencia como 'En proceso'. Sin frecuencia definida no hay criterio objetivo para validar el comportamiento en SIT ni en UAT."
+  },
+  {
+    titulo: "Campos sin origen sistémico en Items",
+    impacto: "Dato no reproducible",
+    detalle:
+      "product_life y percent_acceptable_product_life se alimentan desde un Excel de negocio. No existe query que los reproduzca, por lo que su calidad depende de un proceso manual."
+  },
+  {
+    titulo: "putaway_seq pendiente de parametrización",
+    impacto: "Campo vacío en la plantilla",
+    detalle:
+      "La plantilla de Ubicaciones envía putaway_seq en blanco. Falta la definición funcional y el archivo con la relación de ubicación y valor."
   }
 ];
 
@@ -1514,7 +1688,13 @@ const entidadDetalle = {
     reglas: [
       {
         negocio: "Tomar solo artículos del set corporativo definido para la operación.",
-        tecnica: "Filtro base: PS_MASTER_ITEM_TBL.SETID = 'COR01'."
+        tecnica: "Filtro base en PS_MASTER_ITEM_TBL: SETID = 'COR01'. Se arrastra LOT_CONTROL para el manejo de lotes."
+      },
+      {
+        negocio: "Excluir de raíz los artículos duplicados por carácter invisible.",
+        tecnica:
+          "Filtro en el universo base: NOT (INV_ITEM_ID RLIKE '\\u00A0'). Elimina el duplicado con NBSP y conserva el artículo sin tabulador.",
+        nueva: true
       },
       {
         negocio: "Incluir únicamente artículos con UOM habilitada para WMS.",
@@ -1522,87 +1702,153 @@ const entidadDetalle = {
           "Join PS_INV_ITEM_UOM + PS_AJ_INVUOM_WMS con AJ_UOM_WMS = 'Y' y match por SETID/INV_ITEM_ID/UNIT_OF_MEASURE."
       },
       {
-        negocio: "Definir unidad primaria por prioridad funcional.",
+        negocio: "Descartar la unidad de medida ML en todo el cálculo de unidades.",
         tecnica:
-          "CASE en PRIMARY_RESOLVED: AJ_BU_ITEM_UOM (AJ_STD_UOM_WMS='Y', BUSINESS_UNIT='AJI03') > AJ_INVUOM_WMS (AJ_STD_UOM_WMS='Y') > UOM_RANKED RN=1 (menor CONVERSION_RATE)."
+          "UNIT_OF_MEASURE <> 'ML' aplicado en UOM_RANKED, AJ_PRIMARY y WMS_PRIMARY.",
+        nueva: true
       },
       {
-        negocio: "Definir unidad secundaria garantizando alternativa válida.",
+        negocio: "Definir unidad primaria por prioridad funcional.",
         tecnica:
-          "CASE en SECONDARY_RESOLVED: si primaria viene de AJ usa UOM_RANKED RN=1; si no, usa UOM_DISTINCT_RATE RN_RATE=2; fallback a UOM_PRIMARY."
+          "CASE en PRIMARY_RESOLVED: AJ_BU_ITEM_UOM (AJ_STD_UOM_WMS='Y', BUSINESS_UNIT='AJI03') > AJ_INVUOM_WMS (AJ_STD_UOM_WMS='Y' y AJ_UOM_WMS='Y') > UOM_RANKED RN=1 (menor CONVERSION_RATE). Se marca el origen en FLAG_SOURCE (1/2/0)."
+      },
+      {
+        negocio: "Definir la unidad secundaria por el segundo factor de conversión distinto.",
+        tecnica:
+          "Nuevo CTE UOM_DISTINCT_RATE ordenado por CONVERSION_RATE y UNIT_OF_MEASURE. Si la primaria viene de AJ (FLAG_SOURCE=1) se usa UOM_RANKED RN=1; en caso contrario UOM_DISTINCT_RATE RN_RATE=2.",
+        nueva: true
+      },
+      {
+        negocio: "Impedir que la unidad secundaria sea igual a la primaria.",
+        tecnica:
+          "En SECONDARY_RESOLVED, si la secundaria calculada coincide con UOM_PRIMARY se devuelve vacío en lugar de duplicar la unidad.",
+        nueva: true
       },
       {
         negocio: "Publicar solo artículos completos para logística.",
         tecnica: "Filtro en Universo: UOM_PRIMARY IS NOT NULL AND UOM_SECONDARY IS NOT NULL."
       },
       {
+        negocio: "Identificar el artículo por su producto comercial cuando exista.",
+        tecnica:
+          "part_a = COALESCE(PRODUCT_ID, INV_ITEM_ID) desde PS_PROD_ITEM con EFF_STATUS='A' y PROD_FIELD_C1_D='Y', deduplicado con ROW_NUMBER (RN_PROD=1) por PRODUCT_ID ascendente.",
+        nueva: true
+      },
+      {
+        negocio: "Clasificar cada registro como creación, actualización o eliminación frente al WMS actual.",
+        tecnica:
+          "action_code contra maestro_wms_articulos: DELETE si el barcode ya existe asociado a otro part_a; UPDATE si coinciden part_a y barcode; CREATE en el resto.",
+        nueva: true
+      },
+      {
+        negocio: "Calcular el costo unitario en la unidad primaria del artículo.",
+        tecnica:
+          "UNIT_COST = MAX(DFLT_ACTUAL_COST) de PS_BU_ITEMS_INV sobre las BUs del SETID (PS_SET_CNTRL_REC), multiplicado por el CONVERSION_RATE de la unidad primaria y redondeado a 2 decimales.",
+        nueva: true
+      },
+      {
+        negocio: "Obtener la cantidad por caja desde la bodega que tenga el dato.",
+        tecnica:
+          "std_case_qty y max_case_qty = COALESCE en cascada del conversion_factor de t_item_uom para las bodegas 05, 01, 02 y 03 sobre la unidad secundaria; 0 si ninguna aporta valor.",
+        nueva: true
+      },
+      {
+        negocio: "Tomar el lpns_per_tier de la bodega correspondiente al origen de la unidad primaria.",
+        tecnica:
+          "CTE LPNS_CALC: si FLAG_SOURCE=1 usa t_item_master_bse (wh_id='05'); si FLAG_SOURCE=2 usa t_item_master en cascada wh_id 01, 02 y 03. Se descartan los valores en cero con NULLIF.",
+        nueva: true
+      },
+      {
+        negocio: "Normalizar lpns_per_tier al máximo de longitud permitido por la plantilla.",
+        tecnica:
+          "Escalamiento por rango: 8 dígitos se divide entre 1000, 7 dígitos entre 100 y 6 dígitos entre 10. Por debajo de 6 dígitos el valor se conserva.",
+        nueva: true
+      },
+      {
+        negocio: "Dejar trazable el factor de escalamiento aplicado al lpns_per_tier.",
+        tecnica:
+          "tiers_per_pallet registra el divisor usado ('1000', '100' o '10'); '1' cuando hay valor sin escalar y vacío cuando no hay dato.",
+        nueva: true
+      },
+      {
+        negocio: "Clasificar el artículo en su tipo de almacenamiento según la línea de producto.",
+        tecnica:
+          "putaway_type derivado del prefijo del código en 11 categorías: DEXTON, MATERIALES, ALVEOLAR, LAMINA, PLASTICA, THERMO, ALIMENTO, ASEO, TANQUE, PELICULA y DESECHABLE (fallback). El orden de evaluación es significativo: PS antes de PELICULA, ALVEOLAR antes de LAMINA y RM* antes de ASEO.",
+        nueva: true
+      },
+      {
+        negocio: "Homologar la unidad de medida CS a CJ.",
+        tecnica:
+          "CASE sobre primary_uom_code y case_uom_code: si la unidad es 'CS' se envía 'CJ'.",
+        nueva: true
+      },
+      {
+        negocio: "Marcar el requerimiento de lote a partir del control de lote del maestro.",
+        tecnica:
+          "req_batch_nbr_flg = 'true' cuando PS_MASTER_ITEM_TBL.LOT_CONTROL = 'Y'; 'false' en caso contrario.",
+        nueva: true
+      },
+      {
+        negocio: "Calcular vida útil en días y porcentaje mínimo aceptable de recibo.",
+        tecnica:
+          "product_life = VIDA_UTIL_MESES * 30; percent_acceptable_product_life = ROUND(MINIMO_PARA_EL_RECIBO_MESES * 100 / NULLIF(VIDA_UTIL_MESES,0)). Se excluyen los registros con vida útil 'No tiene' o vacía."
+      },
+      {
+        negocio: "Garantizar que todo artículo tenga descripción utilizable.",
+        tecnica:
+          "Limpieza con REGEXP_REPLACE a caracteres alfanuméricos; si el resultado queda vacío se envía 'sin descripcion'. description_2 se toma de PS_PROD_ITEM_LNG (DESCR254, idioma ESP) con la misma limpieza."
+      },
+      {
+        negocio: "Heredar las unidades de peso y volumen desde las unidades resueltas.",
+        tecnica:
+          "CTE PRIMARY_RATE: weight_uom_code = UNIT_MEASURE_WT de la unidad primaria; volume_uom_code = UNIT_MEASURE_VOL de la unidad secundaria.",
+        nueva: true
+      },
+      {
+        negocio: "Validar que la unidad primaria y la de caja pertenezcan a la misma clase.",
+        tecnica:
+          "Cruce contra uom_class por primary_uom_code y case_uom_code; el campo validacion marca 'CLASE' cuando coinciden y 'ERROR' cuando difieren.",
+        nueva: true
+      },
+      {
+        negocio: "Entregar un único registro por artículo.",
+        tecnica:
+          "ROW_NUMBER particionado por part_a, priorizando los registros con PRODUCT_ID y desempatando por barcode; se conserva RN_DEDUP = 1.",
+        nueva: true
+      },
+      {
+        negocio: "Descartar artículos con caja declarada pero sin cantidad por caja.",
+        tecnica:
+          "Filtro final: NOT (std_case_qty = 0 AND case_uom_code <> '').",
+        nueva: true
+      },
+      {
+        negocio: "Aplicar las exclusiones funcionales definidas por negocio.",
+        tecnica:
+          "Se excluyen los prefijos A, B, Z y PZ, más una lista explícita de 38 artículos depurados con negocio.",
+        nueva: true
+      },
+      {
         negocio: "Normalizar salida para consumo Oracle/WMS.",
         tecnica:
-          "Limpieza con REGEXP_REPLACE en descripciones; COALESCE(...,0) para dimensiones/peso/volumen y campos numéricos."
-      },
-      {
-        negocio: "Calcular vida útil y porcentaje mínimo aceptable de recibo.",
-        tecnica:
-          "product_life = TRY_CAST(VIDA_UTIL_MESES AS DOUBLE)/30; percent_acceptable_product_life = ROUND(MINIMO_PARA_EL_RECIBO_MESES*100/NULLIF(VIDA_UTIL_MESES,0))."
-      },
-      {
-        negocio: "Excluir temporalmente casuística CJ/BL clase Cantidad en primer 20% del cargue.",
-        tecnica:
-          "Regla funcional de exclusión aplicada en query; depuración en origen a cargo de Ileana Cortina y posterior refresh en Fabric.",
-        nueva: true
-      },
-      {
-        negocio: "Evitar duplicidad de artículo por múltiples registros activos.",
-        tecnica:
-          "Aplicar condición INV_ITEM_ID = PRODUCT_ID para resolver casos con más de un EFF_STATUS='A' en PS_PROD_ITEM.",
-        nueva: true
-      },
-      {
-        negocio: "Corregir std_case_qty/std_pack_qty en cero para artículos de una sola UOM.",
-        tecnica:
-          "Ajuste de llaves con TRIM contra t_item_uom y uso de factor de conversión 1 cuando primary=case=pack.",
-        nueva: true
-      },
-      {
-        negocio: "Resolver artículos duplicados por diferencias mínimas de nomenclatura.",
-        tecnica:
-          "Identificar diferencias por caracteres NBSP y validar cada artículo independiente junto con sus medidas WMS.",
-        nueva: true
-      },
-      {
-        negocio: "Permitir cantidades decimales cuando aplique.",
-        tecnica:
-          "Definir e implementar un nuevo flag para habilitar el envío de valores decimales.",
-        nueva: true
-      },
-      {
-        negocio: "Tratar valores de lpns_per_tier superiores a 5 dígitos con UOM GM.",
-        tecnica:
-          "Aplicar tratamiento específico porque impacta std_case_qty, max_case_qty y primary_uom_code.",
-        nueva: true
-      },
-      {
-        negocio: "Activar manejo decimal en campos enteros de Oracle cuando aplique.",
-        tecnica:
-          "Para std_pack_qty, std_case_qty y max_case_qty con decimales, activar handle_decimal_qty_flg.",
-        nueva: true
-      },
-      {
-        negocio: "Alinear regla Oracle de unidad pack igual a la unidad primaria.",
-        tecnica:
-          "Definición pendiente; la actualización inicial se realizó manualmente por no estar definida previamente.",
-        nueva: true
+          "COALESCE(...,0) en dimensiones, peso y volumen; std_pack_* en 0 y valores fijos en retail_price, net_cost y dimension1-3."
       }
     ],
     tablas: [
-      { tabla: "PS_MASTER_ITEM_TBL", registros: "176.980", uso: "Maestro base de artículo y descripción." },
+      { tabla: "PS_MASTER_ITEM_TBL", registros: "176.980", uso: "Maestro base de artículo, descripción y control de lote." },
       { tabla: "PS_INV_ITEM_UOM", registros: "347.723", uso: "Unidades, conversión, peso y volumen por artículo." },
       { tabla: "PS_AJ_INVUOM_WMS", registros: "247.054", uso: "Habilitación funcional de UOM para WMS." },
       { tabla: "PS_AJ_BU_ITEM_UOM", registros: "4.133", uso: "Definición de unidad primaria estándar por negocio (AJI03)." },
       { tabla: "PS_AJ_UOMSTOCK_DIM", registros: "226.960", uso: "Dimensiones físicas por UOM." },
-      { tabla: "t_item_uom", registros: "381.450", uso: "Factor de conversión por warehouse (01/05)." },
-      { tabla: "PS_PROD_ITEM", registros: "112.294", uso: "Relación de producto activo." },
+      { tabla: "PS_SET_CNTRL_REC", registros: "Pendiente conteo", uso: "Unidades de negocio asociadas al SETID.", nueva: true },
+      { tabla: "PS_BU_ITEMS_INV", registros: "Pendiente conteo", uso: "Costo real por defecto del artículo por unidad de negocio.", nueva: true },
+      { tabla: "t_item_uom", registros: "381.450", uso: "Factor de conversión por bodega (05/01/02/03)." },
+      { tabla: "t_item_master", registros: "Pendiente conteo", uso: "std_hand_qty por bodega para lpns_per_tier (01/02/03).", nueva: true },
+      { tabla: "t_item_master_bse", registros: "Pendiente conteo", uso: "std_hand_qty de la bodega 05 para lpns_per_tier.", nueva: true },
+      { tabla: "PS_PROD_ITEM", registros: "112.294", uso: "Producto comercial activo para resolver part_a." },
       { tabla: "PS_PROD_ITEM_LNG", registros: "137.004", uso: "Descripción larga en español." },
+      { tabla: "maestro_wms_articulos", registros: "Pendiente conteo", uso: "Maestro actual del WMS para determinar CREATE/UPDATE/DELETE.", nueva: true },
+      { tabla: "uom_class", registros: "Pendiente conteo", uso: "Clase de unidad de medida para validar primaria vs caja.", nueva: true },
       { tabla: "vida_util", registros: "Pendiente conteo", uso: "Meses de vida útil y mínimo para recibo." }
     ]
   },
@@ -1614,36 +1860,52 @@ const entidadDetalle = {
       "La carga PB2 de Barcode alcanzó 1.817 registros. Se identificaron códigos Barcode que no existen como artículos.",
     reglas: [
       {
-        negocio: "Incluir solo artículos con unidad de medida Paquete (PQ).",
-        tecnica:
-          "CTE principal: AJ_STD_UOM_WMS = 'Y' AND UNIT_OF_MEASURE = 'PQ'. CTE secundaria: AJ_UOM_WMS = 'Y' AND UNIT_OF_MEASURE = 'PQ'."
+        negocio: "Tomar solo artículos del set corporativo definido para la operación.",
+        tecnica: "Filtro base sobre PS_AJ_MASTER_ITEM: SETID IN ('COR01')."
       },
       {
-        negocio: "Usar códigos de barras según definición funcional vigente.",
+        negocio: "Incluir solo artículos con unidad de medida Paquete (PQ).",
         tecnica:
-          "Generación de salida con STACK(2): EAN13 (AJ_EAN13) y UPC13 (AJ_UPC13). No se aplica algoritmo de dígito de chequeo."
+          "CTE principal: PS_AJ_BU_ITEM_UOM con AJ_STD_UOM_WMS = 'Y' y UNIT_OF_MEASURE = 'PQ'. CTE segundaria: PS_AJ_INVUOM_WMS con AJ_UOM_WMS = 'Y' y UNIT_OF_MEASURE = 'PQ'."
+      },
+      {
+        negocio: "Resolver la unidad priorizando la definición estándar de negocio.",
+        tecnica:
+          "uom = COALESCE(principal.UNIT_OF_MEASURE, segundaria.UNIT_OF_MEASURE); primero la definición de PS_AJ_BU_ITEM_UOM y como respaldo la habilitación WMS.",
+        nueva: true
+      },
+      {
+        negocio: "Generar un registro por cada tipo de código de barras del artículo.",
+        tecnica:
+          "STACK(2) para desdoblar en dos filas: EAN13 (AJ_EAN13) y UPC13 (AJ_UPC13), conservando el tipo en barcode_type. No se aplica algoritmo de dígito de chequeo."
       },
       {
         negocio: "Publicar solo códigos válidos y no vacíos.",
         tecnica:
-          "Filtros finales: UNIT_OF_MEASURE IS NOT NULL, vendor_barcode IS NOT NULL, vendor_barcode <> '0' y TRIM(vendor_barcode) <> ''."
+          "Filtros: UNIT_OF_MEASURE IS NOT NULL, vendor_barcode IS NOT NULL, vendor_barcode <> '0' y TRIM(vendor_barcode) <> ''."
+      },
+      {
+        negocio: "Resolver la duplicidad de EAN13 conservando un único artículo.",
+        tecnica:
+          "ROW_NUMBER particionado por vendor_barcode y ordenado por INV_ITEM_ID; se conserva unico = 1, es decir el artículo menor cuando un mismo código aplica a varios.",
+        nueva: true
+      },
+      {
+        negocio: "Evitar carga de códigos Barcode sin artículo asociado en PB3.",
+        tecnica:
+          "LEFT JOIN lkp_item_pb3 por barcode = INV_ITEM_ID y filtro final barcode_val IS NOT NULL: solo se publican los códigos cuyo artículo existe en el universo PB3.",
+        nueva: true
+      },
+      {
+        negocio: "Clasificar el registro como creación o actualización frente a PB3.",
+        tecnica:
+          "action_code = 'UPDATE' cuando el artículo ya existe en lkp_item_pb3; 'CREATE' en caso contrario.",
+        nueva: true
       },
       {
         negocio: "Mantener estándar de integración para cargue Oracle.",
         tecnica:
-          "Campos de salida parametrizados: company_code='DARNEL', action_code='CREATE', item_barcode=INV_ITEM_ID, uom=UNIT_OF_MEASURE."
-      },
-      {
-        negocio: "Resolver duplicidad de EAN13 entre artículos distintos para esta entrega.",
-        tecnica:
-          "Tratamiento temporal: excluir uno de los duplicados y enviar el restante; queda pendiente política definitiva de Darnel.",
-        nueva: true
-      },
-      {
-        negocio: "Evitar carga de códigos Barcode sin artículo asociado.",
-        tecnica:
-          "Validar existencia del artículo antes de generar y cargar el registro Barcode.",
-        nueva: true
+          "Campos de salida parametrizados: company_code = 'DARNEL', item_barcode = INV_ITEM_ID, uom desde la unidad resuelta; qty_per_uom y associated_pack_case_qty se envían vacíos."
       }
     ],
     tablas: [
@@ -1661,6 +1923,12 @@ const entidadDetalle = {
         tabla: "PS_AJ_INVUOM_WMS",
         registros: "247.054",
         uso: "Definición secundaria de UOM habilitada para WMS (fallback con COALESCE)."
+      },
+      {
+        tabla: "lkp_item_pb3",
+        registros: "Pendiente conteo",
+        uso: "Universo de artículos PB3 para validar existencia y determinar CREATE/UPDATE.",
+        nueva: true
       }
     ]
   },
@@ -1672,43 +1940,98 @@ const entidadDetalle = {
       "La plantilla PB2 contiene 24.410 ubicaciones, pero la carga está detenida hasta cerrar la definición del layout de bodega con Alexandra Duarte y Zaid.",
     reglas: [
       {
-        negocio: "Excluir ubicaciones de tipo no operativo para la plantilla final.",
-        tecnica: "Filtro final: WHERE l.type <> 'F'."
+        negocio: "Limpiar el identificador de ubicación antes de cualquier cálculo.",
+        tecnica:
+          "CTE cleaned: REGEXP_REPLACE sobre location_id y short_location_id eliminando espacios y caracteres NBSP ('[\\s\\u00A0]+').",
+        nueva: true
       },
       {
         negocio: "Clasificar cada ubicación según reglas logísticas de operación.",
         tecnica:
-          "CASE principal sobre l.type + segmentos de location_id (SPLIT) para derivar tipo objetivo: Q, D, P, S, R."
+          "CASE de type con 8 condiciones: M con prefijo 'R:' o Q → R; P o E → A; D u O con PUERTA/MUELLE/DOOR sin '-C' ni '-S' → D; O o S que no inicien en PUERTA → P; S con PUERTA/MUELLE y '-C' → S; R → Y; A con short_location_id → R; I o M → R. Si no cumple ninguna conserva el type original."
       },
       {
-        negocio: "Construir estructura física y jerárquica de la ubicación para el WMS.",
+        negocio: "Abreviar los nombres de área que superan la longitud permitida.",
         tecnica:
-          "Segmentación de location_id para area, bay, level, position y bin; uso de short_location_id para aisle."
+          "Cuando el location_id no tiene ':' se reemplaza MUELLE por ML, ESTA por STG y PUERTA por PTA; en caso contrario area = SPLIT(location_id, ':')[0].",
+        nueva: true
       },
       {
-        negocio: "Determinar tipo de tamaño de ubicación con criterios de almacenamiento.",
+        negocio: "Construir la estructura física y jerárquica de la ubicación.",
         tecnica:
-          "CASE de locn_size_type por nivel, pick_area y prefijos de location_id (ESTANTERIA, CANTILIEVER, PATIO, FORWARDPICK, PISO)."
+          "aisle = short_location_id o '1'; bay = SPLIT[1] o '1'; level = SPLIT[2] si inicia en N o W, si no SPLIT[3], o '1' cuando no hay segmentación."
       },
       {
-        negocio: "Traer capacidades de replenishment para ubicaciones forward pick.",
+        negocio: "Separar posición y bin en las ubicaciones de picking.",
         tecnica:
-          "LEFT JOIN dbo.t_fwd_pick_bse f ON l.location_id = f.location_id para min_units y max_units."
+          "Si type = 'P' y SPLIT[4] inicia en 'P': position toma el primer carácter y bin el resto de la cadena. En las demás ubicaciones position = SPLIT[4] y bin queda vacío.",
+        nueva: true
+      },
+      {
+        negocio: "Determinar el tipo de tamaño de ubicación con criterios de almacenamiento.",
+        tecnica:
+          "CASE de locn_size_type: R → vacío; TANQ1 sin short_location_id → PATIO; type P → FORWARDPICK; LAM1/PLASTIC1/PERFILERIA → CANTILIEVER; TERMO1 o área ESTA% → PISO; nivel N1 → ESTANTERIA1; nivel distinto de N1 → ESTANTERIA."
+      },
+      {
+        negocio: "Traer un único registro de forward pick por ubicación.",
+        tecnica:
+          "LEFT JOIN a dbo.t_fwd_pick_bse deduplicado con ROW_NUMBER particionado por location_id y ordenado por item_number (val1 = 1), para min_units, max_units e item_alternate_code.",
+        nueva: true
       },
       {
         negocio: "Definir regla de convivencia de SKUs por ubicación.",
-        tecnica: "allow_multi_sku = FALSE cuando l.type='I', en otro caso TRUE."
+        tecnica: "allow_multi_sku = FALSE cuando l.type = 'I', en otro caso TRUE."
       },
       {
-        negocio: "Mantener layout estandarizado de salida para cargue Oracle.",
+        negocio: "Marcar la zona de reabastecimiento en las ubicaciones de picking.",
         tecnica:
-          "Selección de columnas objetivo con placeholders ('') en campos no informados por origen."
+          "replenishment_zone_code = 'REABASTO' cuando el type de origen es 'P' o 'E'; vacío en el resto.",
+        nueva: true
+      },
+      {
+        negocio: "Bloquear las ubicaciones que no deben recibir asignación automática.",
+        tecnica:
+          "location_lock_code = 'LLEVAR_A_PUERTA' para O o S que no inicien en PUERTA; 'NO_ASIGNABLE' para M con prefijo 'R:' o type Q; vacío en el resto.",
+        nueva: true
+      },
+      {
+        negocio: "Identificar el origen de no conformidad en las ubicaciones de reempaque.",
+        tecnica:
+          "cust_field_1 = origen_no_conformidad desde ubicaciones_reempaque, cruzando id_bodega contra wh_id e id_ubicacion contra location_id (Álamos y Madrid).",
+        nueva: true
+      },
+      {
+        negocio: "Validar que el artículo asignado a la ubicación exista en el universo PB3.",
+        tecnica:
+          "LEFT JOIN lkp_item_pb3 por item_number del forward pick; el campo part_a_pb3 permite detectar ubicaciones con artículo inexistente en PB3.",
+        nueva: true
+      },
+      {
+        negocio: "Estandarizar la unidad de volumen de la ubicación.",
+        tecnica: "volume_uom_code fijo en 'MT3'; min_volume en '0' y max_volume desde capacity_volume.",
+        nueva: true
+      },
+      {
+        negocio: "Excluir los tipos de ubicación fuera del alcance.",
+        tecnica:
+          "WHERE type NOT IN ('F','Y','T') y se descartan las ubicaciones type 'A' sin short_location_id.",
+        nueva: true
+      },
+      {
+        negocio: "Excluir las puertas y muelles marcados como salida.",
+        tecnica:
+          "Se descartan los location_id que contienen PUERTA o MUELLE junto con el sufijo '-S'.",
+        nueva: true
       },
       {
         negocio: "Excluir ubicaciones fuera del alcance operativo para Oracle.",
         tecnica:
-          "Excluir facility_code distintos de 01/05, ubicaciones de estiba, prefijo TRANS, lista de ubicaciones erróneas/no usadas y zona WIP.",
-        nueva: true
+          "Solo bodegas 01 y 05; se descartan los prefijos ES-, ESTIBA, TRANS y Clasificacion, más una lista explícita de 15 ubicaciones erróneas o no usadas (incluye Zona Wip y AUDITORIA-P)."
+      },
+      {
+        negocio: "Mantener layout estandarizado de salida para cargue Oracle.",
+        tecnica:
+          "Selección de columnas objetivo con placeholders ('') en los campos no informados por el origen, entre ellos putaway_seq, pendiente de parametrización."
       }
     ],
     tablas: [
@@ -1720,7 +2043,19 @@ const entidadDetalle = {
       {
         tabla: "dbo.t_fwd_pick_bse",
         registros: "2.350",
-        uso: "Atributos de forward pick: mínimos y máximos de reposición por ubicación."
+        uso: "Atributos de forward pick: mínimos y máximos de reposición y artículo por ubicación."
+      },
+      {
+        tabla: "ubicaciones_reempaque",
+        registros: "Pendiente conteo",
+        uso: "Relación de bodega, ubicación y origen de no conformidad para cust_field_1.",
+        nueva: true
+      },
+      {
+        tabla: "lkp_item_pb3",
+        registros: "Pendiente conteo",
+        uso: "Universo de artículos PB3 para validar el item asignado a la ubicación.",
+        nueva: true
       }
     ]
   }
@@ -1732,10 +2067,21 @@ function App() {
     { id: "general", label: "General" },
     { id: "transversales", label: "Transversales" },
     { id: "metodologia", label: "Metodología" },
+    { id: "brief", label: "Brief PB3" },
     { id: "items", label: "Items" },
     { id: "barcode", label: "Barcode" },
     { id: "locations", label: "Locations" }
   ];
+  const nf = (valor) => valor.toLocaleString("es-CO");
+  const totalFuentes = briefFuentes.reduce((acc, f) => acc + f.registros, 0);
+  const maxFuente = Math.max(...briefFuentes.map((f) => f.registros));
+  const totalSalidaPb3 = briefSalida.reduce((acc, s) => acc + s.pb3, 0);
+  const totalSalidaPb2 = briefSalida.reduce((acc, s) => acc + s.pb2, 0);
+  const maxSalida = Math.max(...briefSalida.map((s) => s.pb3));
+  const totalReglas = briefSalida.reduce((acc, s) => acc + s.reglas, 0);
+  const totalReglasNuevas = briefSalida.reduce((acc, s) => acc + s.reglasNuevas, 0);
+  const tasaConversion = (totalSalidaPb3 / totalFuentes) * 100;
+  const plantillasCargadas = briefSalida.filter((s) => s.estadoCargue === "cargado").length;
   const detalle = entidadDetalle[tabActiva];
   const bloquesFlujo = [frameworkCarga.slice(0, 5), frameworkCarga.slice(5, 10)];
   const hitosJunioJulio = hitosClave.filter(
@@ -2056,12 +2402,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-13-17-julio" open>
+          <details className="card week-card" id="semana-13-17-julio">
             <summary>
               <h2>WMS PB3 - Avances y pendientes semana 13 al 17 de julio</h2>
             </summary>
             <div className="task-list">
               {semana13a17Julio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-21-24-julio" open>
+            <summary>
+              <h2>WMS - ERP - Avances semana 21 al 24 de julio</h2>
+            </summary>
+            <div className="task-list">
+              {semana21a24Julio.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
@@ -2560,6 +2920,421 @@ function App() {
         </>
       )}
 
+      {tabActiva === "brief" && (
+        <>
+          <section className="card brief-hero">
+            <p className="method-eyebrow">Cargue WMS · PB3 — SIT</p>
+            <h2>Definición de datos WMS: reglas vs integraciones</h2>
+            <p>
+              Punto de partida para el plan 360 de pruebas en PB3 y su posterior
+              ejecución en UAT. Consolida el estado real de las tres plantillas de
+              carga, las reglas de negocio aplicadas y la cobertura de integraciones.
+            </p>
+            <p className="brief-corte">Corte: {briefCorte}</p>
+          </section>
+
+          <section className="card">
+            <h2>Indicadores del cargue</h2>
+            <div className="entity-kpis">
+              <article className="kpi-card">
+                <small>Tablas fuente</small>
+                <strong>{briefFuentes.length}</strong>
+                <span className="kpi-foot">+ {briefLookups.length} de lookup no contabilizadas</span>
+              </article>
+              <article className="kpi-card">
+                <small>Registros en origen</small>
+                <strong>{nf(totalFuentes)}</strong>
+                <span className="kpi-foot">Suma de las {briefFuentes.length} tablas fuente</span>
+              </article>
+              <article className="kpi-card">
+                <small>Registros de salida</small>
+                <strong>{nf(totalSalidaPb3)}</strong>
+                <span className="kpi-foot">{briefSalida.length} plantillas de carga</span>
+              </article>
+              <article className="kpi-card">
+                <small>Tasa de conversión</small>
+                <strong>{tasaConversion.toFixed(2)}%</strong>
+                <span className="kpi-foot">Origen depurado hasta plantilla final</span>
+              </article>
+              <article className="kpi-card">
+                <small>Reglas de negocio</small>
+                <strong>{totalReglas}</strong>
+                <span className="kpi-foot">{totalReglasNuevas} nuevas o redefinidas en PB3</span>
+              </article>
+              <article className="kpi-card">
+                <small>Integraciones Oracle</small>
+                <strong>{briefIntegraciones.total}</strong>
+                <span className="kpi-foot">
+                  {briefIntegraciones.entregadas} entregada · {briefIntegraciones.pendientesValidacion} por validar
+                </span>
+              </article>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Estado de cargue a WMS</h2>
+            <p className="entity-summary">
+              A cierre del {briefCorte}, {plantillasCargadas} de {briefSalida.length} plantillas
+              fueron cargadas exitosamente a WMS.
+            </p>
+            <div className="load-grid">
+              {briefSalida.map((fila) => (
+                <article
+                  className={`load-card ${fila.estadoCargue}`}
+                  key={`load-${fila.plantilla}`}
+                >
+                  <div className="load-card-head">
+                    <span className="load-icon">{fila.estadoCargue === "cargado" ? "✓" : "!"}</span>
+                    <h3>{fila.plantilla}</h3>
+                  </div>
+                  <strong className="load-qty">{nf(fila.pb3)}</strong>
+                  <span className={`tag ${fila.estadoCargue === "cargado" ? "completado" : "pendiente"}`}>
+                    {fila.estadoCargue === "cargado" ? "Cargado en WMS" : "Pendiente de cargue"}
+                  </span>
+                </article>
+              ))}
+            </div>
+            <div className="brief-callout">
+              <span>Bloqueo</span>
+              <p>{briefCargueNota}</p>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Del origen a la plantilla</h2>
+            <p className="entity-summary">
+              De {nf(totalFuentes)} registros en las tablas fuente se publican {nf(totalSalidaPb3)} a
+              las plantillas de carga: el {tasaConversion.toFixed(2)}% del volumen original.
+            </p>
+            <div className="funnel">
+              <div className="funnel-step">
+                <div className="funnel-bar origen" style={{ width: "100%" }}>
+                  <span>{nf(totalFuentes)}</span>
+                </div>
+                <small>Registros en las {briefFuentes.length} tablas fuente</small>
+              </div>
+              <div className="funnel-step">
+                <div
+                  className="funnel-bar salida"
+                  style={{ width: `${Math.max(tasaConversion, 1.5)}%` }}
+                >
+                  <span>{nf(totalSalidaPb3)}</span>
+                </div>
+                <small>
+                  Registros publicados tras exclusiones, deduplicación, integridad referencial y
+                  normalización
+                </small>
+              </div>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Volumetría de tablas fuente</h2>
+            <div className="table-wrap">
+              <table className="brief-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tabla fuente</th>
+                    <th>Registros</th>
+                    <th>Peso relativo</th>
+                    <th>Plantilla destino</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {briefFuentes.map((fila, indice) => (
+                    <tr key={fila.tabla}>
+                      <td>{indice + 1}</td>
+                      <td className="mono">{fila.tabla}</td>
+                      <td className="num">{nf(fila.registros)}</td>
+                      <td>
+                        <div className="bar-track">
+                          <div
+                            className="bar-fill"
+                            style={{ width: `${(fila.registros / maxFuente) * 100}%` }}
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        {fila.destino.map((destino) => (
+                          <span className={`dest-chip ${destino.toLowerCase()}`} key={destino}>
+                            {destino}
+                          </span>
+                        ))}
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className="total-row">
+                    <td />
+                    <td>TOTAL</td>
+                    <td className="num">{nf(totalFuentes)}</td>
+                    <td colSpan={2} />
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <h3 className="subsection-title">Tablas de control y referencia (no contabilizadas)</h3>
+            <div className="grid">
+              {briefLookups.map((fila) => (
+                <article className="subcard" key={fila.tabla}>
+                  <h3 className="mono">{fila.tabla}</h3>
+                  <p>{fila.uso}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Plantillas de salida y comparativo con PB2</h2>
+            <div className="table-wrap">
+              <table className="brief-table">
+                <thead>
+                  <tr>
+                    <th>Plantilla</th>
+                    <th>PB2</th>
+                    <th>PB3</th>
+                    <th>Variación</th>
+                    <th>Volumen PB3</th>
+                    <th>Fuentes</th>
+                    <th>Reglas</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {briefSalida.map((fila) => {
+                    const delta = fila.pb3 - fila.pb2;
+                    const pct = (delta / fila.pb2) * 100;
+                    return (
+                      <tr key={`out-${fila.plantilla}`}>
+                        <td><strong>{fila.plantilla}</strong></td>
+                        <td className="num">{nf(fila.pb2)}</td>
+                        <td className="num">{nf(fila.pb3)}</td>
+                        <td className="num">
+                          <span className={`delta ${delta >= 0 ? "up" : "down"}`}>
+                            {delta >= 0 ? "+" : ""}
+                            {nf(delta)} ({pct >= 0 ? "+" : ""}
+                            {pct.toFixed(2)}%)
+                          </span>
+                        </td>
+                        <td>
+                          <div className="bar-track">
+                            <div
+                              className="bar-fill salida"
+                              style={{ width: `${(fila.pb3 / maxSalida) * 100}%` }}
+                            />
+                          </div>
+                        </td>
+                        <td className="num">{fila.fuentes}</td>
+                        <td className="num">
+                          {fila.reglas} <small className="reglas-nuevas">({fila.reglasNuevas} nuevas)</small>
+                        </td>
+                        <td>
+                          <span
+                            className={`tag ${fila.estadoCargue === "cargado" ? "completado" : "pendiente"}`}
+                          >
+                            {fila.estadoCargue === "cargado" ? "Cargado" : "Pendiente"}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  <tr className="total-row">
+                    <td>TOTAL</td>
+                    <td className="num">{nf(totalSalidaPb2)}</td>
+                    <td className="num">{nf(totalSalidaPb3)}</td>
+                    <td className="num">
+                      <span className="delta up">
+                        +{nf(totalSalidaPb3 - totalSalidaPb2)} (+
+                        {(((totalSalidaPb3 - totalSalidaPb2) / totalSalidaPb2) * 100).toFixed(2)}%)
+                      </span>
+                    </td>
+                    <td />
+                    <td className="num">{briefFuentes.length}</td>
+                    <td className="num">{totalReglas}</td>
+                    <td />
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Reglas de negocio aplicadas</h2>
+            <p className="entity-summary">
+              {totalReglas} reglas documentadas sobre las tres plantillas, de las cuales{" "}
+              {totalReglasNuevas} ({((totalReglasNuevas / totalReglas) * 100).toFixed(0)}%) son
+              nuevas o fueron redefinidas para PB3.
+            </p>
+            <div className="rules-chart">
+              {briefSalida.map((fila) => (
+                <div className="rules-row" key={`rules-${fila.plantilla}`}>
+                  <span className="rules-label">{fila.plantilla}</span>
+                  <div className="rules-track">
+                    <div
+                      className="rules-seg nuevas"
+                      style={{ width: `${(fila.reglasNuevas / totalReglas) * 100 * 1.6}%` }}
+                      title={`${fila.reglasNuevas} nuevas en PB3`}
+                    >
+                      {fila.reglasNuevas}
+                    </div>
+                    <div
+                      className="rules-seg heredadas"
+                      style={{
+                        width: `${((fila.reglas - fila.reglasNuevas) / totalReglas) * 100 * 1.6}%`
+                      }}
+                      title={`${fila.reglas - fila.reglasNuevas} heredadas de PB1/PB2`}
+                    >
+                      {fila.reglas - fila.reglasNuevas}
+                    </div>
+                  </div>
+                  <span className="rules-total">{fila.reglas}</span>
+                </div>
+              ))}
+            </div>
+            <div className="rules-legend">
+              <span><i className="swatch nuevas" /> Nuevas o redefinidas en PB3</span>
+              <span><i className="swatch heredadas" /> Heredadas de PB1/PB2</span>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Cobertura de integraciones</h2>
+            <p className="entity-summary">
+              {briefIntegraciones.total} integraciones desarrolladas por Oracle. Solo la INT 13/19/32
+              ha sido solicitada y entregada por el frente de datos; las demás quedan pendientes de
+              validación y priorización.
+            </p>
+            <div className="grid">
+              <article className="subcard">
+                <h3>Por flujo</h3>
+                {briefIntegraciones.flujos.map((fila) => (
+                  <div className="mini-bar-row" key={fila.nombre}>
+                    <span>{fila.nombre}</span>
+                    <div className="mini-bar-track">
+                      <div
+                        className={`mini-bar-fill ${fila.tono}`}
+                        style={{ width: `${(fila.cantidad / briefIntegraciones.total) * 100}%` }}
+                      />
+                    </div>
+                    <strong>{fila.cantidad}</strong>
+                  </div>
+                ))}
+              </article>
+              <article className="subcard">
+                <h3>Por plantilla de datos</h3>
+                {briefIntegraciones.plantilla.map((fila) => (
+                  <div className="mini-bar-row" key={fila.nombre}>
+                    <span>{fila.nombre}</span>
+                    <div className="mini-bar-track">
+                      <div
+                        className={`mini-bar-fill ${fila.tono}`}
+                        style={{ width: `${(fila.cantidad / briefIntegraciones.total) * 100}%` }}
+                      />
+                    </div>
+                    <strong>{fila.cantidad}</strong>
+                  </div>
+                ))}
+              </article>
+              <article className="subcard">
+                <h3>Por datos de muestra</h3>
+                {briefIntegraciones.muestra.map((fila) => (
+                  <div className="mini-bar-row" key={fila.nombre}>
+                    <span>{fila.nombre}</span>
+                    <div className="mini-bar-track">
+                      <div
+                        className={`mini-bar-fill ${fila.tono}`}
+                        style={{ width: `${(fila.cantidad / briefIntegraciones.total) * 100}%` }}
+                      />
+                    </div>
+                    <strong>{fila.cantidad}</strong>
+                  </div>
+                ))}
+              </article>
+            </div>
+            <h3 className="subsection-title">Detalle por integración</h3>
+            <div className="table-wrap">
+              <table className="brief-table">
+                <thead>
+                  <tr>
+                    <th>INT</th>
+                    <th>Integración</th>
+                    <th>Flujo</th>
+                    <th>Plantilla</th>
+                    <th>Muestra</th>
+                    <th>Estado frente de datos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {briefIntegracionesDetalle.map((fila) => (
+                    <tr key={fila.nombre}>
+                      <td className="mono">{fila.int}</td>
+                      <td>{fila.nombre}</td>
+                      <td className="nowrap">{fila.flujo}</td>
+                      <td>
+                        <span className={`pill-state ${fila.plantilla}`}>
+                          {fila.plantilla === "completa"
+                            ? "Completa"
+                            : fila.plantilla === "parcial"
+                            ? "Parcial"
+                            : "Sin diseño"}
+                        </span>
+                      </td>
+                      <td className="center">{fila.muestra ? "Sí" : "—"}</td>
+                      <td>
+                        <span
+                          className={`tag ${
+                            fila.estado === "entregado"
+                              ? "completado"
+                              : fila.estado === "sin"
+                              ? "dependencia"
+                              : "pendiente"
+                          }`}
+                        >
+                          {fila.estado === "entregado"
+                            ? "Entregado"
+                            : fila.estado === "sin"
+                            ? "Sin alcance"
+                            : "Por validar"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Consideraciones generales</h2>
+            <div className="task-list">
+              {briefConsideraciones.map((texto) => (
+                <div className="task-item" key={texto}>
+                  <p>{texto}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Bloqueos y riesgos para el plan 360</h2>
+            <p className="entity-summary">
+              Puntos que deben resolverse o aceptarse como riesgo antes de cerrar el alcance de
+              pruebas de PB3 y habilitar UAT.
+            </p>
+            <div className="blocker-grid">
+              {briefBloqueos.map((fila, indice) => (
+                <article className="blocker-card" key={fila.titulo}>
+                  <span>{indice + 1}</span>
+                  <strong>{fila.titulo}</strong>
+                  <p className="blocker-impact">{fila.impacto}</p>
+                  <p>{fila.detalle}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
       {tabActiva !== "general" && detalle && (
         <>
           <section className="card">
@@ -2590,8 +3365,11 @@ function App() {
                 </thead>
                 <tbody>
                   {detalle.tablas.map((fila) => (
-                    <tr key={fila.tabla}>
-                      <td>{fila.tabla}</td>
+                    <tr key={fila.tabla} className={fila.nueva ? "rule-new-row" : ""}>
+                      <td>
+                        {fila.tabla}
+                        {fila.nueva && <span className="rule-new-badge">Nueva</span>}
+                      </td>
                       <td>{fila.registros}</td>
                       <td>{fila.uso}</td>
                     </tr>

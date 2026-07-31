@@ -116,6 +116,12 @@ const hitosClave = [
     titulo: "WMS y ERP: validación de items y fuentes",
     detalle: "Validación de novedades sobre 45 items con Julián y, en el frente ERP, acompañamiento a la unificación de UoM e identificación del catálogo de fuentes de datos.",
     anchor: "semana-21-24-julio"
+  },
+  {
+    fecha: "27-31 Jul",
+    titulo: "Reportes, maestros WMS y arquitectura medallion",
+    detalle: "Mapeo de fuentes de reportes e indicadores con Jairo Ibáñez, 50% de avance en la parametría y optimización del pipeline de los 3 maestros de migración y propuesta de llevarlo a la arquitectura medallion oficial de Darnel.",
+    anchor: "semana-27-31-julio"
   }
 ];
 
@@ -888,6 +894,39 @@ const semana21a24Julio = [
   }
 ];
 
+const semana27a31Julio = [
+  {
+    texto:
+      "Reportes e indicadores: alineación con Jairo Ibáñez para mapear las fuentes que hoy nutren las métricas y reportes de WMS, con el fin de estar preparados para dar continuidad a su actualización cuando entre en operación el nuevo WMS.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Reportes e indicadores: validaciones a nivel de arquitectura sobre el retorno de información WMS – ERP.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Maestros WMS: 50% de avance en el alcance y la optimización del pipeline para que la migración sea escalable a cualquier región, aplicado en la lógica de extracción de los 3 maestros de migración WMS.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Maestros WMS: propuesta de implementación del pipeline de maestros de migración WMS sobre la arquitectura medallion \"oficial\" de Darnel.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Observación — Cargue WMS: la plantilla de ubicaciones aún no ha sido cargada. Se generaron nuevas definiciones que deben actualizarse en la extracción y en la plantilla; con esos ajustes se entregarán las nuevas plantillas para el cargue.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Observación — Integraciones: a la fecha se ha recibido 1 solicitud de generación de datos, gestionada a través del workspace asignado para la migración; los datos ya fueron remitidos.",
+    estado: "completado"
+  }
+];
+
 const elementosTransversales = [
   "Asistencia a talleres de familiarización para identificar inventario de datos ERP.",
   "Habilitar datos en ambientes de prueba para integraciones.",
@@ -1054,7 +1093,7 @@ const briefSalida = [
 ];
 
 const briefCargueNota =
-  'El equipo de Oracle manifiesta: "se está revisando un escenario con Darnel, con el cierre de esa prueba nos dan el visto bueno para el plan de acción del cargue de ubicaciones".';
+  "La plantilla de ubicaciones aún no ha sido cargada: se generaron nuevas definiciones que deben actualizarse en la extracción y en la plantilla. Con esos ajustes se entregarán las nuevas plantillas para el cargue (actualización semana 27-31 jul).";
 
 const briefConsideraciones = [
   "Las tablas fuente fueron previamente depuradas por el usuario funcional para eliminar datos basura detectados durante las fases de exploración y validación de la información.",
@@ -1103,10 +1142,10 @@ const briefIntegracionesDetalle = [
 
 const briefBloqueos = [
   {
-    titulo: "Cargue de Ubicaciones detenido",
+    titulo: "Cargue de Ubicaciones pendiente de replantilla",
     impacto: "Bloquea el plan 360",
     detalle:
-      "24.503 registros listos y validados, sin cargar a WMS. Oracle condiciona el visto bueno al cierre de un escenario en revisión con Darnel. Sin Ubicaciones no se pueden probar los flujos de recepción, putaway ni picking."
+      "La plantilla de ubicaciones aún no se carga a WMS. Se generaron nuevas definiciones que deben actualizarse en la extracción y en la plantilla; con esos ajustes se entregarán las nuevas plantillas para el cargue. Sin Ubicaciones no se pueden probar los flujos de recepción, putaway ni picking."
   },
   {
     titulo: "Retroalimentación de inventarios sin diseño",
@@ -2430,12 +2469,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-21-24-julio" open>
+          <details className="card week-card" id="semana-21-24-julio">
             <summary>
               <h2>WMS - ERP - Avances semana 21 al 24 de julio</h2>
             </summary>
             <div className="task-list">
               {semana21a24Julio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-27-31-julio" open>
+            <summary>
+              <h2>Reportes - Maestros WMS - Avances semana 27 al 31 de julio</h2>
+            </summary>
+            <div className="task-list">
+              {semana27a31Julio.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

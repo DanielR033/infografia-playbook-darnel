@@ -122,6 +122,18 @@ const hitosClave = [
     titulo: "Reportes, maestros WMS y arquitectura medallion",
     detalle: "Mapeo de fuentes de reportes e indicadores con Jairo Ibáñez, 50% de avance en la parametría y optimización del pipeline de los 3 maestros de migración y propuesta de llevarlo a la arquitectura medallion oficial de Darnel.",
     anchor: "semana-27-31-julio"
+  },
+  {
+    fecha: "03-06 Ago",
+    titulo: "Maestros WMS: pipeline al 90% y motor lookup",
+    detalle: "90% de avance en la parametría del pipeline de los 3 maestros, construcción del motor de ingesta de archivos lookup en OneLake y avance en el cargue de la plantilla de ubicaciones, a la espera del OK de Alexandra D.",
+    anchor: "semana-03-06-agosto"
+  },
+  {
+    fecha: "10-14 Ago",
+    titulo: "Pipeline al 100%, reglas de ubicaciones e idempotencia ERP",
+    detalle: "100% de avance en la parametría del pipeline de los 3 maestros, nuevas reglas de ubicaciones (WIP y columnas task_zone_code/putaway_seq) y planteamiento de idempotencia con cargas incrementales para las fuentes ERP; plantilla de ubicaciones aprobada por Alexandra con novedades de forma pendientes.",
+    anchor: "semana-10-14-agosto"
   }
 ];
 
@@ -908,7 +920,7 @@ const semana27a31Julio = [
   {
     texto:
       "Maestros WMS: 50% de avance en el alcance y la optimización del pipeline para que la migración sea escalable a cualquier región, aplicado en la lógica de extracción de los 3 maestros de migración WMS.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
@@ -918,11 +930,77 @@ const semana27a31Julio = [
   {
     texto:
       "Observación — Cargue WMS: la plantilla de ubicaciones aún no ha sido cargada. Se generaron nuevas definiciones que deben actualizarse en la extracción y en la plantilla; con esos ajustes se entregarán las nuevas plantillas para el cargue.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Observación — Integraciones: a la fecha se ha recibido 1 solicitud de generación de datos, gestionada a través del workspace asignado para la migración; los datos ya fueron remitidos.",
+    estado: "completado"
+  }
+];
+
+const semana03a06Agosto = [
+  {
+    texto:
+      "Maestros WMS: 90% de avance en el alcance y la optimización del pipeline para que la migración sea escalable a cualquier región, aplicado en la lógica de extracción de los 3 maestros de migración WMS.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Maestros WMS: construcción del \"motor\" de ingesta de archivos lookup para la generación de tablas en el OneLake y su adhesión al pipeline principal de los 3 maestros de migración WMS.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Maestros WMS: propuesta de implementación del pipeline de maestros de migración WMS sobre la arquitectura medallion \"oficial\" de Darnel — pendiente agendar con el equipo de analítica de Darnel.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Observación — Cargue WMS (ubicaciones): el 31-07 se realiza sesión de nuevas reglas con el equipo funcional y negocio, implementadas en la lógica de extracción y confirmada nueva extracción el 03-08. El 05-08 Alexandra D. envía observaciones sobre la plantilla, que fueron subsanadas y se confirma nuevamente la extracción y generación de la plantilla. Oracle se encuentra a la espera del OK por parte de Alexandra.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Observación — Integraciones: a la fecha se ha recibido 1 solicitud de generación de datos, gestionada a través del workspace asignado para la migración; los datos ya fueron remitidos.",
+    estado: "completado"
+  }
+];
+
+const semana10a14Agosto = [
+  {
+    texto:
+      "Maestros WMS: 100% de avance en el alcance y la optimización del pipeline para que la migración sea escalable a cualquier región, aplicado en la lógica de extracción de los 3 maestros de migración WMS.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Maestros WMS: propuesta de implementación del pipeline de maestros de migración WMS sobre la arquitectura medallion \"oficial\" de Darnel — pendiente agendar con el equipo de analítica de Darnel.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Maestros WMS: implementación de nuevas reglas en la plantilla de ubicaciones — ubicaciones de tipo WIP, con alcance en la lógica de generación de las columnas aisle, bay, level y position.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Maestros WMS: alcance en la lógica para la generación de las columnas \"task_zone_code\" y \"putaway_seq\" en la plantilla de ubicaciones.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "ERP: planteamiento de resolución de idempotencia con cargas incrementales para la transaccionalidad de las fuentes ERP.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Observación — Cargue WMS (ubicaciones): Alexandra aprobó y confirmó la consistencia de los datos en la extracción de la plantilla el 10-08; el 12-08 Yaiza, del equipo Oracle, reportó novedades de forma. A la fecha no se ha recibido retroalimentación del cargue ni la resolución de las novedades o la definición de nuevas reglas.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Observación — Integraciones: a la fecha se ha recibido 1 solicitud de generación de datos, gestionada a través del workspace asignado para la migración; los datos ya fueron remitidos. Se establecerá contacto con Tomás debido a un comentario en el comité técnico.",
     estado: "completado"
   }
 ];
@@ -1086,14 +1164,14 @@ const briefSalida = [
     pb2: 24410,
     pb3: 24503,
     estadoCargue: "pendiente",
-    reglas: 17,
-    reglasNuevas: 11,
+    reglas: 19,
+    reglasNuevas: 13,
     fuentes: 3
   }
 ];
 
 const briefCargueNota =
-  "La plantilla de ubicaciones aún no ha sido cargada: se generaron nuevas definiciones que deben actualizarse en la extracción y en la plantilla. Con esos ajustes se entregarán las nuevas plantillas para el cargue (actualización semana 27-31 jul).";
+  "Plantilla de ubicaciones aprobada por negocio: Alexandra D. confirmó la consistencia de los datos el 10-08. El 12-08 Yaiza (equipo Oracle) reportó novedades de forma. A la fecha no se ha recibido retroalimentación del cargue ni la resolución de las novedades o definición de nuevas reglas (actualización semana 10-14 ago).";
 
 const briefConsideraciones = [
   "Las tablas fuente fueron previamente depuradas por el usuario funcional para eliminar datos basura detectados durante las fases de exploración y validación de la información.",
@@ -1142,10 +1220,10 @@ const briefIntegracionesDetalle = [
 
 const briefBloqueos = [
   {
-    titulo: "Cargue de Ubicaciones pendiente de replantilla",
+    titulo: "Cargue de Ubicaciones aprobado, con novedades de forma",
     impacto: "Bloquea el plan 360",
     detalle:
-      "La plantilla de ubicaciones aún no se carga a WMS. Se generaron nuevas definiciones que deben actualizarse en la extracción y en la plantilla; con esos ajustes se entregarán las nuevas plantillas para el cargue. Sin Ubicaciones no se pueden probar los flujos de recepción, putaway ni picking."
+      "Alexandra D. aprobó la consistencia de los datos el 10-08. El 12-08 Yaiza (equipo Oracle) reportó novedades de forma; a la fecha no hay retroalimentación del cargue ni resolución de esas novedades. Sin Ubicaciones cargadas no se pueden probar los flujos de recepción, putaway ni picking."
   },
   {
     titulo: "Retroalimentación de inventarios sin diseño",
@@ -1172,10 +1250,10 @@ const briefBloqueos = [
       "product_life y percent_acceptable_product_life se alimentan desde un Excel de negocio. No existe query que los reproduzca, por lo que su calidad depende de un proceso manual."
   },
   {
-    titulo: "putaway_seq pendiente de parametrización",
-    impacto: "Campo vacío en la plantilla",
+    titulo: "Reglas de ubicaciones recién implementadas sin verificar en cargue",
+    impacto: "Riesgo de reproceso",
     detalle:
-      "La plantilla de Ubicaciones envía putaway_seq en blanco. Falta la definición funcional y el archivo con la relación de ubicación y valor."
+      "En la semana 10-14 ago se incorporó la lógica de generación de task_zone_code, putaway_seq y de las columnas aisle/bay/level/position para ubicaciones WIP. Estas reglas nuevas aún no se han validado contra un cargue real en WMS."
   }
 ];
 
@@ -1982,7 +2060,7 @@ const entidadDetalle = {
     pb3: 24503,
     estadoCargue: "pendiente",
     resumen:
-      "La plantilla PB3 contiene 24.503 ubicaciones validadas, tras aplicar 17 reglas de negocio (11 nuevas para PB3). El cargue está detenido: Oracle condiciona el visto bueno al cierre de un escenario en revisión con Darnel.",
+      "La plantilla PB3 contiene 24.503 ubicaciones validadas, tras aplicar 17 reglas de negocio (11 nuevas para PB3). Alexandra D. aprobó la consistencia de los datos el 10-08; el 12-08 Oracle reportó novedades de forma que están a la espera de resolución antes del cargue.",
     reglas: [
       {
         negocio: "Limpiar el identificador de ubicación antes de cualquier cálculo.",
@@ -2074,9 +2152,21 @@ const entidadDetalle = {
           "Solo bodegas 01 y 05; se descartan los prefijos ES-, ESTIBA, TRANS y Clasificacion, más una lista explícita de 15 ubicaciones erróneas o no usadas (incluye Zona Wip y AUDITORIA-P)."
       },
       {
+        negocio: "Generar aisle, bay, level y position en las ubicaciones de tipo WIP.",
+        tecnica:
+          "Nueva regla (semana 10-14 ago): alcance en la lógica de segmentación de aisle, bay, level y position para las ubicaciones WIP. Pendiente reflejar el detalle desde el query actualizado.",
+        nueva: true
+      },
+      {
+        negocio: "Generar las columnas task_zone_code y putaway_seq por lógica.",
+        tecnica:
+          "Nueva regla (semana 10-14 ago): task_zone_code y putaway_seq pasan de enviarse en blanco a generarse por lógica definida con negocio. Pendiente reflejar el detalle desde el query actualizado.",
+        nueva: true
+      },
+      {
         negocio: "Mantener layout estandarizado de salida para cargue Oracle.",
         tecnica:
-          "Selección de columnas objetivo con placeholders ('') en los campos no informados por el origen, entre ellos putaway_seq, pendiente de parametrización."
+          "Selección de columnas objetivo con placeholders ('') en los campos aún no informados por el origen."
       }
     ],
     tablas: [
@@ -2138,7 +2228,10 @@ function App() {
   const reglasNuevasEntidad = detalle ? detalle.reglas.filter((r) => r.nueva).length : 0;
   const bloquesFlujo = [frameworkCarga.slice(0, 5), frameworkCarga.slice(5, 10)];
   const hitosJunioJulio = hitosClave.filter(
-    (hito) => hito.fecha.includes("Jun") || hito.fecha.includes("Jul")
+    (hito) =>
+      hito.fecha.includes("Jun") ||
+      hito.fecha.includes("Jul") ||
+      hito.fecha.includes("Ago")
   );
 
   return (
@@ -2483,12 +2576,40 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-27-31-julio" open>
+          <details className="card week-card" id="semana-27-31-julio">
             <summary>
               <h2>Reportes - Maestros WMS - Avances semana 27 al 31 de julio</h2>
             </summary>
             <div className="task-list">
               {semana27a31Julio.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-03-06-agosto">
+            <summary>
+              <h2>Maestros WMS - Avances semana 3 al 6 de agosto</h2>
+            </summary>
+            <div className="task-list">
+              {semana03a06Agosto.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-10-14-agosto" open>
+            <summary>
+              <h2>Maestros WMS - ERP - Avances semana 10 al 14 de agosto</h2>
+            </summary>
+            <div className="task-list">
+              {semana10a14Agosto.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

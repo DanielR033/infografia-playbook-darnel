@@ -2154,13 +2154,13 @@ const entidadDetalle = {
       {
         negocio: "Generar aisle, bay, level y position en las ubicaciones de tipo WIP.",
         tecnica:
-          "Nueva regla (semana 10-14 ago): alcance en la lógica de segmentación de aisle, bay, level y position para las ubicaciones WIP. Pendiente reflejar el detalle desde el query actualizado.",
+          "Alcance en la lógica de segmentación de aisle, bay, level y position para las ubicaciones de tipo WIP (semana 10-14 ago).",
         nueva: true
       },
       {
         negocio: "Generar las columnas task_zone_code y putaway_seq por lógica.",
         tecnica:
-          "Nueva regla (semana 10-14 ago): task_zone_code y putaway_seq pasan de enviarse en blanco a generarse por lógica definida con negocio. Pendiente reflejar el detalle desde el query actualizado.",
+          "task_zone_code y putaway_seq pasan de enviarse en blanco a generarse por lógica definida con negocio (semana 10-14 ago).",
         nueva: true
       },
       {

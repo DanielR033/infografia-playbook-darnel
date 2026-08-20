@@ -134,6 +134,12 @@ const hitosClave = [
     titulo: "Pipeline al 100%, reglas de ubicaciones e idempotencia ERP",
     detalle: "100% de avance en la parametría del pipeline de los 3 maestros, nuevas reglas de ubicaciones (WIP y columnas task_zone_code/putaway_seq) y planteamiento de idempotencia con cargas incrementales para las fuentes ERP; plantilla de ubicaciones aprobada por Alexandra con novedades de forma pendientes.",
     anchor: "semana-10-14-agosto"
+  },
+  {
+    fecha: "18-21 Ago",
+    titulo: "Plantilla de inventarios PB3-UAT y cargue de ubicaciones",
+    detalle: "Arranque de la nueva plantilla de inventarios para PB3-UAT (empalme funcional, acceso a fuentes y cimientos), resolución de novedades del cargue de inventarios y alineación con Tomás García sobre poblado de datos de operación para pruebas de reportes.",
+    anchor: "semana-18-21-agosto"
   }
 ];
 
@@ -976,7 +982,7 @@ const semana10a14Agosto = [
   {
     texto:
       "Maestros WMS: propuesta de implementación del pipeline de maestros de migración WMS sobre la arquitectura medallion \"oficial\" de Darnel — pendiente agendar con el equipo de analítica de Darnel.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
@@ -996,12 +1002,65 @@ const semana10a14Agosto = [
   {
     texto:
       "Observación — Cargue WMS (ubicaciones): Alexandra aprobó y confirmó la consistencia de los datos en la extracción de la plantilla el 10-08; el 12-08 Yaiza, del equipo Oracle, reportó novedades de forma. A la fecha no se ha recibido retroalimentación del cargue ni la resolución de las novedades o la definición de nuevas reglas.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
       "Observación — Integraciones: a la fecha se ha recibido 1 solicitud de generación de datos, gestionada a través del workspace asignado para la migración; los datos ya fueron remitidos. Se establecerá contacto con Tomás debido a un comentario en el comité técnico.",
     estado: "completado"
+  }
+];
+
+const semana18a21Agosto = [
+  {
+    texto:
+      "Maestros WMS: empalme con el equipo funcional y de negocio sobre la nueva necesidad de una plantilla de inventarios para PB3-UAT.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Maestros WMS: solicitud de acceso a las fuentes de datos para la plantilla de inventarios.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Maestros WMS: avance en la configuración inicial y los cimientos para la nueva plantilla de inventarios.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Maestros WMS: propuesta de implementación del pipeline de maestros de migración WMS sobre la arquitectura medallion \"oficial\" de Darnel — pendiente agendar con el equipo de analítica de Darnel.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Observación — Cargue WMS (ubicaciones): el 14-08 Alexandra autorizó la consistencia y calidad de los datos de la plantilla de ubicaciones. Queda a la espera de la confirmación del cargue por parte de Zaid.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Observación — Cargue WMS (inventarios): el 17-08 Alexandra e Ileana confirman que se cargarán datos de inventarios para PB3 y que generaron manualmente una plantilla con un snapshot de datos; para el escenario UAT se desarrolla un proceso que automatiza la extracción con la lógica planteada.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Observación — Cargue WMS (inventarios): Zaid y Julián, del equipo de Oracle, remitieron novedades sobre el proceso de cargue de inventarios, las cuales fueron resueltas el 20-08.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Observación — Integraciones: a la fecha se ha recibido 1 solicitud de generación de datos, gestionada a través del workspace asignado para la migración; los datos ya fueron remitidos. Se establecerá contacto con Tomás debido a un comentario en el comité técnico.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Reportes: alineación con Tomás García sobre la necesidad de poblar el WMS con datos de operación para las pruebas de reportes.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Reportes: sesión con Oracle para el entendimiento de la integración con WMS para ingestar datos desde Fabric — agendada.",
+    estado: "programado"
   }
 ];
 
@@ -1171,7 +1230,7 @@ const briefSalida = [
 ];
 
 const briefCargueNota =
-  "Plantilla de ubicaciones aprobada por negocio: Alexandra D. confirmó la consistencia de los datos el 10-08. El 12-08 Yaiza (equipo Oracle) reportó novedades de forma. A la fecha no se ha recibido retroalimentación del cargue ni la resolución de las novedades o definición de nuevas reglas (actualización semana 10-14 ago).";
+  "Plantilla de ubicaciones autorizada: el 14-08 Alexandra D. dio el visto bueno a la consistencia y calidad de los datos. Queda a la espera de la confirmación del cargue por parte de Zaid. En paralelo arranca una nueva plantilla de inventarios para PB3-UAT (actualización semana 18-21 ago).";
 
 const briefConsideraciones = [
   "Las tablas fuente fueron previamente depuradas por el usuario funcional para eliminar datos basura detectados durante las fases de exploración y validación de la información.",
@@ -1220,10 +1279,10 @@ const briefIntegracionesDetalle = [
 
 const briefBloqueos = [
   {
-    titulo: "Cargue de Ubicaciones aprobado, con novedades de forma",
+    titulo: "Cargue de Ubicaciones autorizado, a la espera de Zaid",
     impacto: "Bloquea el plan 360",
     detalle:
-      "Alexandra D. aprobó la consistencia de los datos el 10-08. El 12-08 Yaiza (equipo Oracle) reportó novedades de forma; a la fecha no hay retroalimentación del cargue ni resolución de esas novedades. Sin Ubicaciones cargadas no se pueden probar los flujos de recepción, putaway ni picking."
+      "El 14-08 Alexandra D. autorizó la consistencia y calidad de los datos de la plantilla de ubicaciones. Queda a la espera de la confirmación del cargue por parte de Zaid. Sin Ubicaciones cargadas no se pueden probar los flujos de recepción, putaway ni picking."
   },
   {
     titulo: "Retroalimentación de inventarios sin diseño",
@@ -2060,7 +2119,7 @@ const entidadDetalle = {
     pb3: 24503,
     estadoCargue: "pendiente",
     resumen:
-      "La plantilla PB3 contiene 24.503 ubicaciones validadas, tras aplicar 17 reglas de negocio (11 nuevas para PB3). Alexandra D. aprobó la consistencia de los datos el 10-08; el 12-08 Oracle reportó novedades de forma que están a la espera de resolución antes del cargue.",
+      "La plantilla PB3 contiene 24.503 ubicaciones validadas, tras aplicar 19 reglas de negocio (13 nuevas para PB3). El 14-08 Alexandra D. autorizó la consistencia y calidad de los datos; la plantilla queda a la espera de la confirmación del cargue por parte de Zaid.",
     reglas: [
       {
         negocio: "Limpiar el identificador de ubicación antes de cualquier cálculo.",
@@ -2604,12 +2663,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-10-14-agosto" open>
+          <details className="card week-card" id="semana-10-14-agosto">
             <summary>
               <h2>Maestros WMS - ERP - Avances semana 10 al 14 de agosto</h2>
             </summary>
             <div className="task-list">
               {semana10a14Agosto.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-18-21-agosto" open>
+            <summary>
+              <h2>Maestros WMS - Reportes - Avances semana 18 al 21 de agosto</h2>
+            </summary>
+            <div className="task-list">
+              {semana18a21Agosto.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

@@ -140,6 +140,12 @@ const hitosClave = [
     titulo: "Plantilla de inventarios PB3-UAT y cargue de ubicaciones",
     detalle: "Arranque de la nueva plantilla de inventarios para PB3-UAT (empalme funcional, acceso a fuentes y cimientos), resolución de novedades del cargue de inventarios y alineación con Tomás García sobre poblado de datos de operación para pruebas de reportes.",
     anchor: "semana-18-21-agosto"
+  },
+  {
+    fecha: "24-28 Ago",
+    titulo: "Cargue WMS completado y documentación de entrega",
+    detalle: "Cargue de las 3 plantillas a WMS (Items y Barcode 100%, Ubicaciones 99,99%), plantilla de inventarios al 70%, documentación de entrega WMS y nuevas reglas de soporte de Playback 3.",
+    anchor: "semana-24-28-agosto"
   }
 ];
 
@@ -1025,22 +1031,22 @@ const semana18a21Agosto = [
   {
     texto:
       "Maestros WMS: avance en la configuración inicial y los cimientos para la nueva plantilla de inventarios.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
       "Maestros WMS: propuesta de implementación del pipeline de maestros de migración WMS sobre la arquitectura medallion \"oficial\" de Darnel — pendiente agendar con el equipo de analítica de Darnel.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Observación — Cargue WMS (ubicaciones): el 14-08 Alexandra autorizó la consistencia y calidad de los datos de la plantilla de ubicaciones. Queda a la espera de la confirmación del cargue por parte de Zaid.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
       "Observación — Cargue WMS (inventarios): el 17-08 Alexandra e Ileana confirman que se cargarán datos de inventarios para PB3 y que generaron manualmente una plantilla con un snapshot de datos; para el escenario UAT se desarrolla un proceso que automatiza la extracción con la lógica planteada.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
@@ -1060,6 +1066,69 @@ const semana18a21Agosto = [
   {
     texto:
       "Reportes: sesión con Oracle para el entendimiento de la integración con WMS para ingestar datos desde Fabric — agendada.",
+    estado: "completado"
+  }
+];
+
+const semana24a28Agosto = [
+  {
+    texto:
+      "Maestros WMS: desarrollo y configuración de la nueva plantilla de inventarios — 70% de avance.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Maestros WMS: propuesta de implementación del pipeline de maestros de migración WMS sobre la arquitectura medallion \"oficial\" de Darnel — agendada para el lunes 31.",
+    estado: "programado"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Diccionario de datos por cada maestro PB3 WMS: 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Criterios y volúmenes de datos a migrar PB3 WMS: 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Pruebas de transformación y validación funcional PB2 WMS: 80%.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Repositorio staging con evidencias de extracción y validación WMS: 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Estrategia de levantamiento de datos faltantes (workshops, matrices, reglas) WMS: 10%.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: ubicaciones de tipo Reserva (R) — el campo Allow Reserve Partial Pick debe ir en true. 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: ubicaciones de tipo consolidación — el atributo cust_field_4 debe tener el valor \"PUERTA\". 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: Items — nueva lógica en la columna description_3, 40%. Se debe agendar reunión con Andrés Moreno para resolver duda sobre la regla escrita.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Observación — Cargue WMS: se recibió la confirmación del cargue de ubicaciones, satisfactorio. Cargaron 24.303 de 24.304 ubicaciones enviadas (99,99%). Estado final de cargue: Items 100%, Barcode 100%, Locations 99,99%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Reportes: sesión de entendimiento con el equipo de Oracle sobre la integración con WMS — agendada para el lunes 31-08-2026.",
     estado: "programado"
   }
 ];
@@ -1222,15 +1291,15 @@ const briefSalida = [
     plantilla: "Ubicaciones",
     pb2: 24410,
     pb3: 24503,
-    estadoCargue: "pendiente",
-    reglas: 19,
-    reglasNuevas: 13,
+    estadoCargue: "cargado",
+    reglas: 21,
+    reglasNuevas: 15,
     fuentes: 3
   }
 ];
 
 const briefCargueNota =
-  "Plantilla de ubicaciones autorizada: el 14-08 Alexandra D. dio el visto bueno a la consistencia y calidad de los datos. Queda a la espera de la confirmación del cargue por parte de Zaid. En paralelo arranca una nueva plantilla de inventarios para PB3-UAT (actualización semana 18-21 ago).";
+  "Cargue completado: las 3 plantillas fueron cargadas a WMS. Items y Barcode al 100% y Ubicaciones al 99,99% (24.303 de 24.304 registros enviados). En paralelo avanza la nueva plantilla de inventarios para PB3-UAT (70%) — actualización semana 24-28 ago.";
 
 const briefConsideraciones = [
   "Las tablas fuente fueron previamente depuradas por el usuario funcional para eliminar datos basura detectados durante las fases de exploración y validación de la información.",
@@ -1279,10 +1348,10 @@ const briefIntegracionesDetalle = [
 
 const briefBloqueos = [
   {
-    titulo: "Cargue de Ubicaciones autorizado, a la espera de Zaid",
-    impacto: "Bloquea el plan 360",
+    titulo: "Plantilla de inventarios PB3-UAT en construcción",
+    impacto: "Requisito del escenario UAT",
     detalle:
-      "El 14-08 Alexandra D. autorizó la consistencia y calidad de los datos de la plantilla de ubicaciones. Queda a la espera de la confirmación del cargue por parte de Zaid. Sin Ubicaciones cargadas no se pueden probar los flujos de recepción, putaway ni picking."
+      "La nueva plantilla de inventarios para PB3-UAT avanza al 70%. Para el escenario UAT se automatiza la extracción con la lógica planteada; hasta cerrarla, el poblado de inventario en WMS depende de un snapshot manual generado por negocio."
   },
   {
     titulo: "Retroalimentación de inventarios sin diseño",
@@ -2117,9 +2186,9 @@ const entidadDetalle = {
     destinoBrief: "Ubicaciones",
     pb2: 24410,
     pb3: 24503,
-    estadoCargue: "pendiente",
+    estadoCargue: "cargado",
     resumen:
-      "La plantilla PB3 contiene 24.503 ubicaciones validadas, tras aplicar 19 reglas de negocio (13 nuevas para PB3). El 14-08 Alexandra D. autorizó la consistencia y calidad de los datos; la plantilla queda a la espera de la confirmación del cargue por parte de Zaid.",
+      "La plantilla PB3 contiene 24.503 ubicaciones validadas, tras aplicar 21 reglas de negocio (15 nuevas para PB3). El cargue a WMS fue satisfactorio: 24.303 de 24.304 registros enviados (99,99%).",
     reglas: [
       {
         negocio: "Limpiar el identificador de ubicación antes de cualquier cálculo.",
@@ -2163,6 +2232,18 @@ const entidadDetalle = {
       {
         negocio: "Definir regla de convivencia de SKUs por ubicación.",
         tecnica: "allow_multi_sku = FALSE cuando l.type = 'I', en otro caso TRUE."
+      },
+      {
+        negocio: "Permitir surtido parcial en las ubicaciones de tipo Reserva (R).",
+        tecnica:
+          "Soporte PB3 (semana 24-28 ago): allow_reserve_partial_pick_flg = true para las ubicaciones cuyo type resultante es Reserva (R).",
+        nueva: true
+      },
+      {
+        negocio: "Marcar la puerta en las ubicaciones de consolidación.",
+        tecnica:
+          "Soporte PB3 (semana 24-28 ago): cust_field_4 = \"PUERTA\" para las ubicaciones de tipo consolidación.",
+        nueva: true
       },
       {
         negocio: "Marcar la zona de reabastecimiento en las ubicaciones de picking.",
@@ -2677,12 +2758,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-18-21-agosto" open>
+          <details className="card week-card" id="semana-18-21-agosto">
             <summary>
               <h2>Maestros WMS - Reportes - Avances semana 18 al 21 de agosto</h2>
             </summary>
             <div className="task-list">
               {semana18a21Agosto.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-24-28-agosto" open>
+            <summary>
+              <h2>Cargue WMS - Documentación - Avances semana 24 al 28 de agosto</h2>
+            </summary>
+            <div className="task-list">
+              {semana24a28Agosto.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

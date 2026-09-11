@@ -152,6 +152,12 @@ const hitosClave = [
     titulo: "Plantilla de saldos de inventarios al 100% y cierre de issues PB3",
     detalle: "Nueva plantilla de saldos de inventarios al 100% según reglas de negocio, avance de la documentación de entrega WMS y solución de los issues de Playback 3 en description_3 (items) y pick_sequence (ubicaciones).",
     anchor: "semana-31ago-04sep"
+  },
+  {
+    fecha: "07-11 Sep",
+    titulo: "Documentación de entrega al 100% y cierre de issues PB3",
+    detalle: "Documentación de entrega WMS completa (5/5), maestro de inventarios al 80% (resta acceso a t_lot) y solución de 5 issues de Playback 3 (description_3, pick_sequence, lock_for_putaway_flg, locn_size_type y C400402681-1522).",
+    anchor: "semana-07-11-sep"
   }
 ];
 
@@ -1148,12 +1154,12 @@ const semana31Agostoa04Septiembre = [
   {
     texto:
       "Maestros WMS: pendiente que Oracle envíe el diccionario de datos de la plantilla de inventarios para efectuar el tipado de datos y la validación de las longitudes permitidas por WMS.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
       "Maestros WMS: propuesta de implementación del pipeline de maestros de migración WMS sobre la arquitectura medallion \"oficial\" de Darnel — agendada para el lunes 31 de agosto; no se ha podido dar el espacio por ocupación de Jairo.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
@@ -1168,7 +1174,7 @@ const semana31Agostoa04Septiembre = [
   {
     texto:
       "Documentación WMS de entrega — Pruebas de transformación y validación funcional PB2 WMS: 80%.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
@@ -1178,7 +1184,7 @@ const semana31Agostoa04Septiembre = [
   {
     texto:
       "Documentación WMS de entrega — Estrategia de levantamiento de datos faltantes (workshops, matrices, reglas) WMS: 80%.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
@@ -1189,6 +1195,69 @@ const semana31Agostoa04Septiembre = [
     texto:
       "Soporte WMS Playback 3: solución del issue C400402681 en la plantilla de ubicaciones, columna \"pick_sequence\" — completado e implementado.",
     estado: "completado"
+  }
+];
+
+const semana07a11Septiembre = [
+  {
+    texto:
+      "Maestros WMS: alcance del desarrollo del maestro de inventarios WMS — 80% de avance; resta el acceso a la tabla t_lot por parte del área de analítica de Darnel.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Maestros WMS: pendiente que Oracle envíe el diccionario de datos de la plantilla de inventarios para efectuar el tipado de datos y la validación de las longitudes permitidas por WMS.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Diccionario de datos por cada maestro PB3 WMS: 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Criterios y volúmenes de datos a migrar PB3 WMS: 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Pruebas de transformación y validación funcional PB2 WMS: 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Repositorio staging con evidencias de extracción y validación WMS: 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Documentación WMS de entrega — Estrategia de levantamiento de datos faltantes (workshops, matrices, reglas) WMS: 100%.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: solución del issue C400402681-133 en la plantilla de items, columna \"description_3\" — completado e implementado.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: solución del issue C400402681-1476 en la plantilla de ubicaciones, columna \"pick_sequence\" — completado e implementado.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: solución del issue C400402681-1496 — actualización de la columna \"lock_for_putaway_flg\".",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: solución del issue C400402681-1508 — actualización de la columna \"locn_size_type\".",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: solución del issue C400402681-1522 — 100%; resta el acceso a la tabla PS_UNITS_CVT_TBL por parte del área de analítica de Darnel.",
+    estado: "en-proceso"
   }
 ];
 
@@ -1407,10 +1476,10 @@ const briefIntegracionesDetalle = [
 
 const briefBloqueos = [
   {
-    titulo: "Plantilla de inventarios PB3-UAT a la espera del diccionario de Oracle",
+    titulo: "Maestro de inventarios PB3-UAT con dependencias externas",
     impacto: "Requisito del escenario UAT",
     detalle:
-      "La nueva plantilla de saldos de inventarios para PB3-UAT está al 100% según las reglas de negocio. Queda pendiente que Oracle envíe el diccionario de datos de la plantilla para efectuar el tipado y validar las longitudes permitidas por WMS antes del cargue."
+      "El desarrollo del maestro de inventarios para PB3-UAT avanza al 80%; resta el acceso a la tabla t_lot por parte del área de analítica de Darnel. Además, queda pendiente que Oracle envíe el diccionario de datos de la plantilla para efectuar el tipado y validar las longitudes permitidas por WMS antes del cargue."
   },
   {
     titulo: "Retroalimentación de inventarios sin diseño",
@@ -2430,7 +2499,8 @@ function App() {
     (hito) =>
       hito.fecha.includes("Jun") ||
       hito.fecha.includes("Jul") ||
-      hito.fecha.includes("Ago")
+      hito.fecha.includes("Ago") ||
+      hito.fecha.includes("Sep")
   );
 
   return (
@@ -2845,12 +2915,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-31ago-04sep" open>
+          <details className="card week-card" id="semana-31ago-04sep">
             <summary>
               <h2>Maestros WMS - Documentación - Avances semana 31 de agosto al 4 de septiembre</h2>
             </summary>
             <div className="task-list">
               {semana31Agostoa04Septiembre.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-07-11-sep" open>
+            <summary>
+              <h2>Maestros WMS - Documentación - Avances semana 7 al 11 de septiembre</h2>
+            </summary>
+            <div className="task-list">
+              {semana07a11Septiembre.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

@@ -158,6 +158,18 @@ const hitosClave = [
     titulo: "Documentación de entrega al 100% y cierre de issues PB3",
     detalle: "Documentación de entrega WMS completa (5/5), maestro de inventarios al 80% (resta acceso a t_lot) y solución de 5 issues de Playback 3 (description_3, pick_sequence, lock_for_putaway_flg, locn_size_type y C400402681-1522).",
     anchor: "semana-07-11-sep"
+  },
+  {
+    fecha: "22-26 Sep",
+    titulo: "Corte UAT: volumetría, calidad e issues",
+    detalle: "Nuevas tablas fuente (WMS y PeopleSoft), conteos del corte UAT (Items 13.690 con nuevos filtros, Ubicaciones 24.131, Barcode 1.939, Saldos 41.298), errores de calidad detectados y 7 issues de Playback 3 resueltos y enviados a validación.",
+    anchor: "semana-22-26-sep"
+  },
+  {
+    fecha: "29 Sep-02 Oct",
+    titulo: "Nuevas definiciones PB3-UAT",
+    detalle: "Nuevas definiciones del 29-09: plantilla LLL_Ubica_Carga dependiente de saldos, items tipo kit, exclusión de ubicaciones door/muelle/puerta y nueva columna pick_zone; sigue pendiente el diccionario de datos de saldos por parte de Oracle.",
+    anchor: "semana-29sep-02oct"
   }
 ];
 
@@ -1202,12 +1214,12 @@ const semana07a11Septiembre = [
   {
     texto:
       "Maestros WMS: alcance del desarrollo del maestro de inventarios WMS — 80% de avance; resta el acceso a la tabla t_lot por parte del área de analítica de Darnel.",
-    estado: "en-proceso"
+    estado: "completado"
   },
   {
     texto:
       "Maestros WMS: pendiente que Oracle envíe el diccionario de datos de la plantilla de inventarios para efectuar el tipado de datos y la validación de las longitudes permitidas por WMS.",
-    estado: "pendiente"
+    estado: "completado"
   },
   {
     texto:
@@ -1257,7 +1269,63 @@ const semana07a11Septiembre = [
   {
     texto:
       "Soporte WMS Playback 3: solución del issue C400402681-1522 — 100%; resta el acceso a la tabla PS_UNITS_CVT_TBL por parte del área de analítica de Darnel.",
+    estado: "completado"
+  }
+];
+
+const semana22a26Septiembre = [
+  {
+    texto:
+      "Tablas nuevas para cubrir issues y nuevas necesidades — WMS: t_location_relation. PeopleSoft: PS_PHYSICAL_INV, PS_TRANSACTION_INV y PS_PROD_UOM.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Registros maestros (corte UAT) — Ubicaciones: 24.131 · Items: 13.690 (se aplicaron nuevos filtros para acotar el universo a artículos con inventario o con al menos una transacción en los últimos dos años) · Barcode: 1.939 · Saldos de inventario: 41.298.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Calidad — Items: 12 artículos presentan inconsistencia en la clase de unidad de familia entre la primaria y la case (no pertenecen a la misma familia).",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Calidad — Saldos de inventario: 3.889 inventarios tienen asociadas ubicaciones inexistentes que, por algún motivo (posible filtro o regla de negocio), no se están contemplando en la plantilla de ubicaciones.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Soporte WMS Playback 3: issues resueltos y enviados a validación — C400402681-1476 (pick_sequence), C400402681-1496 (lock_for_putaway_flg), C400402681-1508 (locn_size_type), C400402681-1522 (normalización de unidades de medida), C400402681-1589 (invn_attr_b_tracking), C400402681-1596 (cust_field_3) y C400402681-1603 (cust_field_2).",
+    estado: "completado"
+  }
+];
+
+const semana29Septiembrea02Octubre = [
+  {
+    texto:
+      "Nueva definición (29-09) — Inventarios: inclusión de la plantilla LLL_Ubica_Carga, nueva plantilla dependiente de saldos de inventarios que indica la ubicación.",
     estado: "en-proceso"
+  },
+  {
+    texto:
+      "Nueva definición (29-09) — Items: inclusión de la extracción y adhesión de items tipo kit (nueva lógica para obtener los artículos de tipo kit e incluirlos en el universo).",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Nueva definición (29-09) — Ubicaciones: exclusión de las ubicaciones de tipo door, muelle y puerta.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Nueva definición (29-09) — Ubicaciones: nueva columna pick_zone.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Observación: el diccionario de datos para la plantilla de saldos de inventarios aún no ha sido entregado por parte del equipo de Oracle.",
+    estado: "pendiente"
   }
 ];
 
@@ -1396,11 +1464,23 @@ const briefLookups = [
   { tabla: "lkp_item_pb3", uso: "Universo PB3 para validar integridad referencial en Barcode y Ubicaciones." }
 ];
 
+// Corte UAT (02-10-2026): tablas nuevas incorporadas para cubrir issues y nuevas necesidades.
+const briefFuentesNuevas = [
+  { tabla: "t_location_relation", sistema: "WMS", uso: "Relación entre ubicaciones para issues de ubicaciones." },
+  { tabla: "PS_PHYSICAL_INV", sistema: "PeopleSoft", uso: "Inventario físico para la plantilla de saldos." },
+  { tabla: "PS_TRANSACTION_INV", sistema: "PeopleSoft", uso: "Transacciones de inventario (filtro de artículos con movimiento)." },
+  { tabla: "PS_PROD_UOM", sistema: "PeopleSoft", uso: "Unidades de medida de producto para normalización." }
+];
+
+const briefCorteUat = "02-10-2026";
+
 const briefSalida = [
   {
     plantilla: "Items",
     pb2: 44820,
     pb3: 46807,
+    uat: 13690,
+    errores: 12,
     estadoCargue: "cargado",
     reglas: 26,
     reglasNuevas: 19,
@@ -1410,6 +1490,8 @@ const briefSalida = [
     plantilla: "Barcode",
     pb2: 1817,
     pb3: 2163,
+    uat: 1939,
+    errores: 0,
     estadoCargue: "cargado",
     reglas: 9,
     reglasNuevas: 4,
@@ -1419,15 +1501,43 @@ const briefSalida = [
     plantilla: "Ubicaciones",
     pb2: 24410,
     pb3: 24503,
+    uat: 24131,
+    errores: 0,
     estadoCargue: "cargado",
     reglas: 21,
     reglasNuevas: 15,
     fuentes: 3
+  },
+  {
+    plantilla: "Saldos de inventario",
+    pb2: null,
+    pb3: null,
+    uat: 41298,
+    errores: 3889,
+    estadoCargue: "pendiente",
+    reglas: null,
+    reglasNuevas: null,
+    fuentes: null
+  }
+];
+
+const briefErrores = [
+  {
+    plantilla: "Items",
+    cantidad: 12,
+    detalle:
+      "Artículos con inconsistencia en la clase de unidad de familia entre la primaria y la case (no pertenecen a la misma familia)."
+  },
+  {
+    plantilla: "Saldos de inventario",
+    cantidad: 3889,
+    detalle:
+      "Inventarios con ubicaciones inexistentes que, por algún filtro o regla de negocio, no se están contemplando en la plantilla de ubicaciones."
   }
 ];
 
 const briefCargueNota =
-  "Cargue completado: las 3 plantillas fueron cargadas a WMS. Items y Barcode al 100% y Ubicaciones al 99,99% (24.303 de 24.304 registros enviados). La nueva plantilla de saldos de inventarios para PB3-UAT está al 100% según las reglas de negocio; queda pendiente que Oracle envíe el diccionario de datos para el tipado y la validación de longitudes (actualización semana 31 ago-4 sep).";
+  "Cargue completado: las 3 plantillas fueron cargadas a WMS. Items y Barcode al 100% y Ubicaciones al 99,99% (24.303 de 24.304 registros enviados). La nueva plantilla de saldos de inventarios (41.298 registros en el corte UAT) queda pendiente de cargue: falta que Oracle envíe el diccionario de datos para el tipado y la validación de longitudes.";
 
 const briefConsideraciones = [
   "Las tablas fuente fueron previamente depuradas por el usuario funcional para eliminar datos basura detectados durante las fases de exploración y validación de la información.",
@@ -2478,12 +2588,14 @@ function App() {
   const nf = (valor) => valor.toLocaleString("es-CO");
   const totalFuentes = briefFuentes.reduce((acc, f) => acc + f.registros, 0);
   const maxFuente = Math.max(...briefFuentes.map((f) => f.registros));
-  const totalSalidaPb3 = briefSalida.reduce((acc, s) => acc + s.pb3, 0);
-  const totalSalidaPb2 = briefSalida.reduce((acc, s) => acc + s.pb2, 0);
-  const maxSalida = Math.max(...briefSalida.map((s) => s.pb3));
-  const totalReglas = briefSalida.reduce((acc, s) => acc + s.reglas, 0);
-  const totalReglasNuevas = briefSalida.reduce((acc, s) => acc + s.reglasNuevas, 0);
-  const tasaConversion = (totalSalidaPb3 / totalFuentes) * 100;
+  const totalSalidaPb3 = briefSalida.reduce((acc, s) => acc + (s.pb3 || 0), 0);
+  const totalSalidaPb2 = briefSalida.reduce((acc, s) => acc + (s.pb2 || 0), 0);
+  const totalSalidaUat = briefSalida.reduce((acc, s) => acc + (s.uat || 0), 0);
+  const maxSalida = Math.max(...briefSalida.map((s) => s.uat || s.pb3 || 0));
+  const totalReglas = briefSalida.reduce((acc, s) => acc + (s.reglas || 0), 0);
+  const totalReglasNuevas = briefSalida.reduce((acc, s) => acc + (s.reglasNuevas || 0), 0);
+  const totalErrores = briefErrores.reduce((acc, e) => acc + e.cantidad, 0);
+  const tasaConversion = (totalSalidaUat / totalFuentes) * 100;
   const plantillasCargadas = briefSalida.filter((s) => s.estadoCargue === "cargado").length;
   const detalle = entidadDetalle[tabActiva];
   // KPIs de la entidad activa, derivados del mismo origen que el Brief
@@ -2500,7 +2612,8 @@ function App() {
       hito.fecha.includes("Jun") ||
       hito.fecha.includes("Jul") ||
       hito.fecha.includes("Ago") ||
-      hito.fecha.includes("Sep")
+      hito.fecha.includes("Sep") ||
+      hito.fecha.includes("Oct")
   );
 
   return (
@@ -2929,12 +3042,40 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-07-11-sep" open>
+          <details className="card week-card" id="semana-07-11-sep">
             <summary>
               <h2>Maestros WMS - Documentación - Avances semana 7 al 11 de septiembre</h2>
             </summary>
             <div className="task-list">
               {semana07a11Septiembre.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-22-26-sep">
+            <summary>
+              <h2>Corte UAT - Calidad - Issues - Avances semana 22 al 26 de septiembre</h2>
+            </summary>
+            <div className="task-list">
+              {semana22a26Septiembre.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-29sep-02oct" open>
+            <summary>
+              <h2>Nuevas definiciones PB3-UAT - Avances semana 29 de septiembre al 2 de octubre</h2>
+            </summary>
+            <div className="task-list">
+              {semana29Septiembrea02Octubre.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
@@ -3440,10 +3581,12 @@ function App() {
             <h2>Definición de datos WMS: reglas vs integraciones</h2>
             <p>
               Punto de partida para el plan 360 de pruebas en PB3 y su posterior
-              ejecución en UAT. Consolida el estado real de las tres plantillas de
+              ejecución en UAT. Consolida el estado real de las plantillas de
               carga, las reglas de negocio aplicadas y la cobertura de integraciones.
             </p>
-            <p className="brief-corte">Corte: {briefCorte}</p>
+            <p className="brief-corte">
+              Baseline PB3: {briefCorte} · Corte UAT: {briefCorteUat}
+            </p>
           </section>
 
           <section className="card">
@@ -3460,14 +3603,19 @@ function App() {
                 <span className="kpi-foot">Suma de las {briefFuentes.length} tablas fuente</span>
               </article>
               <article className="kpi-card">
-                <small>Registros de salida</small>
-                <strong>{nf(totalSalidaPb3)}</strong>
-                <span className="kpi-foot">{briefSalida.length} plantillas de carga</span>
+                <small>Registros de salida (corte UAT)</small>
+                <strong>{nf(totalSalidaUat)}</strong>
+                <span className="kpi-foot">{briefSalida.length} plantillas · corte {briefCorteUat}</span>
               </article>
               <article className="kpi-card">
                 <small>Tasa de conversión</small>
                 <strong>{tasaConversion.toFixed(2)}%</strong>
-                <span className="kpi-foot">Origen depurado hasta plantilla final</span>
+                <span className="kpi-foot">Origen depurado hasta plantilla final (UAT)</span>
+              </article>
+              <article className="kpi-card">
+                <small>Errores de calidad</small>
+                <strong>{nf(totalErrores)}</strong>
+                <span className="kpi-foot">Items: {nf(briefErrores[0].cantidad)} · Saldos: {nf(briefErrores[1].cantidad)}</span>
               </article>
               <article className="kpi-card">
                 <small>Reglas de negocio</small>
@@ -3487,8 +3635,9 @@ function App() {
           <section className="card">
             <h2>Estado de cargue a WMS</h2>
             <p className="entity-summary">
-              A cierre del {briefCorte}, {plantillasCargadas} de {briefSalida.length} plantillas
-              fueron cargadas exitosamente a WMS.
+              Las {plantillasCargadas} plantillas de la migración PB3 (Items, Barcode y Ubicaciones)
+              fueron cargadas exitosamente a WMS. La nueva plantilla de saldos de inventarios
+              (corte UAT {briefCorteUat}) queda pendiente de cargue.
             </p>
             <div className="load-grid">
               {briefSalida.map((fila) => (
@@ -3500,7 +3649,7 @@ function App() {
                     <span className="load-icon">{fila.estadoCargue === "cargado" ? "✓" : "!"}</span>
                     <h3>{fila.plantilla}</h3>
                   </div>
-                  <strong className="load-qty">{nf(fila.pb3)}</strong>
+                  <strong className="load-qty">{nf(fila.uat)}</strong>
                   <span className={`tag ${fila.estadoCargue === "cargado" ? "completado" : "pendiente"}`}>
                     {fila.estadoCargue === "cargado" ? "Cargado en WMS" : "Pendiente de cargue"}
                   </span>
@@ -3516,8 +3665,8 @@ function App() {
           <section className="card">
             <h2>Del origen a la plantilla</h2>
             <p className="entity-summary">
-              De {nf(totalFuentes)} registros en las tablas fuente se publican {nf(totalSalidaPb3)} a
-              las plantillas de carga: el {tasaConversion.toFixed(2)}% del volumen original.
+              De {nf(totalFuentes)} registros en las tablas fuente se publican {nf(totalSalidaUat)} a
+              las 4 plantillas de carga del corte UAT: el {tasaConversion.toFixed(2)}% del volumen original.
             </p>
             <div className="funnel">
               <div className="funnel-step">
@@ -3531,7 +3680,7 @@ function App() {
                   className="funnel-bar salida"
                   style={{ width: `${Math.max(tasaConversion, 1.5)}%` }}
                 >
-                  <span>{nf(totalSalidaPb3)}</span>
+                  <span>{nf(totalSalidaUat)}</span>
                 </div>
                 <small>
                   Registros publicados tras exclusiones, deduplicación, integridad referencial y
@@ -3595,74 +3744,93 @@ function App() {
                 </article>
               ))}
             </div>
+            <h3 className="subsection-title">
+              Tablas nuevas del corte UAT ({briefCorteUat}) — issues y nuevas necesidades
+            </h3>
+            <div className="grid">
+              {briefFuentesNuevas.map((fila) => (
+                <article className="subcard" key={fila.tabla}>
+                  <h3 className="mono">
+                    {fila.tabla} <span className={`dest-chip ${fila.sistema === "WMS" ? "ubicaciones" : "items"}`}>{fila.sistema}</span>
+                  </h3>
+                  <p>{fila.uso}</p>
+                </article>
+              ))}
+            </div>
           </section>
 
           <section className="card">
-            <h2>Plantillas de salida y comparativo con PB2</h2>
+            <h2>Plantillas de salida: PB2, PB3 y corte UAT</h2>
+            <p className="entity-summary">
+              El corte UAT ({briefCorteUat}) acota el universo PB3 para el escenario de pruebas e
+              incorpora Saldos de inventario como nueva plantilla. En Items, los nuevos filtros
+              (artículos con inventario o con transacción en los últimos dos años) reducen el
+              universo de 46.807 a 13.690.
+            </p>
             <div className="table-wrap">
               <table className="brief-table">
                 <thead>
                   <tr>
                     <th>Plantilla</th>
                     <th>PB2</th>
-                    <th>PB3</th>
-                    <th>Variación</th>
-                    <th>Volumen PB3</th>
-                    <th>Fuentes</th>
+                    <th>PB3 (23-07)</th>
+                    <th>UAT (02-10)</th>
+                    <th>Volumen UAT</th>
+                    <th>Errores</th>
                     <th>Reglas</th>
                     <th>Estado</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {briefSalida.map((fila) => {
-                    const delta = fila.pb3 - fila.pb2;
-                    const pct = (delta / fila.pb2) * 100;
-                    return (
-                      <tr key={`out-${fila.plantilla}`}>
-                        <td><strong>{fila.plantilla}</strong></td>
-                        <td className="num">{nf(fila.pb2)}</td>
-                        <td className="num">{nf(fila.pb3)}</td>
-                        <td className="num">
-                          <span className={`delta ${delta >= 0 ? "up" : "down"}`}>
-                            {delta >= 0 ? "+" : ""}
-                            {nf(delta)} ({pct >= 0 ? "+" : ""}
-                            {pct.toFixed(2)}%)
-                          </span>
-                        </td>
-                        <td>
-                          <div className="bar-track">
-                            <div
-                              className="bar-fill salida"
-                              style={{ width: `${(fila.pb3 / maxSalida) * 100}%` }}
-                            />
-                          </div>
-                        </td>
-                        <td className="num">{fila.fuentes}</td>
-                        <td className="num">
-                          {fila.reglas} <small className="reglas-nuevas">({fila.reglasNuevas} nuevas)</small>
-                        </td>
-                        <td>
-                          <span
-                            className={`tag ${fila.estadoCargue === "cargado" ? "completado" : "pendiente"}`}
-                          >
-                            {fila.estadoCargue === "cargado" ? "Cargado" : "Pendiente"}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {briefSalida.map((fila) => (
+                    <tr key={`out-${fila.plantilla}`}>
+                      <td><strong>{fila.plantilla}</strong></td>
+                      <td className="num">{fila.pb2 != null ? nf(fila.pb2) : "—"}</td>
+                      <td className="num">{fila.pb3 != null ? nf(fila.pb3) : "—"}</td>
+                      <td className="num">{fila.uat != null ? nf(fila.uat) : "—"}</td>
+                      <td>
+                        <div className="bar-track">
+                          <div
+                            className="bar-fill salida"
+                            style={{ width: `${((fila.uat || 0) / maxSalida) * 100}%` }}
+                          />
+                        </div>
+                      </td>
+                      <td className="num">
+                        {fila.errores > 0 ? (
+                          <span className="delta down">{nf(fila.errores)}</span>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                      <td className="num">
+                        {fila.reglas != null ? (
+                          <>
+                            {fila.reglas}{" "}
+                            <small className="reglas-nuevas">({fila.reglasNuevas} nuevas)</small>
+                          </>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                      <td>
+                        <span
+                          className={`tag ${fila.estadoCargue === "cargado" ? "completado" : "pendiente"}`}
+                        >
+                          {fila.estadoCargue === "cargado" ? "Cargado" : "Pendiente"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
                   <tr className="total-row">
                     <td>TOTAL</td>
                     <td className="num">{nf(totalSalidaPb2)}</td>
                     <td className="num">{nf(totalSalidaPb3)}</td>
-                    <td className="num">
-                      <span className="delta up">
-                        +{nf(totalSalidaPb3 - totalSalidaPb2)} (+
-                        {(((totalSalidaPb3 - totalSalidaPb2) / totalSalidaPb2) * 100).toFixed(2)}%)
-                      </span>
-                    </td>
+                    <td className="num">{nf(totalSalidaUat)}</td>
                     <td />
-                    <td className="num">{briefFuentes.length}</td>
+                    <td className="num">
+                      <span className="delta down">{nf(totalErrores)}</span>
+                    </td>
                     <td className="num">{totalReglas}</td>
                     <td />
                   </tr>
@@ -3679,7 +3847,7 @@ function App() {
               nuevas o fueron redefinidas para PB3.
             </p>
             <div className="rules-chart">
-              {briefSalida.map((fila) => (
+              {briefSalida.filter((fila) => fila.reglas != null).map((fila) => (
                 <div className="rules-row" key={`rules-${fila.plantilla}`}>
                   <span className="rules-label">{fila.plantilla}</span>
                   <div className="rules-track">
@@ -3814,6 +3982,23 @@ function App() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Errores de calidad detectados (corte UAT)</h2>
+            <p className="entity-summary">
+              {nf(totalErrores)} registros con inconsistencias identificadas en el control de
+              calidad, a resolver antes de habilitar las pruebas sobre esas plantillas.
+            </p>
+            <div className="blocker-grid">
+              {briefErrores.map((fila) => (
+                <article className="blocker-card" key={`err-${fila.plantilla}`}>
+                  <span>{nf(fila.cantidad)}</span>
+                  <strong>{fila.plantilla}</strong>
+                  <p>{fila.detalle}</p>
+                </article>
+              ))}
             </div>
           </section>
 

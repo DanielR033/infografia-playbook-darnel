@@ -174,8 +174,7 @@ const hitosClave = [
   {
     fecha: "20-24 Oct",
     titulo: "WMS UAT: reporte de hallazgos",
-    detalle: "Hallazgos de las pruebas UAT sobre las plantillas de cargue WMS (códigos de barras, ubicaciones, kits/prepack e inventarios), con reglas de tratamiento acordadas y puntos por validar antes de la salida en vivo.",
-    anchor: "semana-20-24-oct"
+    detalle: "Hallazgos de las pruebas UAT sobre las plantillas de cargue WMS (códigos de barras, ubicaciones, kits/prepack e inventarios). El consolidado vive en la pestaña UAT."
   }
 ];
 
@@ -1335,66 +1334,96 @@ const semana29Septiembrea02Octubre = [
   }
 ];
 
-const semana20a24Octubre = [
+// ---------------------------------------------------------------------------
+// PESTAÑA UAT · Cargue WMS PB3 — consolidado de hallazgos de las pruebas UAT.
+// Da visibilidad de qué se va cerrando y qué falta antes de la salida en vivo.
+// ---------------------------------------------------------------------------
+
+const uatCorte = "Semana 20-24 oct · PB3-UAT";
+
+const uatTrabajo = [
+  { titulo: "Cargue completo a WMS", detalle: "Las 3 plantillas cargadas: Items y Barcode al 100% y Ubicaciones al 99,99%." },
+  { titulo: "52 reglas de negocio", detalle: "Documentadas negocio ↔ técnica sobre Items, Barcode y Ubicaciones (34 nuevas o redefinidas en PB3)." },
+  { titulo: "Documentación de entrega 5/5", detalle: "Diccionario de datos, criterios y volúmenes, pruebas de transformación, repositorio staging y estrategia de datos faltantes, todos al 100%." },
+  { titulo: "Issues de Playback 3", detalle: "Resueltos e implementados y enviados a validación (description_3, pick_sequence, lock_for_putaway_flg, locn_size_type, UoM y más)." },
+  { titulo: "Corte UAT acotado", detalle: "Universo de pruebas con filtros de negocio: 81.058 registros en 4 plantillas, incluyendo saldos de inventario." }
+];
+
+const uatPlantillas = [
   {
-    texto:
-      "Reporte de hallazgos UAT: consolidación de las inconsistencias detectadas durante las pruebas sobre las plantillas de cargue WMS (códigos de barras, ubicaciones, kits/prepack e inventarios), con las reglas de tratamiento acordadas y los puntos que requieren validación antes de la salida en vivo.",
-    estado: "completado"
+    plantilla: "Códigos de barras",
+    hallazgos: [
+      {
+        texto:
+          "Duplicados: Oracle reportó 6 registros duplicados con valor en vendor_barcode; desde la fuente se asignó el mismo EAN14/UPC14 a dos ítems diferentes. Confirmar si se soluciona desde origen.",
+        estado: "pendiente"
+      },
+      {
+        texto:
+          "4 registros en estado 00 sin UPC14 ni EAN14 (Q551150RY, Q550700RY, Q550500RY, Q09450075Y). Adicionalmente, validar si Q511500RSTY, Q12450075Y, Q12450040Y y Q12300040Y tienen el EAN14 correctamente conformado (su formato varía del estándar).",
+        estado: "pendiente"
+      }
+    ]
   },
   {
-    texto:
-      "Códigos de barras — Duplicados: Oracle reportó 6 registros duplicados con valor en vendor_barcode; desde la fuente se asignó el mismo EAN14/UPC14 a dos ítems diferentes. Pendiente: confirmar si se soluciona desde origen.",
-    estado: "pendiente"
+    plantilla: "Ubicaciones",
+    hallazgos: [
+      {
+        texto:
+          "Inventario excluido por ubicaciones inexistentes (detalle en Inventarios_Ubicaciones_Inexistentes_UAT.xlsx). Confirmar si se excluyen definitivamente o validar el motivo frente a las reglas.",
+        estado: "pendiente"
+      },
+      {
+        texto:
+          "Campos sobredimensionados: locn_size_type con valor ESTANTERIAFPICK03 (>15 caracteres) en 1:PD:07:N4:E13 y 1:PD:07:N4:E14; alloc_zone con FORDWARDPICK (>10 caracteres). Confirmar acción o regla.",
+        estado: "pendiente"
+      },
+      {
+        texto:
+          "8 ubicaciones excluidas por compartir la misma llave de área, aisle y bay (3:B:16:N2/N3/N4:E31, 3:B:17:N2/N3/N4:E31, 4:G:07:N1:E14, 4:G:08:N1:E14). Además, XPS10_ROL1:AVER:1:1 quedó con level AVER; confirmar si es definitivo.",
+        estado: "pendiente"
+      }
+    ]
   },
   {
-    texto:
-      "Códigos de barras — 4 registros en estado 00 sin UPC14 ni EAN14 (Q551150RY, Q550700RY, Q550500RY, Q09450075Y). Adicionalmente, confirmar si Q511500RSTY, Q12450075Y, Q12450040Y y Q12300040Y tienen el EAN14 correctamente conformado, pues su formato varía del estándar esperado.",
-    estado: "pendiente"
+    plantilla: "Kits (Prepack)",
+    hallazgos: [
+      {
+        texto:
+          "Duplicidad de componentes en los ítems D690601NK y D771200K4052: dos filas vigentes por cada componente, con una diferencia de 11 días en el campo DATE_IN_EFFECT. Validar el origen de la información para su corrección.",
+        estado: "pendiente"
+      }
+    ]
   },
   {
-    texto:
-      "Ubicaciones — Inventario excluido por ubicaciones inexistentes (detalle en Inventarios_Ubicaciones_Inexistentes_UAT.xlsx). Pendiente: confirmar si se excluyen definitivamente o validar el motivo por el que no se contemplan en la plantilla de ubicaciones frente a las reglas.",
-    estado: "pendiente"
-  },
-  {
-    texto:
-      "Ubicaciones — Campos sobredimensionados: locn_size_type con valor ESTANTERIAFPICK03 (excede 15 caracteres) en 1:PD:07:N4:E13 y 1:PD:07:N4:E14; alloc_zone con FORDWARDPICK (excede 10 caracteres). Pendiente: confirmar acción o regla.",
-    estado: "pendiente"
-  },
-  {
-    texto:
-      "Ubicaciones — 8 ubicaciones excluidas por compartir la misma llave de área, aisle y bay (3:B:16:N2/N3/N4:E31, 3:B:17:N2/N3/N4:E31, 4:G:07:N1:E14, 4:G:08:N1:E14). Además, XPS10_ROL1:AVER:1:1 quedó con level AVER; confirmar si es definitivo o se actualiza la regla.",
-    estado: "pendiente"
-  },
-  {
-    texto:
-      "Kits (Prepack) — Duplicidad de componentes en los ítems D690601NK y D771200K4052: se presentan dos filas vigentes por cada componente, con una diferencia de 11 días en el campo DATE_IN_EFFECT. Pendiente: validar el origen de la información para su corrección.",
-    estado: "pendiente"
-  },
-  {
-    texto:
-      "Inventarios — Artículos no contemplados en la plantilla de artículos (detalle en ITEMS_CON_IVENTARIO_EXCLUIDOS_EN_PLANTILLA_ARITCULOS.csv). Pendiente: validar casuísticas y confirmar si se excluyen del inventario o se contemplan en la plantilla de artículos.",
-    estado: "pendiente"
-  },
-  {
-    texto:
-      "Inventarios — lpn_lock_code supera el máximo de 15 caracteres. Regla definida: se abrirá conversación con Oracle para validar por qué WMS permitió crear el registro sin novedad mientras la ingesta sí aplica la restricción.",
-    estado: "en-proceso"
-  },
-  {
-    texto:
-      "Inventarios — Un mismo LPN presenta múltiples códigos de bloqueo. Regla definida para el cargue: se selecciona el código de bloqueo que más se repite en cada LPN. Pendiente: definir el manejo operativo para la salida en vivo (la situación también se presenta físicamente en piso).",
-    estado: "en-proceso"
-  },
-  {
-    texto:
-      "Inventarios — Fecha de expiración incompleta en algunas líneas. Regla definida: fecha hardcode a los ítems sin fecha y, para ítems con fecha pero LPN sin ella, se replica una fecha existente de la combinación ítem–lote; los datos se revisarán en origen. Pendiente: confirmar si la definición es definitiva.",
-    estado: "en-proceso"
-  },
-  {
-    texto:
-      "Inventarios — Códigos de lote inexistentes que cuentan con fecha de expiración. Pendiente: definir la regla (asignar valor por defecto o replicar el valor de otros registros).",
-    estado: "pendiente"
+    plantilla: "Inventarios",
+    hallazgos: [
+      {
+        texto:
+          "Artículos no contemplados en la plantilla de artículos (detalle en ITEMS_CON_IVENTARIO_EXCLUIDOS_EN_PLANTILLA_ARITCULOS.csv). Validar casuísticas y confirmar si se excluyen o se contemplan en la plantilla de artículos.",
+        estado: "pendiente"
+      },
+      {
+        texto:
+          "lpn_lock_code supera el máximo de 15 caracteres. Regla definida: conversación con Oracle para validar por qué WMS permitió crear el registro sin novedad mientras la ingesta sí aplica la restricción.",
+        estado: "en-proceso"
+      },
+      {
+        texto:
+          "Un mismo LPN presenta múltiples códigos de bloqueo. Regla definida para el cargue: se selecciona el código que más se repite en cada LPN. Falta definir el manejo operativo para la salida en vivo (también se presenta físicamente en piso).",
+        estado: "pendiente"
+      },
+      {
+        texto:
+          "Fecha de expiración incompleta en algunas líneas. Regla definida: fecha hardcode a los ítems sin fecha y, para ítems con fecha pero LPN sin ella, se replica una fecha existente de la combinación ítem–lote. Confirmar si la definición es definitiva.",
+        estado: "pendiente"
+      },
+      {
+        texto:
+          "Códigos de lote inexistentes que cuentan con fecha de expiración. Definir la regla (asignar valor por defecto o replicar el valor de otros registros).",
+        estado: "pendiente"
+      }
+    ]
   }
 ];
 
@@ -1689,6 +1718,215 @@ const briefBloqueos = [
     impacto: "Riesgo de reproceso",
     detalle:
       "En la semana 10-14 ago se incorporó la lógica de generación de task_zone_code, putaway_seq y de las columnas aisle/bay/level/position para ubicaciones WIP. Estas reglas nuevas aún no se han validado contra un cargue real en WMS."
+  }
+];
+
+// ---------------------------------------------------------------------------
+// PESTAÑA ERP · Migración Oracle Fusion — frente de datos
+// v1: responsabilidades, escenario Playback 1, revisiones propuestas y caso Artículos.
+// Objetivo: medir y validar el impacto y la magnitud de los datos.
+// ---------------------------------------------------------------------------
+
+const erpFase = "Focus (enfocar)";
+
+const erpResponsabilidades = [
+  {
+    actor: "Frente de Datos (Azurian)",
+    rol: "Apoyo técnico y metodológico",
+    detalle:
+      "Extracción, calidad, conversión, depuración y carga de la data, dejando evidencia de fuente. Construye el diagnóstico de impactos y brechas y propone las reglas previas de tratamiento."
+  },
+  {
+    actor: "Negocio — BPOs (Darnel)",
+    rol: "Dueños del dato",
+    detalle:
+      "Conocen la data y seleccionan los casos de uso y productos relevantes. Definen los filtros de negocio (p. ej. artículos con inventario o con al menos una transacción en los últimos dos años)."
+  },
+  {
+    actor: "Líderes técnicos (Darnel)",
+    rol: "Fuentes de información",
+    detalle:
+      "Dan visibilidad de las tablas prospecto o candidatas de donde saldrá la información para nutrir cada maestro."
+  },
+  {
+    actor: "Oracle",
+    rol: "Metodología y afinamiento",
+    detalle:
+      "Promueve un cargue con información seleccionada por el negocio como casos de uso relevantes; entiende las particularidades para ir afinando y define la plantilla de recolección del Playback 1."
+  }
+];
+
+const erpApoyoDatos =
+  "Nuestro apoyo es tomar el inconveniente presentado en Artículos y, apoyándonos en Oracle, revisar los datos y cruzarlos contra lo que ya tenemos desde WMS, para ofrecer un diagnóstico de impactos y brechas y acompañar la revisión del impacto — no solo a nivel de datos, sino también tecnológico y metodológico.";
+
+const erpPlayback1 = [
+  {
+    titulo: "Plantilla de recolección",
+    detalle:
+      "El Playback 1 se levanta con una plantilla de recolección de información, no con la plantilla FBDI con la que normalmente se cargarían los artículos directamente en el ERP."
+  },
+  {
+    titulo: "Casos de uso del negocio",
+    detalle:
+      "El negocio selecciona productos y casos de uso relevantes (por ejemplo, un mismo código con distintas unidades de medida) para que las pruebas reflejen las particularidades reales."
+  },
+  {
+    titulo: "Oracle afina",
+    detalle:
+      "Con esos casos, Oracle entiende las particularidades del dato de Darnel y va afinando el proceso de cargue."
+  },
+  {
+    titulo: "Beneficio para Datos",
+    detalle:
+      "Nos prepara con reglas previas de tratamiento para generar una extracción mucho más óptima que en la vez anterior."
+  }
+];
+
+const erpRevisiones = [
+  { fecha: "Lun 26 oct · 10:00–10:30", maestro: "Artículos" },
+  { fecha: "Lun 26 oct · 4:00–5:00 pm", maestro: "Proveedores" },
+  { fecha: "Mié 28 oct · 10:00–10:30", maestro: "Clientes" }
+];
+
+const erpMaestrosIntro =
+  "Las sesiones de los cuatro maestros ya están en curso y con buena disposición de los equipos: se trabaja sobre las plantillas de recolección y se van definiendo atributos, fuentes y casos de uso. Lo que sigue es profundizar para aterrizar fuentes y volumetrías iniciales.";
+
+const erpMaestros = [
+  {
+    maestro: "Artículos",
+    estado: "en-proceso",
+    disposicion:
+      "Maestro crítico, con participación de BPOs de varios módulos. Se trabaja sobre la plantilla de recolección y se define qué atributos enviar por módulo.",
+    preguntas: [
+      "¿De qué tabla y qué campo se extrae cada atributo (origen por campo)?",
+      "Las medidas y dimensiones, ¿van en millar o en caja? ¿Cómo se maneja la unidad secundaria: la preguntan o la llenamos?",
+      "¿Se incluyen transacciones en Playback 1 para mostrar para qué sirve la unidad secundaria?",
+      "Caso de uso: un mismo código con distintas unidades de medida."
+    ]
+  },
+  {
+    maestro: "Proveedores",
+    estado: "en-proceso",
+    disposicion:
+      "Estructura multi–unidad de negocio: dos de Colombia y una de Panamá, con una maestra de proveedores de Panamá aparte.",
+    preguntas: [
+      "¿Cómo se consolidan o separan las unidades de negocio (Colombia vs Panamá)?",
+      "¿Cuál es la fuente por unidad de negocio y qué filtros de negocio aplican?",
+      "Profundización agendada para el 26 de octubre."
+    ]
+  },
+  {
+    maestro: "Clientes",
+    estado: "en-proceso",
+    disposicion:
+      "Avanza configurando a medida y pasando campos; discusión abierta sobre los campos adicionales a registrar.",
+    preguntas: [
+      "¿La clasificación es por unidad de negocio o por canal?",
+      "¿Qué información va en cada campo (por ejemplo, país Colombia)?",
+      "¿Qué campos adicionales se deben registrar? Profundización agendada para el 28 de octubre."
+    ]
+  },
+  {
+    maestro: "OTM (transversal)",
+    estado: "en-proceso",
+    disposicion:
+      "Transversal a varios módulos y maestros, con 9 plantillas (ubicaciones, contactos, corporaciones, proveedores de servicio, equipos, calendarios, tiempos de tránsito). El ritmo depende de la definición de reglas.",
+    preguntas: [
+      "¿Cuándo estarán listas las reglas de las 9 plantillas? (requiere contexto previo; toma tiempo).",
+      "¿Cuáles son las fuentes para cada plantilla de maestro OTM?"
+    ]
+  }
+];
+
+const erpCasoArticulos = [
+  {
+    titulo: "Ambiente de playback no está en blanco",
+    detalle:
+      "La copia completa del productivo de Ajover arrastró ~28.000 artículos (con su unidad de medida) al ambiente donde se iba a configurar desde cero."
+  },
+  {
+    titulo: "Choque de unidad de medida primaria",
+    detalle:
+      "El diseño de negocio maneja los artículos en millar; si en productivo se crearon con otra unidad primaria (ML o paquete/caja), el artículo queda amarrado a la unidad equivocada."
+  },
+  {
+    titulo: "Restricción de Oracle",
+    detalle:
+      "Si un artículo o unidad de medida ya tiene transacciones, no se puede eliminar: es un constraint del sistema, no un ajuste de configuración. El artículo debe vivir con la unidad con que fue creado."
+  },
+  {
+    titulo: "Apoyo del frente de Datos",
+    detalle:
+      "Cruzar los datos del ERP contra lo que ya tenemos desde WMS para dimensionar el impacto y las brechas, y acompañar la definición del tratamiento."
+  }
+];
+
+const erpProximosPasos = [
+  "Ejecutar las revisiones de profundización con BPOs y líderes técnicos (26 y 28 de octubre).",
+  "Obtener el preliminar de fuentes candidatas y los conteos / volumetrías iniciales por maestro.",
+  "Iniciar el trabajo de entendimiento a fondo y construir las reglas previas de tratamiento.",
+  "Entregar al gerente del proyecto la medición del impacto y la magnitud de los datos."
+];
+
+const erpMetodologiaPros = [
+  "El negocio selecciona casos de uso relevantes: Oracle entiende las particularidades del dato de Darnel desde temprano.",
+  "Nos prepara con reglas previas de tratamiento, en lugar de descubrirlas durante la ingesta como ocurrió en WMS.",
+  "Maduración incremental (Focus → Refine → Enable) con evidencia de fuente: menos reproceso en el corte.",
+  "Detecta impactos antes de la salida en vivo (p. ej. los ~28.000 artículos preexistentes).",
+  "Apunta directo a lo que pide la gerencia: medir y validar el impacto y la magnitud de los datos."
+];
+
+const erpMetodologiaContras = [
+  "Depende de la disponibilidad del negocio (BPOs y líderes técnicos) y de los accesos a las fuentes: posible cuello de botella de agenda.",
+  "La muestra de casos de uso puede no cubrir todas las particularidades: riesgo de sorpresas al pasar a volumen completo.",
+  "El ambiente de playback no está en blanco (copia del productivo), lo que complica configurar desde cero.",
+  "Exige disciplina de trazabilidad y evidencia de fuente para poder replicar el proceso.",
+  "Requiere cruces entre sistemas (ERP ↔ WMS) y decisiones de negocio que no son solo técnicas."
+];
+
+const erpRaciActores = [
+  { id: "Datos", org: "Azurian" },
+  { id: "BPOs", org: "Negocio · Darnel" },
+  { id: "Líd. téc.", org: "Darnel" },
+  { id: "Oracle", org: "Consultoría" },
+  { id: "PMO", org: "Gerencia" }
+];
+
+const erpRaciFilas = [
+  { actividad: "Seleccionar casos de uso y productos", roles: { Datos: "C", BPOs: "R", "Líd. téc.": "I", Oracle: "C", PMO: "A" } },
+  { actividad: "Identificar fuentes y tablas candidatas", roles: { Datos: "C", BPOs: "C", "Líd. téc.": "R", Oracle: "I", PMO: "A" } },
+  { actividad: "Definir filtros de negocio", roles: { Datos: "C", BPOs: "R", "Líd. téc.": "I", Oracle: "I", PMO: "A" } },
+  { actividad: "Extraer, convertir, depurar y cargar", roles: { Datos: "R", BPOs: "C", "Líd. téc.": "C", Oracle: "I", PMO: "A" } },
+  { actividad: "Diagnóstico de impactos y brechas (vs WMS)", roles: { Datos: "R", BPOs: "C", "Líd. téc.": "I", Oracle: "C", PMO: "A" } },
+  { actividad: "Definir reglas previas de tratamiento", roles: { Datos: "R", BPOs: "C", "Líd. téc.": "I", Oracle: "C", PMO: "A" } },
+  { actividad: "Validar y aprobar la data", roles: { Datos: "R", BPOs: "A", "Líd. téc.": "I", Oracle: "C", PMO: "I" } },
+  { actividad: "Medir impacto y magnitud (reporte gerencia)", roles: { Datos: "R", BPOs: "C", "Líd. téc.": "I", Oracle: "I", PMO: "A" } }
+];
+
+const erpBestPractices = [
+  {
+    wms: "Acotar el universo con filtros de negocio (items con inventario o transacción en los últimos 2 años: 46.807 → 13.690).",
+    erp: "Aplicar el mismo criterio para dimensionar el universo real de artículos a migrar y no arrastrar los ~28.000 heredados."
+  },
+  {
+    wms: "Homologación de unidades de medida y validación de clase (CS → CJ, clase familia primaria/case).",
+    erp: "Clave para el choque de unidad primaria millar vs ML/paquete; definir la regla antes de cargar."
+  },
+  {
+    wms: "Validar tipado y longitudes contra el diccionario de datos antes del cargue (campos sobredimensionados).",
+    erp: "Exigir el diccionario de datos de cada maestro desde la fase de recolección del Playback 1."
+  },
+  {
+    wms: "Integridad referencial con una llave de universo (lkp_item_pb3 evitó barcodes huérfanos y ubicaciones inexistentes).",
+    erp: "Cruzar cada maestro contra su universo válido y contra WMS para detectar huérfanos desde el inicio."
+  },
+  {
+    wms: "Reglas de negocio documentadas negocio ↔ técnica y dejar evidencia de fuente (52 reglas, repositorio staging).",
+    erp: "Construir las reglas previas de tratamiento con la misma trazabilidad para poder replicar el proceso."
+  },
+  {
+    wms: "Control de calidad con conteos y reporte de hallazgos antes de UAT.",
+    erp: "Entregar el preliminar de volumetrías y un diagnóstico de impactos como punto de partida para la gerencia."
   }
 ];
 
@@ -2650,9 +2888,11 @@ function App() {
     { id: "transversales", label: "Transversales" },
     { id: "metodologia", label: "Metodología" },
     { id: "brief", label: "Brief PB3" },
+    { id: "uat", label: "UAT" },
     { id: "items", label: "Items" },
     { id: "barcode", label: "Barcode" },
-    { id: "locations", label: "Locations" }
+    { id: "locations", label: "Locations" },
+    { id: "erp", label: "ERP" }
   ];
   const nf = (valor) => valor.toLocaleString("es-CO");
   const totalFuentes = briefFuentes.reduce((acc, f) => acc + f.registros, 0);
@@ -2666,6 +2906,9 @@ function App() {
   const totalErrores = briefErrores.reduce((acc, e) => acc + e.cantidad, 0);
   const tasaConversion = (totalSalidaUat / totalFuentes) * 100;
   const plantillasCargadas = briefSalida.filter((s) => s.estadoCargue === "cargado").length;
+  const uatHallazgos = uatPlantillas.flatMap((p) => p.hallazgos);
+  const uatEnProceso = uatHallazgos.filter((h) => h.estado === "en-proceso").length;
+  const uatPendientes = uatHallazgos.filter((h) => h.estado === "pendiente").length;
   const detalle = entidadDetalle[tabActiva];
   // KPIs de la entidad activa, derivados del mismo origen que el Brief
   const fuentesEntidad = detalle
@@ -3145,20 +3388,6 @@ function App() {
             </summary>
             <div className="task-list">
               {semana29Septiembrea02Octubre.map((item) => (
-                <div className="task-item" key={item.texto}>
-                  <p>{item.texto}</p>
-                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
-                </div>
-              ))}
-            </div>
-          </details>
-
-          <details className="card week-card" id="semana-20-24-oct" open>
-            <summary>
-              <h2>WMS UAT - Reporte de hallazgos semana 20 al 24 de octubre</h2>
-            </summary>
-            <div className="task-list">
-              {semana20a24Octubre.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
@@ -3657,6 +3886,77 @@ function App() {
         </>
       )}
 
+      {tabActiva === "uat" && (
+        <>
+          <section className="card brief-hero">
+            <p className="method-eyebrow">Pruebas UAT · Cargue WMS PB3</p>
+            <h2>Estamos en UAT: consolidado de hallazgos</h2>
+            <p>
+              Tras el cargue completo a WMS, las pruebas UAT sobre las plantillas destaparon
+              inconsistencias a tratar. Aquí vive el consolidado — qué se va cerrando y qué falta —
+              para no perderlo de vista antes de la salida en vivo.
+            </p>
+            <p className="brief-corte">{uatCorte}</p>
+          </section>
+
+          <section className="card">
+            <h2>Estado de los hallazgos</h2>
+            <div className="entity-kpis">
+              <article className="kpi-card">
+                <small>Plantillas evaluadas</small>
+                <strong>{uatPlantillas.length}</strong>
+                <span className="kpi-foot">Códigos de barras, ubicaciones, kits e inventarios</span>
+              </article>
+              <article className="kpi-card">
+                <small>Hallazgos totales</small>
+                <strong>{uatHallazgos.length}</strong>
+                <span className="kpi-foot">Detectados en las pruebas UAT</span>
+              </article>
+              <article className="kpi-card">
+                <small>En proceso</small>
+                <strong>{uatEnProceso}</strong>
+                <span className="kpi-foot">Conversación con Oracle (lpn_lock_code)</span>
+              </article>
+              <article className="kpi-card">
+                <small>Pendientes de validación</small>
+                <strong>{uatPendientes}</strong>
+                <span className="kpi-foot">Requieren decisión de origen o negocio</span>
+              </article>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>El trabajo hasta este punto</h2>
+            <p className="entity-summary">
+              Llegar a UAT tomó un recorrido largo de extracción, reglas, documentación y cargue;
+              los hallazgos son el siguiente paso para afinar antes de producción.
+            </p>
+            <div className="grid">
+              {uatTrabajo.map((fila) => (
+                <article className="subcard" key={fila.titulo}>
+                  <h3>{fila.titulo}</h3>
+                  <p>{fila.detalle}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {uatPlantillas.map((grupo) => (
+            <section className="card" key={`uat-${grupo.plantilla}`}>
+              <h2>Hallazgos — {grupo.plantilla}</h2>
+              <div className="task-list">
+                {grupo.hallazgos.map((h) => (
+                  <div className="task-item" key={h.texto}>
+                    <p>{h.texto}</p>
+                    <span className={`tag ${h.estado}`}>{estadoLabel[h.estado]}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </>
+      )}
+
       {tabActiva === "brief" && (
         <>
           <section className="card brief-hero">
@@ -4110,6 +4410,222 @@ function App() {
                   <p className="blocker-impact">{fila.impacto}</p>
                   <p>{fila.detalle}</p>
                 </article>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
+      {tabActiva === "erp" && (
+        <>
+          <section className="card brief-hero">
+            <p className="method-eyebrow">Nueva sección · Migración ERP — Oracle Fusion</p>
+            <h2>Frente de Datos ERP: responsabilidades y apoyo al Playback 1</h2>
+            <p>
+              Esta primera versión busca medir y validar el impacto y la magnitud de los
+              datos de cara a la migración. Se centra en cómo apoya el frente de Datos, el
+              escenario del Playback 1 y las revisiones de profundización en curso.
+            </p>
+            <p className="brief-corte">Fase actual: {erpFase}</p>
+          </section>
+
+          <section className="card">
+            <h2>Responsabilidades: cómo apoya el frente de Datos</h2>
+            <div className="grid">
+              {erpResponsabilidades.map((fila) => (
+                <article className="subcard" key={fila.actor}>
+                  <h3>{fila.actor}</h3>
+                  <p className="role-mandate">{fila.rol}</p>
+                  <p>{fila.detalle}</p>
+                </article>
+              ))}
+            </div>
+            <div className="brief-callout">
+              <span>Nuestro apoyo</span>
+              <p>{erpApoyoDatos}</p>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Matriz RACI del frente de Datos</h2>
+            <p className="entity-summary">
+              Cómo se reparten las responsabilidades entre el frente de Datos (Azurian), el negocio
+              (BPOs), los líderes técnicos, Oracle y la PMO a lo largo del proceso.
+            </p>
+            <div className="raci-matrix compact">
+              <div className="table-wrap raci-wrap">
+                <table className="raci-table">
+                  <thead>
+                    <tr>
+                      <th>Actividad</th>
+                      {erpRaciActores.map((actor) => (
+                        <th key={`erp-head-${actor.id}`}>
+                          {actor.id}
+                          <small>{actor.org}</small>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {erpRaciFilas.map((fila) => (
+                      <tr key={`erp-raci-${fila.actividad}`}>
+                        <td>{fila.actividad}</td>
+                        {erpRaciActores.map((actor) => {
+                          const rol = fila.roles[actor.id];
+                          return (
+                            <td key={`erp-cell-${fila.actividad}-${actor.id}`}>
+                              {rol ? (
+                                <span className={`raci-chip ${rol.toLowerCase()}`}>{rol}</span>
+                              ) : (
+                                <span className="raci-chip empty">-</span>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="raci-legend">
+                <span><i className="dot a" /> A · Accountable</span>
+                <span><i className="dot r" /> R · Responsable</span>
+                <span><i className="dot c" /> C · Consultado</span>
+                <span><i className="dot i" /> I · Informado</span>
+              </div>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Escenario Playback 1 y metodología Oracle</h2>
+            <p className="entity-summary">
+              Oracle promueve un cargue con información seleccionada por el negocio como casos
+              de uso relevantes, que le permite entender las particularidades e ir afinando.
+            </p>
+            <div className="grid">
+              {erpPlayback1.map((fila, i) => (
+                <article className="subcard" key={fila.titulo}>
+                  <h3>{i + 1}. {fila.titulo}</h3>
+                  <p>{fila.detalle}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Metodología: pros y contras</h2>
+            <p className="entity-summary">
+              Balance del enfoque de cargue por casos de uso que promueve Oracle para el Playback 1.
+            </p>
+            <div className="proscons-grid">
+              <article className="proscons-card pros">
+                <h3>A favor</h3>
+                <ul>
+                  {erpMetodologiaPros.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              </article>
+              <article className="proscons-card cons">
+                <h3>A vigilar</h3>
+                <ul>
+                  {erpMetodologiaContras.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Mejores prácticas de WMS aplicables a ERP</h2>
+            <p className="entity-summary">
+              Lecciones del cargue WMS (PB1-PB3 y UAT) que llevamos al frente ERP para empezar con
+              ventaja.
+            </p>
+            <div className="grid">
+              {erpBestPractices.map((fila, i) => (
+                <article className="bp-card" key={i}>
+                  <div className="bp-wms">
+                    <span className="bp-tag wms">WMS</span>
+                    <p>{fila.wms}</p>
+                  </div>
+                  <div className="bp-arrow">→</div>
+                  <div className="bp-erp">
+                    <span className="bp-tag erp">ERP</span>
+                    <p>{fila.erp}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Caso Artículos: ~28.000 artículos preexistentes</h2>
+            <p className="entity-summary">
+              La copia del productivo al ambiente de pruebas dejó el playback con artículos ya
+              cargados. Es el caso más crítico y marca el apoyo del frente de Datos.
+            </p>
+            <div className="blocker-grid">
+              {erpCasoArticulos.map((fila, i) => (
+                <article className="blocker-card" key={fila.titulo}>
+                  <span>{i + 1}</span>
+                  <strong>{fila.titulo}</strong>
+                  <p>{fila.detalle}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Revisiones propuestas para profundización</h2>
+            <p className="entity-summary">
+              Reuniones con BPOs y líderes técnicos para obtener el preliminar de fuentes y los
+              conteos / volumetrías iniciales de cada maestro.
+            </p>
+            <div className="cadence-list">
+              {erpRevisiones.map((fila) => (
+                <div className="cadence-item" key={fila.maestro}>
+                  <span>{fila.fecha}</span>
+                  <strong>{fila.maestro}</strong>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Maestros en alcance: disposición y preguntas clave para Datos</h2>
+            <p className="entity-summary">{erpMaestrosIntro}</p>
+            <div className="grid">
+              {erpMaestros.map((fila) => (
+                <article className="subcard maestro-card" key={fila.maestro}>
+                  <div className="maestro-head">
+                    <h3>{fila.maestro}</h3>
+                    <span className={`tag ${fila.estado}`}>{estadoLabel[fila.estado]}</span>
+                  </div>
+                  <p>{fila.disposicion}</p>
+                  <p className="mini-title">Preguntas clave para Datos</p>
+                  <ul className="maestro-preguntas">
+                    {fila.preguntas.map((q) => (
+                      <li key={q}>{q}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Objetivo de esta versión y próximos pasos</h2>
+            <p className="entity-summary">
+              El gerente del proyecto busca medir y validar el impacto y la magnitud de los datos;
+              hacia eso apunta esta primera versión.
+            </p>
+            <div className="task-list">
+              {erpProximosPasos.map((texto) => (
+                <div className="task-item" key={texto}>
+                  <p>{texto}</p>
+                </div>
               ))}
             </div>
           </section>

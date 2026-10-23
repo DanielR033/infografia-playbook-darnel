@@ -170,6 +170,12 @@ const hitosClave = [
     titulo: "Nuevas definiciones PB3-UAT",
     detalle: "Nuevas definiciones del 29-09: plantilla LLL_Ubica_Carga dependiente de saldos, items tipo kit, exclusión de ubicaciones door/muelle/puerta y nueva columna pick_zone; sigue pendiente el diccionario de datos de saldos por parte de Oracle.",
     anchor: "semana-29sep-02oct"
+  },
+  {
+    fecha: "20-24 Oct",
+    titulo: "WMS UAT: reporte de hallazgos",
+    detalle: "Hallazgos de las pruebas UAT sobre las plantillas de cargue WMS (códigos de barras, ubicaciones, kits/prepack e inventarios), con reglas de tratamiento acordadas y puntos por validar antes de la salida en vivo.",
+    anchor: "semana-20-24-oct"
   }
 ];
 
@@ -1325,6 +1331,69 @@ const semana29Septiembrea02Octubre = [
   {
     texto:
       "Observación: el diccionario de datos para la plantilla de saldos de inventarios aún no ha sido entregado por parte del equipo de Oracle.",
+    estado: "pendiente"
+  }
+];
+
+const semana20a24Octubre = [
+  {
+    texto:
+      "Reporte de hallazgos UAT: consolidación de las inconsistencias detectadas durante las pruebas sobre las plantillas de cargue WMS (códigos de barras, ubicaciones, kits/prepack e inventarios), con las reglas de tratamiento acordadas y los puntos que requieren validación antes de la salida en vivo.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Códigos de barras — Duplicados: Oracle reportó 6 registros duplicados con valor en vendor_barcode; desde la fuente se asignó el mismo EAN14/UPC14 a dos ítems diferentes. Pendiente: confirmar si se soluciona desde origen.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Códigos de barras — 4 registros en estado 00 sin UPC14 ni EAN14 (Q551150RY, Q550700RY, Q550500RY, Q09450075Y). Adicionalmente, confirmar si Q511500RSTY, Q12450075Y, Q12450040Y y Q12300040Y tienen el EAN14 correctamente conformado, pues su formato varía del estándar esperado.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Ubicaciones — Inventario excluido por ubicaciones inexistentes (detalle en Inventarios_Ubicaciones_Inexistentes_UAT.xlsx). Pendiente: confirmar si se excluyen definitivamente o validar el motivo por el que no se contemplan en la plantilla de ubicaciones frente a las reglas.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Ubicaciones — Campos sobredimensionados: locn_size_type con valor ESTANTERIAFPICK03 (excede 15 caracteres) en 1:PD:07:N4:E13 y 1:PD:07:N4:E14; alloc_zone con FORDWARDPICK (excede 10 caracteres). Pendiente: confirmar acción o regla.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Ubicaciones — 8 ubicaciones excluidas por compartir la misma llave de área, aisle y bay (3:B:16:N2/N3/N4:E31, 3:B:17:N2/N3/N4:E31, 4:G:07:N1:E14, 4:G:08:N1:E14). Además, XPS10_ROL1:AVER:1:1 quedó con level AVER; confirmar si es definitivo o se actualiza la regla.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Kits (Prepack) — Duplicidad de componentes en los ítems D690601NK y D771200K4052: se presentan dos filas vigentes por cada componente, con una diferencia de 11 días en el campo DATE_IN_EFFECT. Pendiente: validar el origen de la información para su corrección.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Inventarios — Artículos no contemplados en la plantilla de artículos (detalle en ITEMS_CON_IVENTARIO_EXCLUIDOS_EN_PLANTILLA_ARITCULOS.csv). Pendiente: validar casuísticas y confirmar si se excluyen del inventario o se contemplan en la plantilla de artículos.",
+    estado: "pendiente"
+  },
+  {
+    texto:
+      "Inventarios — lpn_lock_code supera el máximo de 15 caracteres. Regla definida: se abrirá conversación con Oracle para validar por qué WMS permitió crear el registro sin novedad mientras la ingesta sí aplica la restricción.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Inventarios — Un mismo LPN presenta múltiples códigos de bloqueo. Regla definida para el cargue: se selecciona el código de bloqueo que más se repite en cada LPN. Pendiente: definir el manejo operativo para la salida en vivo (la situación también se presenta físicamente en piso).",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Inventarios — Fecha de expiración incompleta en algunas líneas. Regla definida: fecha hardcode a los ítems sin fecha y, para ítems con fecha pero LPN sin ella, se replica una fecha existente de la combinación ítem–lote; los datos se revisarán en origen. Pendiente: confirmar si la definición es definitiva.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Inventarios — Códigos de lote inexistentes que cuentan con fecha de expiración. Pendiente: definir la regla (asignar valor por defecto o replicar el valor de otros registros).",
     estado: "pendiente"
   }
 ];
@@ -3070,12 +3139,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-29sep-02oct" open>
+          <details className="card week-card" id="semana-29sep-02oct">
             <summary>
               <h2>Nuevas definiciones PB3-UAT - Avances semana 29 de septiembre al 2 de octubre</h2>
             </summary>
             <div className="task-list">
               {semana29Septiembrea02Octubre.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-20-24-oct" open>
+            <summary>
+              <h2>WMS UAT - Reporte de hallazgos semana 20 al 24 de octubre</h2>
+            </summary>
+            <div className="task-list">
+              {semana20a24Octubre.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

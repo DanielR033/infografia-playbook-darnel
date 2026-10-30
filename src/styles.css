@@ -2290,3 +2290,29 @@ tbody tr:last-child td {
   text-align: right;
   min-width: 90px;
 }
+
+/* Columna de texto (no numérica): alineada a la izquierda y con ajuste de línea. */
+.inv-resumen-t {
+  color: #35506b;
+  text-align: left;
+}
+
+/* Tablas anchas (varias columnas): la primera columna toma su ancho natural,
+   no el 60% pensado para tablas clave-valor de 2 columnas. */
+.inv-resumen-table--wide .inv-resumen-k {
+  width: auto;
+  min-width: 0;
+  white-space: nowrap;
+  font-weight: 600;
+  color: #0f4c86;
+}
+
+/* El encabezado de cada tabla ancha (primera fila) se resalta. */
+.inv-resumen-table--wide tr:first-child td {
+  background: #eef5fd;
+  color: #0f4c86;
+  font-weight: 700;
+  border-color: #d5e5f6;
+  white-space: normal;
+  text-align: left;
+}

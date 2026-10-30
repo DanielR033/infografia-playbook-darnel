@@ -4870,27 +4870,54 @@ function App() {
 
             {invHoja === "Resumen" ? (
               (() => {
-                const filas = invResumenFilas
-                  .map((r) => r.filter((c) => String(c ?? "").trim() !== ""))
-                  .filter((orig) => orig.length > 0);
-                // Agrupa en bloques: encabezados (1 celda) y tablas por nº de columnas
+                // Conserva la posición de cada celda; solo recorta vacíos al final.
+                const raw = invResumenFilas.map((r) => {
+                  const cells = r.map((c) => (c == null ? "" : c));
+                  let end = cells.length;
+                  while (end > 0 && String(cells[end - 1]).trim() === "") end--;
+                  return cells.slice(0, end);
+                });
+                // Agrupa en bloques: encabezados (1 celda), tablas delimitadas por
+                // filas en blanco o por un nuevo encabezado. No se agrupa por nº de
+                // columnas para que la fila "Total" quede dentro de su misma tabla.
                 const bloques = [];
                 let actual = null;
-                for (const orig of filas) {
-                  if (orig.length === 1) {
+                for (const row of raw) {
+                  const ne = row.filter((c) => String(c).trim() !== "");
+                  if (row.length === 0) {
                     if (actual) {
                       bloques.push(actual);
                       actual = null;
                     }
-                    bloques.push({ tipo: "h", texto: orig[0] });
-                  } else if (actual && actual.cols === orig.length) {
-                    actual.filas.push(orig);
+                  } else if (row.length === 1 && ne.length === 1) {
+                    if (actual) {
+                      bloques.push(actual);
+                      actual = null;
+                    }
+                    bloques.push({ tipo: "h", texto: String(row[0]) });
                   } else {
-                    if (actual) bloques.push(actual);
-                    actual = { tipo: "t", cols: orig.length, filas: [orig] };
+                    if (!actual) actual = { tipo: "t", filas: [] };
+                    actual.filas.push(row);
                   }
                 }
                 if (actual) bloques.push(actual);
+                // Normaliza cada tabla: ancho común y detección de columnas numéricas.
+                for (const b of bloques) {
+                  if (b.tipo !== "t") continue;
+                  b.cols = Math.max(...b.filas.map((f) => f.length));
+                  b.numCol = [];
+                  for (let c = 1; c < b.cols; c++) {
+                    let nums = 0;
+                    let vals = 0;
+                    for (const f of b.filas) {
+                      const v = f[c];
+                      if (v === undefined || String(v ?? "").trim() === "") continue;
+                      vals++;
+                      if (typeof v === "number") nums++;
+                    }
+                    b.numCol[c] = vals > 0 && nums >= vals / 2;
+                  }
+                }
                 return (
                   <div className="inv-resumen">
                     {bloques.map((b, bi) =>
@@ -4899,18 +4926,31 @@ function App() {
                           {b.texto}
                         </h3>
                       ) : (
-                        <table className="inv-resumen-table" key={bi}>
+                        <table
+                          className={
+                            b.cols > 2
+                              ? "inv-resumen-table inv-resumen-table--wide"
+                              : "inv-resumen-table"
+                          }
+                          key={bi}
+                        >
                           <tbody>
                             {b.filas.map((orig, ri) => (
                               <tr key={ri}>
-                                {orig.map((c, i) => (
-                                  <td
-                                    key={i}
-                                    className={i === 0 ? "inv-resumen-k" : "inv-resumen-v"}
-                                  >
-                                    {fmtInv(c)}
-                                  </td>
-                                ))}
+                                {Array.from({ length: b.cols }).map((_, i) => {
+                                  const c = orig[i];
+                                  const cls =
+                                    i === 0
+                                      ? "inv-resumen-k"
+                                      : b.numCol[i]
+                                        ? "inv-resumen-v"
+                                        : "inv-resumen-t";
+                                  return (
+                                    <td key={i} className={cls}>
+                                      {fmtInv(c)}
+                                    </td>
+                                  );
+                                })}
                               </tr>
                             ))}
                           </tbody>

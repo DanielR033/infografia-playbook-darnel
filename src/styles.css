@@ -2089,10 +2089,15 @@ tbody tr:last-child td {
 }
 
 .vol-metric strong {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #0f4c86;
   font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+
+.vol-metric {
+  max-width: 48%;
 }
 
 .vol-card .mini-title {
@@ -2161,4 +2166,127 @@ tbody tr:last-child td {
   border-top: 1px dashed #d8e5f2;
   font-size: 0.85rem;
   color: #4a6480;
+}
+
+/* ERP Inventario — navegador de hojas y tablas */
+.inv-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.4rem 0 1rem;
+}
+
+.inv-tab {
+  border: 1px solid #cfe0f3;
+  background: #f4f9ff;
+  color: #35506b;
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.inv-tab:hover {
+  border-color: var(--darnel-cyan);
+}
+
+.inv-tab.active {
+  background: linear-gradient(90deg, var(--darnel-blue), var(--darnel-cyan));
+  color: #fff;
+  border-color: transparent;
+}
+
+.inv-tab:focus-visible {
+  outline: 2px solid var(--darnel-blue);
+  outline-offset: 2px;
+}
+
+.inv-table-wrap {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.inv-table {
+  font-size: 0.8rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: max-content;
+  max-width: none;
+}
+
+.inv-table th,
+.inv-table td {
+  border: 1px solid #e4eefb;
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  overflow-wrap: anywhere;
+}
+
+.inv-table thead th {
+  position: sticky;
+  top: 0;
+  background: #eef5fd;
+  color: #0f4c86;
+  font-size: 0.74rem;
+  line-height: 1.3;
+  z-index: 1;
+}
+
+.inv-table tbody tr:nth-child(even) {
+  background: #f8fbff;
+}
+
+/* Resumen — bloques */
+.inv-resumen {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.inv-resumen-h {
+  margin: 1rem 0 0.1rem;
+  font-size: 1rem;
+  color: #0f4c86;
+  background: #eef5fd;
+  border: 1px solid #d5e5f6;
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+}
+
+.inv-resumen-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.88rem;
+  table-layout: auto;
+}
+
+.inv-resumen-table td {
+  border: 1px solid #e9f1fb;
+  padding: 0.4rem 0.7rem;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.inv-resumen-table tr:nth-child(even) td {
+  background: #f8fbff;
+}
+
+.inv-resumen-k {
+  color: #35506b;
+  width: 60%;
+  min-width: 260px;
+}
+
+.inv-resumen-v {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: #0f4c86;
+  white-space: nowrap;
+  text-align: right;
+  min-width: 90px;
 }

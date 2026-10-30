@@ -1,4 +1,16 @@
 import React, { useState } from "react";
+import erpInventario from "./erpInventario.json";
+
+const erpInvHojas = [
+  "Resumen",
+  "Inventario validado",
+  "Plantillas y APIs",
+  "Campos por plantilla",
+  "Secuencia de carga",
+  "Hallazgos",
+  "Brechas de alcance",
+  "Fuentes"
+];
 
 const hitosClave = [
   {
@@ -2955,6 +2967,7 @@ const entidadDetalle = {
 
 function App() {
   const [tabActiva, setTabActiva] = useState("general");
+  const [invHoja, setInvHoja] = useState("Resumen");
   const tabs = [
     { id: "general", label: "General" },
     { id: "transversales", label: "Transversales" },
@@ -2964,8 +2977,34 @@ function App() {
     { id: "items", label: "Items" },
     { id: "barcode", label: "Barcode" },
     { id: "locations", label: "Locations" },
-    { id: "erp", label: "ERP" }
+    { id: "erp", label: "ERP" },
+    { id: "erp-inv", label: "ERP Inventario" }
   ];
+  const fmtInv = (v) => {
+    if (typeof v === "number") {
+      if (Number.isInteger(v)) return v.toLocaleString("es-CO");
+      if (v > 0 && v < 1) return `${(v * 100).toFixed(1)}%`;
+      return v.toFixed(2);
+    }
+    return v;
+  };
+  const invData = erpInventario[invHoja] || { hdr: null, rows: [] };
+  const invHdrIdx = invData.hdr ? invData.hdr - 1 : -1;
+  const invColIdx =
+    invHdrIdx >= 0
+      ? invData.rows[invHdrIdx]
+          .map((c, i) => [String(c).trim(), i])
+          .filter(([c]) => c !== "")
+          .map(([, i]) => i)
+      : [];
+  const invCols = invColIdx.map((i) => invData.rows[invHdrIdx][i]);
+  const invBody =
+    invHdrIdx >= 0
+      ? invData.rows
+          .slice(invHdrIdx + 1)
+          .filter((r) => invColIdx.some((i) => String(r[i] ?? "").trim() !== ""))
+      : [];
+  const invResumenFilas = (erpInventario["Resumen"]?.rows || []).slice(2);
   const nf = (valor) => valor.toLocaleString("es-CO");
   const totalFuentes = briefFuentes.reduce((acc, f) => acc + f.registros, 0);
   const maxFuente = Math.max(...briefFuentes.map((f) => f.registros));
@@ -4761,6 +4800,154 @@ function App() {
                 </div>
               ))}
             </div>
+          </section>
+        </>
+      )}
+
+      {tabActiva === "erp-inv" && (
+        <>
+          <section className="card brief-hero">
+            <p className="method-eyebrow">ERP · Inventario de migración Oracle Fusion Cloud 26C</p>
+            <h2>Inventario de migración ERP</h2>
+            <p>
+              Inventario completo de objetos de carga a Oracle Fusion: plantillas y APIs,
+              campos por plantilla, secuencia de carga, hallazgos y brechas. Todas las cifras
+              provienen del archivo de inventario y se consultan hoja por hoja para no perder nada.
+            </p>
+            <p className="brief-corte">Fuente: Modulos_Oracle_Fusion_Cloud_Darnel_Contrato_V4.0</p>
+          </section>
+
+          <section className="card">
+            <h2>Cifras clave del inventario</h2>
+            <div className="entity-kpis">
+              <article className="kpi-card">
+                <small>Objetos en alcance</small>
+                <strong>42</strong>
+                <span className="kpi-foot">de 43 objetos únicos (49 filas de inventario)</span>
+              </article>
+              <article className="kpi-card">
+                <small>Plantillas (archivos)</small>
+                <strong>38</strong>
+                <span className="kpi-foot">34 FBDI, 2 WMS, 1 Rapid Setup, 1 CSV OTM</span>
+              </article>
+              <article className="kpi-card">
+                <small>APIs REST</small>
+                <strong>4</strong>
+                <span className="kpi-foot">Objetos cargados vía API</span>
+              </article>
+              <article className="kpi-card">
+                <small>Campos documentados</small>
+                <strong>456</strong>
+                <span className="kpi-foot">292 obligatorios · 181 hojas/recursos</span>
+              </article>
+              <article className="kpi-card">
+                <small>Hallazgos</small>
+                <strong>{Math.max((erpInventario["Hallazgos"]?.rows.length || 4) - 4, 0)}</strong>
+                <span className="kpi-foot">Con severidad y recomendación</span>
+              </article>
+              <article className="kpi-card">
+                <small>Brechas de alcance</small>
+                <strong>{Math.max((erpInventario["Brechas de alcance"]?.rows.length || 4) - 4, 0)}</strong>
+                <span className="kpi-foot">Objetos no incluidos aún</span>
+              </article>
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Inventario completo por hoja</h2>
+            <div className="inv-nav">
+              {erpInvHojas.map((h) => (
+                <button
+                  key={h}
+                  type="button"
+                  className={`inv-tab ${invHoja === h ? "active" : ""}`}
+                  onClick={() => setInvHoja(h)}
+                >
+                  {h}
+                </button>
+              ))}
+            </div>
+
+            {invHoja === "Resumen" ? (
+              (() => {
+                const filas = invResumenFilas
+                  .map((r) => r.filter((c) => String(c ?? "").trim() !== ""))
+                  .filter((orig) => orig.length > 0);
+                // Agrupa en bloques: encabezados (1 celda) y tablas por nº de columnas
+                const bloques = [];
+                let actual = null;
+                for (const orig of filas) {
+                  if (orig.length === 1) {
+                    if (actual) {
+                      bloques.push(actual);
+                      actual = null;
+                    }
+                    bloques.push({ tipo: "h", texto: orig[0] });
+                  } else if (actual && actual.cols === orig.length) {
+                    actual.filas.push(orig);
+                  } else {
+                    if (actual) bloques.push(actual);
+                    actual = { tipo: "t", cols: orig.length, filas: [orig] };
+                  }
+                }
+                if (actual) bloques.push(actual);
+                return (
+                  <div className="inv-resumen">
+                    {bloques.map((b, bi) =>
+                      b.tipo === "h" ? (
+                        <h3 className="inv-resumen-h" key={bi}>
+                          {b.texto}
+                        </h3>
+                      ) : (
+                        <table className="inv-resumen-table" key={bi}>
+                          <tbody>
+                            {b.filas.map((orig, ri) => (
+                              <tr key={ri}>
+                                {orig.map((c, i) => (
+                                  <td
+                                    key={i}
+                                    className={i === 0 ? "inv-resumen-k" : "inv-resumen-v"}
+                                  >
+                                    {fmtInv(c)}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )
+                    )}
+                  </div>
+                );
+              })()
+            ) : (
+              <>
+                <p className="entity-summary">
+                  {String(invData.rows[0]?.find((c) => String(c ?? "").trim() !== "") || invHoja)} ·{" "}
+                  {invBody.length} filas
+                </p>
+                <div className="table-wrap inv-table-wrap">
+                  <table className="inv-table">
+                    <thead>
+                      <tr>
+                        {invCols.map((c, i) => (
+                          <th key={i}>{c}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {invBody.map((r, ri) => (
+                        <tr key={ri}>
+                          {invColIdx.map((ci, i) => (
+                            <td key={i}>{fmtInv(r[ci])}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           </section>
         </>
       )}

@@ -1889,6 +1889,57 @@ const erpProximosPasos = [
   "Entregar al gerente del proyecto la medición del impacto y la magnitud de los datos."
 ];
 
+const erpVolumetria = [
+  {
+    maestro: "Proveedores",
+    volumen: "En espera de accesos",
+    volumenNota: "Para construir y ejecutar la lógica de filtros.",
+    lineaBase:
+      "Se migrarán los proveedores que en el último año y medio hayan transaccionado o que en los últimos 6 meses tengan actualizaciones. La intención es, además, hacer push a las áreas para que actualicen sus datos y clasifiquen para migrar; los que no se actualicen quedarán fuera y serán de gestión manual e interna del área.",
+    fuentes: [
+      { tabla: "PS_AJ_VENDOR_LOC_V", tipo: "Vista" },
+      { tabla: "PS_AJ_INF_PROV_VW", tipo: "Vista" },
+      { tabla: "PS_VENDOR", tipo: "Tabla base" },
+      { tabla: "PS_VENDOR_LOC", tipo: "Tabla base" },
+      { tabla: "PS_VENDOR_ADDR", tipo: "Tabla base" },
+      { tabla: "PS_VENDOR_PAY", tipo: "Tabla base" },
+      { tabla: "PS_VENDOR_CNTCT", tipo: "Tabla base" },
+      { tabla: "PS_VNDR_BANK_ACCT", tipo: "Tabla base" },
+      { tabla: "PS_VNDR_CNTCT_PHN", tipo: "Tabla base" },
+      { tabla: "PS_LC_VNDR_ID_TBL", tipo: "Tabla base" },
+      { tabla: "PS_LC_VNDR_INF_TBL", tipo: "Tabla base" },
+      { tabla: "PS_LC_ACT_ECNM_DTL", tipo: "Tabla base" },
+      { tabla: "PS_LC_ACT_ECNM_TBL", tipo: "Tabla base" },
+      { tabla: "PS_AJ_VNDR_RSPN", tipo: "Tabla base" },
+      { tabla: "PS_AJ_DOCS_VENDOR", tipo: "Tabla base" },
+      { tabla: "PSXLATITEM", tipo: "Tabla sistema" }
+    ]
+  },
+  {
+    maestro: "Clientes",
+    volumen: "55.700",
+    volumenNota: "Identificados por el área funcional; en espera de accesos para construir y ejecutar la lógica de filtros.",
+    lineaBase:
+      "Se migrarán todos los clientes que se encuentren activos a la fecha de ejecución de la extracción. Actualmente se realizan actividades de depuración directo en el origen.",
+    fuentes: [
+      { tabla: "PS_AJ_RIESG_CLIENT", tipo: "Vista" },
+      { tabla: "PS_CUSTOMER", tipo: "Tabla base" },
+      { tabla: "PS_AJ_XLATTABLE", tipo: "Tabla base" },
+      { tabla: "PS_SP_BU_OM_OPRVW", tipo: "Vista" },
+      { tabla: "PS_CUST_TEAM", tipo: "Tabla base" },
+      { tabla: "PS_AJ_ALTA_CLIENTE", tipo: "Vista" }
+    ]
+  },
+  {
+    maestro: "Artículos",
+    volumen: "28.000",
+    volumenNota: "Identificados por el área funcional; se debe contrastar con las reglas iniciales que remita Laura Maya y el listado de fuentes que confirme Eliany Salamanca.",
+    lineaBase:
+      "En validación por parte de Laura Maya con las diferentes áreas de negocio involucradas. El inventario de tablas está en validación por parte de Eliany Salamanca.",
+    fuentes: []
+  }
+];
+
 const erpMetodologiaPros = [
   "El negocio selecciona casos de uso relevantes: Oracle entiende las particularidades del dato de Darnel desde temprano.",
   "Nos prepara con reglas previas de tratamiento, en lugar de descubrirlas durante la ingesta como ocurrió en WMS.",
@@ -4649,6 +4700,49 @@ function App() {
                       <li key={q}>{q}</li>
                     ))}
                   </ul>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="card">
+            <h2>Reglas de volumetría y fuentes por maestro</h2>
+            <p className="entity-summary">
+              Resultado de las tres sesiones con BPOs y líderes técnicos: la regla inicial de línea
+              base, las tablas prospecto que alimentan cada maestro y el volumen inicial estimado.
+            </p>
+            <div className="vol-grid">
+              {erpVolumetria.map((m) => (
+                <article className="vol-card" key={m.maestro}>
+                  <div className="vol-head">
+                    <h3>{m.maestro}</h3>
+                    <div className="vol-metric">
+                      <small>Volumen inicial</small>
+                      <strong>{m.volumen}</strong>
+                    </div>
+                  </div>
+                  <p className="mini-title">Regla inicial · línea base de volumetría</p>
+                  <p>{m.lineaBase}</p>
+                  <p className="mini-title">
+                    Tablas prospecto{m.fuentes.length > 0 ? ` (${m.fuentes.length})` : ""}
+                  </p>
+                  {m.fuentes.length > 0 ? (
+                    <ul className="fuente-list">
+                      {m.fuentes.map((f) => (
+                        <li key={f.tabla}>
+                          <span className="mono">{f.tabla}</span>
+                          <span className={`fuente-tipo ${f.tipo.toLowerCase().replace(/\s+/g, "-")}`}>
+                            {f.tipo}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="fuente-pendiente">
+                      Inventario de tablas en validación por Eliany Salamanca.
+                    </p>
+                  )}
+                  <p className="vol-nota">{m.volumenNota}</p>
                 </article>
               ))}
             </div>

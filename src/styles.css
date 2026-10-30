@@ -2046,3 +2046,119 @@ tbody tr:last-child td {
 .maestro-preguntas li::marker {
   color: var(--darnel-cyan);
 }
+
+/* ERP — volumetría y fuentes por maestro */
+.vol-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.vol-card {
+  border-radius: 14px;
+  border: 1px solid #d3e3f5;
+  background: linear-gradient(180deg, #fcfeff, #f2f8ff);
+  padding: 1rem 1.1rem;
+}
+
+.vol-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid #e1ecf8;
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.vol-head h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #10365c;
+}
+
+.vol-metric {
+  text-align: right;
+  display: grid;
+  gap: 0.1rem;
+}
+
+.vol-metric small {
+  font-size: 0.72rem;
+  color: #61789a;
+}
+
+.vol-metric strong {
+  font-size: 1.2rem;
+  color: #0f4c86;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vol-card .mini-title {
+  margin: 0.7rem 0 0.3rem;
+}
+
+.fuente-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.fuente-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 7px;
+  background: #f4f9ff;
+  border: 1px solid #e4eefb;
+}
+
+.fuente-list .mono {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  color: #10365c;
+  overflow-wrap: anywhere;
+}
+
+.fuente-tipo {
+  flex: none;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.fuente-tipo.vista {
+  background: #e3f0ff;
+  color: #1160a8;
+}
+
+.fuente-tipo.tabla-base {
+  background: #d9f5e8;
+  color: #106b4c;
+}
+
+.fuente-tipo.tabla-sistema {
+  background: #fdf0dc;
+  color: #9c6412;
+}
+
+.fuente-pendiente {
+  font-style: italic;
+  color: #61789a;
+  font-size: 0.88rem;
+}
+
+.vol-nota {
+  margin-top: 0.7rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed #d8e5f2;
+  font-size: 0.85rem;
+  color: #4a6480;
+}

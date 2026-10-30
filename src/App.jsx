@@ -175,6 +175,11 @@ const hitosClave = [
     fecha: "20-24 Oct",
     titulo: "WMS UAT: reporte de hallazgos",
     detalle: "Hallazgos de las pruebas UAT sobre las plantillas de cargue WMS (códigos de barras, ubicaciones, kits/prepack e inventarios). El consolidado vive en la pestaña UAT."
+  },
+  {
+    fecha: "26-30 Oct",
+    titulo: "WMS UAT: validación de Jira y espera de respuesta",
+    detalle: "Validación de atención y alcance de los Jira C400402681-2084 y C400402681-2088; a la espera de respuesta de los hallazgos remitidos sobre el proceso de cargue de WMS para UAT."
   }
 ];
 
@@ -1334,12 +1339,28 @@ const semana29Septiembrea02Octubre = [
   }
 ];
 
+const semana26a30Octubre = [
+  {
+    texto:
+      "WMS UAT: validación de la atención y el alcance de los Jira C400402681-2084 y C400402681-2088.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Observación: estamos a la espera de respuesta de los hallazgos remitidos en referencia al proceso de cargue de WMS para UAT.",
+    estado: "pendiente"
+  }
+];
+
 // ---------------------------------------------------------------------------
 // PESTAÑA UAT · Cargue WMS PB3 — consolidado de hallazgos de las pruebas UAT.
 // Da visibilidad de qué se va cerrando y qué falta antes de la salida en vivo.
 // ---------------------------------------------------------------------------
 
-const uatCorte = "Semana 20-24 oct · PB3-UAT";
+const uatCorte = "PB3-UAT · actualización semana 26-30 oct";
+
+const uatSeguimiento =
+  "Semana 26-30 oct: los hallazgos fueron remitidos y estamos a la espera de respuesta sobre el proceso de cargue de WMS para UAT. En validación de atención y alcance los Jira C400402681-2084 y C400402681-2088.";
 
 const uatTrabajo = [
   { titulo: "Cargue completo a WMS", detalle: "Las 3 plantillas cargadas: Items y Barcode al 100% y Ubicaciones al 99,99%." },
@@ -3396,6 +3417,20 @@ function App() {
             </div>
           </details>
 
+          <details className="card week-card" id="semana-26-30-oct" open>
+            <summary>
+              <h2>WMS UAT - Avances semana 26 al 30 de octubre</h2>
+            </summary>
+            <div className="task-list">
+              {semana26a30Octubre.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
           <section className="card">
             <h2>Resultado de cantidades (corte 23-04-2026)</h2>
             <div className="table-wrap">
@@ -3922,6 +3957,10 @@ function App() {
                 <strong>{uatPendientes}</strong>
                 <span className="kpi-foot">Requieren decisión de origen o negocio</span>
               </article>
+            </div>
+            <div className="brief-callout">
+              <span>Seguimiento</span>
+              <p>{uatSeguimiento}</p>
             </div>
           </section>
 

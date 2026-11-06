@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import erpInventario from "./erpInventario.json";
 import ErpInventarioDashboard from "./ErpInventarioDashboard.jsx";
+import ErpCalidadDatos from "./ErpCalidadDatos.jsx";
 
 const erpInvHojas = [
   "Resumen",
@@ -1905,8 +1906,8 @@ const erpProximosPasos = [
 const erpVolumetria = [
   {
     maestro: "Proveedores",
-    volumen: "En espera de accesos",
-    volumenNota: "Para construir y ejecutar la lógica de filtros.",
+    volumen: "5.638",
+    volumenNota: "Universo preliminar = proveedores distintos entre el criterio A (actualizados en los últimos 6 meses) y el criterio B (compras en el último año). Criterio C (cuentas por pagar) pendiente de confirmación de fuentes por Katerin Pinzón.",
     lineaBase:
       "Se migrarán los proveedores que en el último año y medio hayan transaccionado o que en los últimos 6 meses tengan actualizaciones. La intención es, además, hacer push a las áreas para que actualicen sus datos y clasifiquen para migrar; los que no se actualicen quedarán fuera y serán de gestión manual e interna del área.",
     fuentes: [
@@ -1951,6 +1952,22 @@ const erpVolumetria = [
       "En validación por parte de Laura Maya con las diferentes áreas de negocio involucradas. El inventario de tablas está en validación por parte de Eliany Salamanca.",
     fuentes: []
   }
+];
+
+const erpActividadesSemana = [
+  "Identificación de 22 tablas PS (16 de proveedores, 6 de clientes) y solicitud de accesos.",
+  "Generación del JSON de configuración para la ingesta en Fabric (zona Bronze).",
+  "Verificación de disponibilidad de todas las tablas en el lakehouse.",
+  "Construcción del catálogo interactivo con ~65 queries Spark SQL para EDA (proveedores y clientes).",
+  "Desarrollo del script PySpark de estadísticas de calidad de datos sobre las 22 tablas (exporta resumen_tablas.csv y calidad_columnas.csv). Se detalla más abajo en el apartado de perfilamiento.",
+  "Alerta: fechas legacy anteriores a 1900 en los datos PS.",
+  "Exploración de PS_TRANSACTION_INV como fuente transaccional del universo de proveedores — descartada por el equipo.",
+  "Definición del Criterio A del universo: proveedores con actualizaciones en los últimos 6 meses (PS_VENDOR.LAST_MODIFIED_DATE) — 4.427 en total.",
+  "Definición del Criterio B del universo: proveedores con órdenes de compra en el último año (PS_PO_HDR, PO_STATUS <> 'X') — 1.211 en total.",
+  "Definición del Criterio C del universo: proveedores con registros en cuentas por pagar — pendiente de confirmar las tablas fuente (Katerin Pinzón).",
+  "Universo consolidado: proveedores distintos entre el criterio A y el criterio B — 5.638 en total.",
+  "Generación del query consolidado del universo.",
+  "Alcance al inventario de objetos de migración Oracle Fusion, con mayor granularidad."
 ];
 
 const erpMetodologiaPros = [
@@ -4787,6 +4804,21 @@ function App() {
               ))}
             </div>
           </section>
+
+          <section className="card">
+            <h2>Actividades clave de la semana</h2>
+            <p className="entity-summary">
+              Avances del frente de Datos sobre las fuentes PS: identificación de tablas, ingesta en
+              Fabric, análisis exploratorio y definición del universo de proveedores a migrar.
+            </p>
+            <ol className="act-semana">
+              {erpActividadesSemana.map((texto, i) => (
+                <li key={i}>{texto}</li>
+              ))}
+            </ol>
+          </section>
+
+          <ErpCalidadDatos />
 
           <section className="card">
             <h2>Objetivo de esta versión y próximos pasos</h2>

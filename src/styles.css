@@ -2316,3 +2316,40 @@ tbody tr:last-child td {
   white-space: normal;
   text-align: left;
 }
+
+/* Actividades clave de la semana (pestaña ERP) */
+.act-semana {
+  margin: 4px 0 0;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: act;
+  display: grid;
+  gap: 8px;
+}
+.act-semana li {
+  counter-increment: act;
+  position: relative;
+  padding: 11px 14px 11px 46px;
+  background: linear-gradient(180deg, #fcfeff, #f2f8ff);
+  border: 1px solid #d9e3ef;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--darnel-ink);
+}
+.act-semana li::before {
+  content: counter(act);
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--darnel-blue-dark), var(--darnel-blue));
+  color: #fff;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+}

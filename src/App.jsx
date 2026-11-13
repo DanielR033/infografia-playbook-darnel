@@ -198,6 +198,11 @@ const hitosClave = [
     fecha: "26-30 Oct",
     titulo: "WMS UAT: validación de Jira y espera de respuesta",
     detalle: "Validación de atención y alcance de los Jira C400402681-2084 y C400402681-2088; a la espera de respuesta de los hallazgos remitidos sobre el proceso de cargue de WMS para UAT."
+  },
+  {
+    fecha: "10-14 Nov",
+    titulo: "WMS Playback: cierre de hallazgos y cargue 100%",
+    detalle: "Pruebas finales del Playback WMS: war rooms para cerrar el consolidado de hallazgos y alinear reglas (temporales, faltantes, lookups, Exceles), implementación, pruebas unitarias y aprobación de ítems y ubicaciones con cargue exitoso al 100%. Fallback para fechas de expiración vacías corregido desde origen. Nuevas novedades de inventario con Ileana Cortina (corte 12-11) y plantilla beta de inventarios el 13-11 como termómetro para la actividad del domingo."
   }
 ];
 
@@ -1370,15 +1375,43 @@ const semana26a30Octubre = [
   }
 ];
 
+const semana10a14Noviembre = [
+  {
+    texto:
+      "War rooms (dos días) para cerrar el consolidado de hallazgos del cargue de datos y alinear reglas temporales, reglas faltantes, cambios en tablas lookup y Exceles.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Implementación de las reglas, pruebas unitarias y aprobación de ítems y ubicaciones; cargue exitoso con 100% de datos enviados y 100% cargados.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Inventario: por regla temporal se implementó un fallback para fechas de expiración vacías (hardcode); se envió a Oracle la relación ítem-lote y la nueva fecha origen, gestionada y corregida desde origen.",
+    estado: "completado"
+  },
+  {
+    texto:
+      "Nuevas reglas y detección de nuevas novedades en inventarios; se alinea con Ileana Cortina con corte jueves 12-11.",
+    estado: "en-proceso"
+  },
+  {
+    texto:
+      "Compromiso: el viernes 13-11 se envía una versión beta de la plantilla de inventarios como termómetro para la actividad del domingo.",
+    estado: "compromiso"
+  }
+];
+
 // ---------------------------------------------------------------------------
 // PESTAÑA UAT · Cargue WMS PB3 — consolidado de hallazgos de las pruebas UAT.
 // Da visibilidad de qué se va cerrando y qué falta antes de la salida en vivo.
 // ---------------------------------------------------------------------------
 
-const uatCorte = "PB3-UAT · actualización semana 26-30 oct";
+const uatCorte = "PB3-UAT · actualización semana 10-14 nov";
 
 const uatSeguimiento =
-  "Semana 26-30 oct: los hallazgos fueron remitidos y estamos a la espera de respuesta sobre el proceso de cargue de WMS para UAT. En validación de atención y alcance los Jira C400402681-2084 y C400402681-2088.";
+  "Semana 10-14 nov: war rooms para cerrar el consolidado de hallazgos, implementación de reglas, pruebas unitarias y aprobación de ítems y ubicaciones; cargue exitoso al 100% (enviado y cargado). Se implementó un fallback para fechas de expiración vacías en inventario, corregido desde origen. Nuevas novedades de inventario en curso con Ileana Cortina (corte jueves 12-11); el viernes 13-11 se envía la plantilla beta de inventarios como termómetro para la actividad del domingo.";
 
 const uatTrabajo = [
   { titulo: "Cargue completo a WMS", detalle: "Las 3 plantillas cargadas: Items y Barcode al 100% y Ubicaciones al 99,99%." },
@@ -3576,12 +3609,26 @@ function App() {
             </div>
           </details>
 
-          <details className="card week-card" id="semana-26-30-oct" open>
+          <details className="card week-card" id="semana-26-30-oct">
             <summary>
               <h2>WMS UAT - Avances semana 26 al 30 de octubre</h2>
             </summary>
             <div className="task-list">
               {semana26a30Octubre.map((item) => (
+                <div className="task-item" key={item.texto}>
+                  <p>{item.texto}</p>
+                  <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details className="card week-card" id="semana-10-14-nov" open>
+            <summary>
+              <h2>WMS Playback - Avances semana 10 al 14 de noviembre</h2>
+            </summary>
+            <div className="task-list">
+              {semana10a14Noviembre.map((item) => (
                 <div className="task-item" key={item.texto}>
                   <p>{item.texto}</p>
                   <span className={`tag ${item.estado}`}>{estadoLabel[item.estado]}</span>

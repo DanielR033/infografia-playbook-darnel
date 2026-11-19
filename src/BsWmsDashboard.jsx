@@ -76,7 +76,20 @@ export default function BsWmsDashboard() {
   const M = DATA.motivos;
   const zmax = Math.max(...DATA.zonas.map((z) => z[1]), 1);
   const pctManual = (adi.lineas / K.lineas_total) * 100;
-  const motMax = Math.max(...M.resumen.map((m) => m[1]), 1);
+
+  // Conteo de motivos: unifica las variantes de "Sin stock en bodega 01" en un solo renglón.
+  const motResumen = useMemo(() => {
+    const SIN = "Sin stock en bodega 01";
+    let sinTotal = 0;
+    const out = [];
+    for (const [texto, n] of M.resumen) {
+      if (texto.startsWith(SIN)) sinTotal += n;
+      else out.push([texto, n]);
+    }
+    if (sinTotal > 0) out.push([`${SIN} (el stock está en otras bodegas que no se envían).`, sinTotal]);
+    return out.sort((a, b) => b[1] - a[1]);
+  }, [M]);
+  const motMax = Math.max(...motResumen.map((m) => m[1]), 1);
 
   const kpis = [
     { v: K.lineas_total, l: "Líneas de inventario enviadas (ISS)" },
@@ -166,7 +179,7 @@ export default function BsWmsDashboard() {
       <div className="bs-two" style={{ gridTemplateColumns: "1fr", marginBottom: 0 }}>
         <div>
           <div className="mot-sum">
-            {M.resumen.map((m, i) => (
+            {motResumen.map((m, i) => (
               <div className="mot-row" key={i}>
                 <div className="mc">{m[1]}</div>
                 <div className="mt">{m[0]}</div>

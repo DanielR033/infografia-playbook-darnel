@@ -4,6 +4,14 @@ import React from "react";
    tab: id de la pestaña destino (debe existir en el arreglo `tabs` de App.jsx). */
 const AGENDA = [
   {
+    etiqueta: "En curso",
+    fecha: "",
+    titulo: "Seguimiento plan de cutover",
+    desc: "Checklist técnico y funcional del cutover de WMS, tiempos del pipeline de migración y detalle del plan con su estado.",
+    tab: "cutover",
+    nuevo: false,
+  },
+  {
     etiqueta: "15 nov 2026",
     fecha: "Domingo 15 de noviembre de 2026",
     titulo: "Resultados de las pruebas de Business Simulation",

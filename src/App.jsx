@@ -2991,14 +2991,16 @@ function App() {
   const [invHoja, setInvHoja] = useState("Resumen");
   const tabs = [
     { id: "comite", label: "Seguimiento Comité" },
-    { id: "general", label: "General" },
-    { id: "transversales", label: "Transversales" },
-    { id: "metodologia", label: "Metodología" },
-    { id: "brief", label: "Brief PB3" },
-    { id: "uat", label: "UAT" },
-    { id: "items", label: "Items" },
-    { id: "barcode", label: "Barcode" },
-    { id: "locations", label: "Locations" },
+    // Ocultas de la barra (se conservan por si se necesitan más adelante; sus
+    // vistas y enlaces #hash siguen funcionando).
+    { id: "general", label: "General", oculta: true },
+    { id: "transversales", label: "Transversales", oculta: true },
+    { id: "metodologia", label: "Metodología", oculta: true },
+    { id: "brief", label: "Brief PB3", oculta: true },
+    { id: "uat", label: "UAT", oculta: true },
+    { id: "items", label: "Items", oculta: true },
+    { id: "barcode", label: "Barcode", oculta: true },
+    { id: "locations", label: "Locations", oculta: true },
     { id: "erp", label: "ERP" },
     { id: "erp-inv", label: "ERP Inventario" },
     { id: "bs-wms", label: "BS WMS" },
@@ -3093,7 +3095,7 @@ function App() {
       </header>
 
       <nav className="tabs card">
-        {tabs.map((tab) => (
+        {tabs.filter((tab) => !tab.oculta).map((tab) => (
           <button
             key={tab.id}
             type="button"

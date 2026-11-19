@@ -66,6 +66,11 @@ const CSS = `
 .bswms .sec-t{font-size:1.15rem;font-weight:700;color:var(--c-blue-d);margin:26px 0 2px}
 .bswms .sec-d{font-size:.88rem;color:var(--c-mut);margin:0 0 12px;max-width:72ch;line-height:1.5}
 .bswms .subt{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--c-mut);font-family:var(--mono);font-weight:600;margin:18px 0 8px}
+.bswms .topic-sep{height:0;border:0;border-top:2px dashed var(--c-bd);margin:46px 0 0}
+.bswms .topic-head{margin:24px 0 10px;padding:18px 20px;border:1px solid var(--c-bd);border-left:5px solid var(--c-blue);border-radius:14px;background:linear-gradient(180deg,#e9f2fc,#f8fbff)}
+.bswms .topic-head .te{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--c-blue);font-weight:700;background:#fff;border:1px solid var(--c-bd);border-radius:999px;padding:4px 11px}
+.bswms .topic-head h3{margin:12px 0 0;font-size:1.45rem;color:var(--c-blue-d);letter-spacing:-.01em}
+.bswms .topic-head p{margin:9px 0 0;font-size:.9rem;color:var(--c-mut);line-height:1.55;max-width:78ch}
 .bswms .sem-sum{display:grid;grid-template-columns:repeat(3,1fr) 2fr;gap:12px;align-items:stretch;margin:6px 0 18px}
 .bswms .sem-c{border:1px solid var(--c-bd);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;background:#fff}
 .bswms .sem-dot{width:16px;height:16px;border-radius:50%;flex:none;box-shadow:0 0 0 4px rgba(0,0,0,.04)}
@@ -308,15 +313,20 @@ export default function BsWmsDashboard() {
         ))}
       </div>
 
-      {/* ---------- RESULTADOS WMS UAT ---------- */}
-      <div className="sec-t">Resultados WMS UAT · Test 2</div>
-      <p className="sec-d">
-        Resultado del cargue de las 7 plantillas en WMS Test 2 (corte {UAT.corte}), evaluado con un
-        semáforo: <b style={{ color: "var(--ok)" }}>verde</b> = cargado sin novedades,
-        <b style={{ color: "var(--warn)" }}> amarillo</b> = con observaciones,
-        <b style={{ color: "var(--crit)" }}> rojo</b> = con errores. Cada plantilla despliega su regla de
-        transformación.
-      </p>
+      {/* ---------- RESULTADOS WMS UAT (bloque aparte) ---------- */}
+      <hr className="topic-sep" />
+      <div className="topic-head">
+        <span className="te">● Prueba UAT · WMS Test 2</span>
+        <h3>Resultados del cargue en WMS (UAT)</h3>
+        <p>
+          Segundo bloque de esta página: a diferencia de la Business Simulation (arriba), aquí se
+          muestra el resultado del cargue de las 7 plantillas en WMS Test 2 (corte {UAT.corte}),
+          evaluado con un semáforo: <b style={{ color: "var(--ok)" }}>verde</b> = cargado sin novedades,
+          <b style={{ color: "var(--warn)" }}> amarillo</b> = con observaciones,
+          <b style={{ color: "var(--crit)" }}> rojo</b> = con errores. Cada plantilla despliega su regla
+          de transformación.
+        </p>
+      </div>
 
       <div className="sem-sum">
         {[["verde", "Sin novedades"], ["amarillo", "Con observaciones"], ["rojo", "Con errores"]].map(([k, l]) => (

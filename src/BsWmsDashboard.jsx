@@ -1,0 +1,214 @@
+import React, { useMemo, useState } from "react";
+import DATA from "./bsWmsData.json";
+
+const CSS = `
+.bswms{--c-blue:#0058a8;--c-blue-d:#003b70;--c-cyan:#00a7e1;--c-ink:#1f2b3a;--c-mut:#5b6b7a;
+ --c-bd:#d9e3ef;--c-soft:#f3f8fd;--ok:#0f8f6c;--ok-s:#e6f7ef;--warn:#c67c12;--warn-s:#fdf2dc;
+ --crit:#b5323b;--crit-s:#fbe3e4;--viol:#6b46c1;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.bswms .bs-kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:4px 0 22px}
+.bswms .bs-kpi{background:linear-gradient(180deg,#fcfeff,#f2f8ff);border:1px solid var(--c-bd);border-radius:12px;padding:15px;position:relative;overflow:hidden}
+.bswms .bs-kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--c-blue),var(--c-cyan))}
+.bswms .bs-kpi.manual::before{background:linear-gradient(180deg,var(--viol),#8b63e0)}
+.bswms .bs-kpi .v{font-family:var(--mono);font-weight:600;font-size:1.5rem;line-height:1;color:var(--c-blue-d)}
+.bswms .bs-kpi .l{font-size:.73rem;color:var(--c-mut);margin-top:7px;line-height:1.25}
+.bswms .bs-kpi.manual .v{color:var(--viol)}
+.bswms .bs-two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px}
+@media(max-width:860px){.bswms .bs-kpis{grid-template-columns:repeat(2,1fr)}.bswms .bs-two{grid-template-columns:1fr}}
+.bswms .env{border:1px solid var(--c-bd);border-radius:14px;background:#fff;padding:18px;position:relative}
+.bswms .env.inicial{border-top:3px solid var(--c-blue)}
+.bswms .env.adicional{border-top:3px solid var(--viol)}
+.bswms .env .etag{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:var(--mono)}
+.bswms .env.inicial .etag{color:var(--c-blue)}
+.bswms .env.adicional .etag{color:var(--viol)}
+.bswms .env h4{margin:3px 0 0;font-size:1.05rem;color:var(--c-ink)}
+.bswms .env .edesc{font-size:.84rem;color:var(--c-mut);margin:8px 0 14px;line-height:1.45}
+.bswms .env .emetrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bswms .env .em{background:var(--c-soft);border-radius:10px;padding:10px 12px}
+.bswms .env .em .ev{font-family:var(--mono);font-weight:600;font-size:1.15rem;color:var(--c-blue-d)}
+.bswms .env.adicional .em .ev{color:var(--viol)}
+.bswms .env .em .el{font-size:.72rem;color:var(--c-mut);margin-top:3px}
+.bswms .split{margin:6px 0 20px}
+.bswms .split .sbl{display:flex;justify-content:space-between;font-size:.82rem;color:var(--c-mut);margin-bottom:6px}
+.bswms .split .track{height:16px;border-radius:8px;overflow:hidden;display:flex;border:1px solid var(--c-bd)}
+.bswms .split .seg-ini{background:linear-gradient(90deg,var(--c-blue),var(--c-cyan))}
+.bswms .split .seg-adi{background:linear-gradient(90deg,var(--viol),#8b63e0)}
+.bswms .split .leg{display:flex;gap:18px;margin-top:8px;font-size:.78rem}
+.bswms .split .leg span{display:inline-flex;align-items:center;gap:6px}
+.bswms .split .dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+.bswms .flow{display:grid;grid-template-columns:auto 1fr;gap:14px 18px;align-items:center;margin-top:6px}
+.bswms .flow .big{font-family:var(--mono);font-weight:600;font-size:2rem;color:var(--c-blue-d);line-height:1}
+.bswms .funnel{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.bswms .fstep{flex:1;min-width:150px;border:1px solid var(--c-bd);border-radius:12px;padding:14px;background:linear-gradient(180deg,#fcfeff,#f4f9fe)}
+.bswms .fstep .fv{font-family:var(--mono);font-weight:600;font-size:1.5rem}
+.bswms .fstep .fl{font-size:.78rem;color:var(--c-mut);margin-top:5px;line-height:1.3}
+.bswms .fstep.ok .fv{color:var(--ok)}.bswms .fstep.crit .fv{color:var(--crit)}
+.bswms .fstep.add .fv{color:var(--viol)}.bswms .fstep.tot .fv{color:var(--c-blue-d)}
+.bswms .fstep.ok{border-color:#bfe6d4}.bswms .fstep.crit{border-color:#f0c5c3}.bswms .fstep.add{border-color:#d8cdf0}
+.bswms .mot-sum{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+.bswms .mot-row{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start}
+.bswms .mot-row .mc{font-family:var(--mono);font-weight:600;font-size:1.1rem;color:var(--crit);text-align:right;padding-top:1px}
+.bswms .mot-row .mt{font-size:.84rem;line-height:1.4}
+.bswms .mot-row .mbar{grid-column:2;height:6px;border-radius:4px;background:#eef3f8;overflow:hidden;margin-top:5px}
+.bswms .mot-row .mfill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--warn),#eaa552)}
+.bswms .tblwrap{overflow-x:auto;border:1px solid var(--c-bd);border-radius:12px;margin-top:6px}
+.bswms table.bt{border-collapse:collapse;width:100%;font-size:.83rem;min-width:720px}
+.bswms table.bt th{background:var(--c-soft);text-align:left;font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--c-mut);font-weight:600;padding:10px 12px;border-bottom:2px solid var(--c-bd);white-space:nowrap}
+.bswms table.bt td{padding:9px 12px;border-bottom:1px solid #eef3f8;vertical-align:top}
+.bswms table.bt tbody tr:hover{background:var(--c-soft)}
+.bswms .mono2{font-family:var(--mono);font-size:.8rem}
+.bswms .zbars{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.bswms .zbar{display:grid;grid-template-columns:120px 1fr 60px;gap:10px;align-items:center;font-size:.82rem}
+.bswms .zbar .zt{display:block;height:8px;border-radius:5px;background:#eef3f8;overflow:hidden}
+.bswms .zbar .zf{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--c-blue),var(--c-cyan))}
+.bswms .zbar .zv{font-family:var(--mono);text-align:right;color:var(--c-mut)}
+.bswms .bs-note{font-size:.8rem;color:var(--c-mut);margin-top:12px;background:var(--c-soft);border-left:3px solid var(--c-blue);border-radius:0 8px 8px 0;padding:10px 14px}
+.bswms h2 .pico{font-family:var(--mono);font-size:.7rem;font-weight:600;color:var(--c-blue);background:#e3eefb;border-radius:999px;padding:3px 9px;margin-left:10px;vertical-align:middle;letter-spacing:.04em}
+.bswms .sec-t{font-size:1.15rem;font-weight:700;color:var(--c-blue-d);margin:26px 0 2px}
+.bswms .sec-d{font-size:.88rem;color:var(--c-mut);margin:0 0 12px;max-width:72ch;line-height:1.5}
+`;
+
+const nf = (n) => (n == null || n === "") ? "—" : Number(n).toLocaleString("es-CO");
+
+export default function BsWmsDashboard() {
+  const K = DATA.kpis;
+  const [ini, adi] = DATA.envios;
+  const P = DATA.piso;
+  const M = DATA.motivos;
+  const zmax = Math.max(...DATA.zonas.map((z) => z[1]), 1);
+  const pctManual = (adi.lineas / K.lineas_total) * 100;
+  const motMax = Math.max(...M.resumen.map((m) => m[1]), 1);
+
+  const kpis = [
+    { v: K.lineas_total, l: "Líneas de inventario enviadas (ISS)" },
+    { v: K.lpns_total, l: "Contenedores / LPN cargados" },
+    { v: K.unidades_total, l: "Unidades de inventario" },
+    { v: K.items_inicial, l: "Ítems distintos (envío inicial)" },
+    { v: K.ubic_total, l: "Registros de ubicación (LLL)" },
+    { v: pctManual.toFixed(1) + "%", l: "Del total construido manualmente", cls: "manual" },
+  ];
+
+  const seg = (base, n) => ((n / base) * 100).toFixed(1) + "%";
+
+  return (
+    <section className="card bswms">
+      <style>{CSS}</style>
+      <h2>Business Simulation · WMS<span className="pico">Resumen ejecutivo</span></h2>
+      <p className="entity-summary">
+        Prueba de Business Simulation (BS) ejecutada sobre los datos migrados en UAT, incorporando
+        las correcciones surgidas durante las pruebas. Se cargó el inventario de piso de la bodega 01
+        al WMS mediante las plantillas de inventario (ISS) y ubicaciones (LLL). Esta vista resume el
+        volumen enviado, el origen de los datos (lógica de extracción vs. construcción manual) y los
+        artículos que no migraron con su motivo.
+      </p>
+
+      <div className="bs-kpis">
+        {kpis.map((k, i) => (
+          <div className={`bs-kpi ${k.cls || ""}`} key={i}>
+            <div className="v">{typeof k.v === "number" ? nf(k.v) : k.v}</div>
+            <div className="l">{k.l}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="sec-t">Origen de los datos enviados</div>
+      <p className="sec-d">
+        El envío inicial lo generó la extracción automática aplicando las reglas de negocio; lo que no
+        migró por esas reglas se rearmó manualmente en los archivos «adicional».
+      </p>
+      <div className="split">
+        <div className="sbl"><span>Distribución de líneas de inventario</span><span>{nf(K.lineas_total)} líneas</span></div>
+        <div className="track">
+          <div className="seg-ini" style={{ width: seg(K.lineas_total, ini.lineas) }} />
+          <div className="seg-adi" style={{ width: seg(K.lineas_total, adi.lineas) }} />
+        </div>
+        <div className="leg">
+          <span><i className="dot" style={{ background: "var(--c-blue)" }} /> Inicial · {nf(ini.lineas)} ({seg(K.lineas_total, ini.lineas)})</span>
+          <span><i className="dot" style={{ background: "var(--viol)" }} /> Adicional · {nf(adi.lineas)} ({seg(K.lineas_total, adi.lineas)})</span>
+        </div>
+      </div>
+
+      <div className="bs-two">
+        {DATA.envios.map((e, i) => (
+          <div className={`env ${e.tipo.toLowerCase()}`} key={i}>
+            <div className="etag">{e.tipo === "Inicial" ? "Envío inicial" : "Envío adicional"}</div>
+            <h4>{e.etiqueta}</h4>
+            <p className="edesc">{e.desc}</p>
+            <div className="emetrics">
+              <div className="em"><div className="ev">{nf(e.lineas)}</div><div className="el">Líneas de inventario</div></div>
+              <div className="em"><div className="ev">{nf(e.lpns)}</div><div className="el">Contenedores / LPN</div></div>
+              <div className="em"><div className="ev">{nf(e.unidades)}</div><div className="el">Unidades</div></div>
+              <div className="em"><div className="ev">{nf(e.items)}</div><div className="el">Ítems distintos</div></div>
+              <div className="em"><div className="ev">{nf(e.ubicaciones)}</div><div className="el">Registros de ubicación</div></div>
+              <div className="em"><div className="ev">{nf(e.ubic_unicas)}</div><div className="el">Ubicaciones únicas</div></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="sec-t">Cobertura de los artículos de piso</div>
+      <p className="sec-d">
+        La definición de la BS fue migrar todos los artículos que estuvieran en la misma ubicación y
+        pallet que los artículos listados. Partiendo de {nf(P.total)} artículos de referencia, la regla
+        arrastró el resto del stock co-ubicado.
+      </p>
+      <div className="funnel">
+        <div className="fstep tot"><div className="fv">{nf(P.total)}</div><div className="fl">Artículos de piso listados (semilla de la prueba)</div></div>
+        <div className="fstep ok"><div className="fv">{nf(P.migrados)}</div><div className="fl">De los listados, migraron correctamente</div></div>
+        <div className="fstep crit"><div className="fv">{nf(P.no_migraron)}</div><div className="fl">De los listados, no migraron (ver motivos)</div></div>
+        <div className="fstep add"><div className="fv">+{nf(P.arrastrados)}</div><div className="fl">Arrastrados por la regla misma ubicación / pallet</div></div>
+        <div className="fstep tot"><div className="fv">{nf(P.enviados)}</div><div className="fl">Ítems distintos enviados en total (inicial)</div></div>
+      </div>
+
+      <div className="sec-t">Artículos no migrados y su motivo</div>
+      <p className="sec-d">
+        Relación ítem ↔ motivo de falla ({M.total} artículos), y el conteo de artículos por cada motivo único.
+      </p>
+      <div className="bs-two" style={{ gridTemplateColumns: "1fr", marginBottom: 0 }}>
+        <div>
+          <div className="mot-sum">
+            {M.resumen.map((m, i) => (
+              <div className="mot-row" key={i}>
+                <div className="mc">{m[1]}</div>
+                <div className="mt">{m[0]}</div>
+                <div className="mbar"><div className="mfill" style={{ width: (m[1] / motMax * 100) + "%" }} /></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="tblwrap">
+        <table className="bt">
+          <thead><tr>
+            <th>Ítem origen</th><th>part_a (código final)</th><th>item_alternate_code</th><th>Motivo</th>
+          </tr></thead>
+          <tbody>
+            {M.rows.map((r, i) => (
+              <tr key={i}>
+                <td className="mono2">{r[0]}</td>
+                <td className="mono2">{r[1]}</td>
+                <td className="mono2">{r[2]}</td>
+                <td>{r[3]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="bs-note">
+        El motivo «código de producto como prioridad» no es una falla: esos artículos sí migraron, pero
+        bajo el código de producto en lugar del código de artículo, según la regla de la plantilla.
+      </p>
+
+      <div className="sec-t">Distribución del inventario inicial por zona de ubicación</div>
+      <p className="sec-d">Contenedores por zona del barcode de ubicación (primer segmento), en el envío inicial.</p>
+      <div className="zbars">
+        {DATA.zonas.map((z, i) => (
+          <div className="zbar" key={i}>
+            <span className="mono2">{z[0]}</span>
+            <span className="zt"><span className="zf" style={{ width: (z[1] / zmax * 100) + "%" }} /></span>
+            <span className="zv">{nf(z[1])}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

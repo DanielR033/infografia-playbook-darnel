@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import erpInventario from "./erpInventario.json";
 import ErpInventarioDashboard from "./ErpInventarioDashboard.jsx";
 import ErpCalidadDatos from "./ErpCalidadDatos.jsx";
+import BsWmsDashboard from "./BsWmsDashboard.jsx";
 
 const erpInvHojas = [
   "Resumen",
@@ -2996,7 +2997,8 @@ function App() {
     { id: "barcode", label: "Barcode" },
     { id: "locations", label: "Locations" },
     { id: "erp", label: "ERP" },
-    { id: "erp-inv", label: "ERP Inventario" }
+    { id: "erp-inv", label: "ERP Inventario" },
+    { id: "bs-wms", label: "BS WMS" }
   ];
   const fmtInv = (v) => {
     if (typeof v === "number") {
@@ -4838,6 +4840,8 @@ function App() {
       )}
 
       {tabActiva === "erp-inv" && <ErpInventarioDashboard />}
+
+      {tabActiva === "bs-wms" && <BsWmsDashboard />}
 
       {tabActiva !== "general" && detalle && (
         <>

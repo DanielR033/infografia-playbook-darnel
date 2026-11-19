@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import MapeoReportesBI from "./MapeoReportesBI.jsx";
 
 /* Temas del comité semana a semana. Agregar nuevos ítems al inicio del arreglo.
    tab: id de la pestaña destino (debe existir en el arreglo `tabs` de App.jsx). */
 const AGENDA = [
+  {
+    etiqueta: "En curso",
+    fecha: "",
+    titulo: "Seguimiento mapeo reportes BI · WMS Cloud",
+    desc: "Continuidad de los reportes que hoy tiene BI para el momento de la migración: avance del pre-mapeo de los campos fuente a WMS Cloud.",
+    overlay: "mapeo-bi",
+    nuevo: true,
+  },
   {
     etiqueta: "En curso",
     fecha: "",
@@ -58,9 +67,12 @@ const CSS = `
 `;
 
 export default function SeguimientoComite({ onNavigate }) {
+  const [verMapeo, setVerMapeo] = useState(false);
   const go = (tab) => typeof onNavigate === "function" && onNavigate(tab);
+  const abrir = (a) => { if (a.overlay === "mapeo-bi") setVerMapeo(true); else go(a.tab); };
   return (
     <section className="card comite">
+      {verMapeo && <MapeoReportesBI onClose={() => setVerMapeo(false)} />}
       <style>{CSS}</style>
       <p className="cm-eyebrow">Comité de datos</p>
       <h2 style={{ marginTop: 6 }}>Seguimiento semanal</h2>
@@ -73,14 +85,14 @@ export default function SeguimientoComite({ onNavigate }) {
       <p className="sec-d">Selecciona un tema para abrir su tablero.</p>
       <div className="agenda">
         {AGENDA.map((a, i) => (
-          <button className="ag-item" key={i} onClick={() => go(a.tab)}>
+          <button className="ag-item" key={i} onClick={() => abrir(a)}>
             <span className="ag-date"><span className="dchip">{a.etiqueta}</span></span>
             <span className="ag-body">
               <span className="at">{a.titulo}{a.nuevo && <span className="badge-new">Nuevo</span>}</span>
               <span className="ad">{a.desc}</span>
-              <span className="afecha">{a.fecha}</span>
+              {a.fecha && <span className="afecha">{a.fecha}</span>}
             </span>
-            <span className="ag-go">Ver tablero →</span>
+            <span className="ag-go">{a.overlay ? "Abrir ventana →" : "Ver tablero →"}</span>
           </button>
         ))}
       </div>

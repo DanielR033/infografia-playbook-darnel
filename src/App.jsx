@@ -4,6 +4,7 @@ import ErpInventarioDashboard from "./ErpInventarioDashboard.jsx";
 import ErpCalidadDatos from "./ErpCalidadDatos.jsx";
 import BsWmsDashboard from "./BsWmsDashboard.jsx";
 import SeguimientoComite from "./SeguimientoComite.jsx";
+import CutoverDashboard from "./CutoverDashboard.jsx";
 
 const erpInvHojas = [
   "Resumen",
@@ -3000,7 +3001,8 @@ function App() {
     { id: "locations", label: "Locations" },
     { id: "erp", label: "ERP" },
     { id: "erp-inv", label: "ERP Inventario" },
-    { id: "bs-wms", label: "BS WMS" }
+    { id: "bs-wms", label: "BS WMS" },
+    { id: "cutover", label: "Cutover" }
   ];
 
   // Enrutamiento por URL (#hash): permite abrir/compartir una pestaña concreta.
@@ -3009,7 +3011,7 @@ function App() {
     try { window.history.replaceState(null, "", "#" + id); } catch (e) { /* noop */ }
   };
   useEffect(() => {
-    const ids = new Set(["comite", "general", "transversales", "metodologia", "brief", "uat", "items", "barcode", "locations", "erp", "erp-inv", "bs-wms"]);
+    const ids = new Set(["comite", "general", "transversales", "metodologia", "brief", "uat", "items", "barcode", "locations", "erp", "erp-inv", "bs-wms", "cutover"]);
     const desdeHash = () => {
       const h = decodeURIComponent((window.location.hash || "").replace(/^#/, ""));
       if (ids.has(h)) setTabActiva(h);
@@ -4863,6 +4865,8 @@ function App() {
       {tabActiva === "erp-inv" && <ErpInventarioDashboard />}
 
       {tabActiva === "bs-wms" && <BsWmsDashboard />}
+
+      {tabActiva === "cutover" && <CutoverDashboard />}
 
       {tabActiva !== "general" && detalle && (
         <>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import erpInventario from "./erpInventario.json";
 import ErpInventarioDashboard from "./ErpInventarioDashboard.jsx";
 import ErpCalidadDatos from "./ErpCalidadDatos.jsx";
 import BsWmsDashboard from "./BsWmsDashboard.jsx";
+import SeguimientoComite from "./SeguimientoComite.jsx";
 
 const erpInvHojas = [
   "Resumen",
@@ -2985,9 +2986,10 @@ const entidadDetalle = {
 };
 
 function App() {
-  const [tabActiva, setTabActiva] = useState("general");
+  const [tabActiva, setTabActiva] = useState("comite");
   const [invHoja, setInvHoja] = useState("Resumen");
   const tabs = [
+    { id: "comite", label: "Seguimiento Comité" },
     { id: "general", label: "General" },
     { id: "transversales", label: "Transversales" },
     { id: "metodologia", label: "Metodología" },
@@ -3000,6 +3002,23 @@ function App() {
     { id: "erp-inv", label: "ERP Inventario" },
     { id: "bs-wms", label: "BS WMS" }
   ];
+
+  // Enrutamiento por URL (#hash): permite abrir/compartir una pestaña concreta.
+  const irPestana = (id) => {
+    setTabActiva(id);
+    try { window.history.replaceState(null, "", "#" + id); } catch (e) { /* noop */ }
+  };
+  useEffect(() => {
+    const ids = new Set(["comite", "general", "transversales", "metodologia", "brief", "uat", "items", "barcode", "locations", "erp", "erp-inv", "bs-wms"]);
+    const desdeHash = () => {
+      const h = decodeURIComponent((window.location.hash || "").replace(/^#/, ""));
+      if (ids.has(h)) setTabActiva(h);
+    };
+    desdeHash();
+    window.addEventListener("hashchange", desdeHash);
+    return () => window.removeEventListener("hashchange", desdeHash);
+  }, []);
+
   const fmtInv = (v) => {
     if (typeof v === "number") {
       if (Number.isInteger(v)) return v.toLocaleString("es-CO");
@@ -3077,12 +3096,14 @@ function App() {
             key={tab.id}
             type="button"
             className={`tab-btn ${tabActiva === tab.id ? "active" : ""}`}
-            onClick={() => setTabActiva(tab.id)}
+            onClick={() => irPestana(tab.id)}
           >
             {tab.label}
           </button>
         ))}
       </nav>
+
+      {tabActiva === "comite" && <SeguimientoComite onNavigate={irPestana} />}
 
       {tabActiva === "general" && (
         <>

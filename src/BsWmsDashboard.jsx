@@ -77,16 +77,22 @@ export default function BsWmsDashboard() {
   const zmax = Math.max(...DATA.zonas.map((z) => z[1]), 1);
   const pctManual = (adi.lineas / K.lineas_total) * 100;
 
-  // Conteo de motivos: unifica las variantes de "Sin stock en bodega 01" en un solo renglón.
+  // Conteo de motivos: unifica variantes equivalentes en un solo renglón.
   const motResumen = useMemo(() => {
-    const SIN = "Sin stock en bodega 01";
-    let sinTotal = 0;
+    const grupos = [
+      { test: (t) => t.startsWith("Sin stock en bodega 01"),
+        label: "Sin stock en bodega 01 (el stock está en otras bodegas que no se envían)." },
+      { test: (t) => t.startsWith("Su única línea en bodega 01"),
+        label: "Su única línea en bodega 01 está en una ubicación tipo D/P no inventariable (incluye PUERTA24)." },
+    ];
+    const acc = new Map();
     const out = [];
     for (const [texto, n] of M.resumen) {
-      if (texto.startsWith(SIN)) sinTotal += n;
+      const g = grupos.find((x) => x.test(texto));
+      if (g) acc.set(g.label, (acc.get(g.label) || 0) + n);
       else out.push([texto, n]);
     }
-    if (sinTotal > 0) out.push([`${SIN} (el stock está en otras bodegas que no se envían).`, sinTotal]);
+    for (const [label, n] of acc) out.push([label, n]);
     return out.sort((a, b) => b[1] - a[1]);
   }, [M]);
   const motMax = Math.max(...motResumen.map((m) => m[1]), 1);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MapeoReportesBI from "./MapeoReportesBI.jsx";
 import Pb1OracleFusion from "./Pb1OracleFusion.jsx";
+import IndicadoresProyecto, { VentanaTecnica } from "./IndicadoresProyecto.jsx";
 
 /* Temas del comité semana a semana. Agregar nuevos ítems al inicio del arreglo.
    tab: id de la pestaña destino (debe existir en el arreglo `tabs` de App.jsx). */
@@ -9,7 +10,7 @@ const AGENDA = [
     etiqueta: "En curso",
     fecha: "",
     titulo: "PB1 Oracle Fusion",
-    desc: "Datos de las plantillas usadas en la primera prueba (PB1) de Oracle Fusion —Clientes y Artículos— contrastados contra el volumen inicial del ERP (Proveedores pendiente).",
+    desc: "Datos de las plantillas usadas en la primera prueba (PB1) de Oracle Fusion —Clientes, Artículos y Proveedores— contrastados contra el volumen inicial del ERP.",
     overlay: "pb1",
     nuevo: true,
   },
@@ -51,6 +52,8 @@ const ACCESOS = [
   { tab: "bs-wms", titulo: "BS WMS", desc: "Resumen ejecutivo de la Business Simulation." },
   { tab: "erp-inv", titulo: "ERP Inventario", desc: "Dimensionamiento de la migración a Oracle Fusion 26C." },
   { tab: "erp", titulo: "ERP", desc: "Avance del frente ERP: volumetría y calidad de datos." },
+  { tab: "fabric", titulo: "Microsoft Fabric", desc: "Ejecuciones, tiempos, almacenamiento y capacidad del workspace de migración." },
+  { tab: "impacto-cx", titulo: "Impacto CX", desc: "Oracle CX ya pobló Artículos y Clientes en ERP Fusion: volúmenes, secuencia e impacto en la estrategia." },
 ];
 
 const CSS = `
@@ -73,7 +76,7 @@ const CSS = `
 .comite .ag-body .afecha{display:block;font-size:.74rem;color:var(--c-mut);font-family:var(--mono);margin-top:7px}
 .comite .badge-new{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:linear-gradient(90deg,var(--ok),#23b98a);border-radius:999px;padding:2px 8px}
 .comite .ag-go{font-family:var(--mono);font-size:.82rem;font-weight:600;color:var(--c-blue);white-space:nowrap}
-.comite .accesos{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.comite .accesos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .comite .acc{border:1px solid var(--c-bd);border-radius:12px;background:#fff;padding:16px;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:box-shadow .15s,border-color .15s}
 .comite .acc:hover{box-shadow:0 6px 16px rgba(0,88,168,.1);border-color:var(--c-blue)}
 .comite .acc .act{font-weight:700;color:var(--c-blue-d);display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -103,6 +106,8 @@ export default function SeguimientoComite({ onNavigate }) {
         Punto de partida del comité de datos. Desde aquí se presentan los avances semana a semana;
         cada tema enlaza directamente a la vista con el detalle correspondiente.
       </p>
+
+      <IndicadoresProyecto irA={go} abrirBI={() => setVerMapeo(true)} />
 
       <div className="sec-t">Temas de la semana</div>
       <p className="sec-d">Selecciona un tema para abrir su tablero.</p>
@@ -136,6 +141,7 @@ export default function SeguimientoComite({ onNavigate }) {
         queda apuntando a ella (por ejemplo <span className="mono">…/#bs-wms</span>), lista para compartir
         o abrir directamente en esa vista.
       </p>
+      <VentanaTecnica irA={go} />
     </section>
   );
 }

@@ -1,0 +1,476 @@
+{
+ "corte": "2026-11-20",
+ "fuente": "OneLake · WS_Migracion_WMS_Fusion · conteo por _delta_log (stats.numRecords de archivos activos); null = tabla con checkpoint, no contada por esta vía",
+ "capas": {
+  "bronze": {
+   "PSXLATITEM": {
+    "filas": 55261,
+    "ultima": null
+   },
+   "PS_AJ_ALTA_CLIENTE": {
+    "filas": 111736,
+    "ultima": null
+   },
+   "PS_AJ_BUS_UNIT_BI": {
+    "filas": 166,
+    "ultima": null
+   },
+   "PS_AJ_BU_ITEM_UOM": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_AJ_CITAS_AUTSER": {
+    "filas": 379638,
+    "ultima": null
+   },
+   "PS_AJ_CONTNR_LINE": {
+    "filas": 96258,
+    "ultima": null
+   },
+   "PS_AJ_DOCS_VENDOR": {
+    "filas": 14749,
+    "ultima": null
+   },
+   "PS_AJ_INF_PROV_VW": {
+    "filas": 65455,
+    "ultima": null
+   },
+   "PS_AJ_INVUOM_WMS": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_AJ_MASTER_ITEM": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_AJ_ORDHDR_PRNBR": {
+    "filas": 0,
+    "ultima": null
+   },
+   "PS_AJ_RIESG_CLIENT": {
+    "filas": 88139,
+    "ultima": null
+   },
+   "PS_AJ_UOMSTOCK_DIM": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_AJ_VENDOR_LOC_V": {
+    "filas": 71819,
+    "ultima": null
+   },
+   "PS_AJ_VNDR_RSPN": {
+    "filas": 42062,
+    "ultima": null
+   },
+   "PS_AJ_XLATTABLE": {
+    "filas": 101874,
+    "ultima": null
+   },
+   "PS_BU_ITEMS_INV": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_CUSTOMER": {
+    "filas": 207996,
+    "ultima": null
+   },
+   "PS_CUST_ADDRESS": {
+    "filas": 0,
+    "ultima": null
+   },
+   "PS_CUST_SHIPTO_OPT": {
+    "filas": 244388,
+    "ultima": null
+   },
+   "PS_CUST_TEAM": {
+    "filas": 222764,
+    "ultima": null
+   },
+   "PS_INV_ITEM_UOM": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_IN_DEMAND": {
+    "filas": 25271115,
+    "ultima": null
+   },
+   "PS_ITM_CAT_TBL": {
+    "filas": 596,
+    "ultima": null
+   },
+   "PS_LC_ACT_ECNM_DTL": {
+    "filas": 16136,
+    "ultima": null
+   },
+   "PS_LC_ACT_ECNM_TBL": {
+    "filas": 497,
+    "ultima": null
+   },
+   "PS_LC_VNDR_ID_TBL": {
+    "filas": 41973,
+    "ultima": null
+   },
+   "PS_LC_VNDR_INF_TBL": {
+    "filas": 45827,
+    "ultima": null
+   },
+   "PS_MASTER_ITEM_TBL": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_ORD_HEADER": {
+    "filas": 0,
+    "ultima": null
+   },
+   "PS_ORD_HOLD": {
+    "filas": 0,
+    "ultima": null
+   },
+   "PS_ORD_LINE": {
+    "filas": 25001381,
+    "ultima": null
+   },
+   "PS_ORD_NOTE": {
+    "filas": 0,
+    "ultima": null
+   },
+   "PS_ORD_NOTE_DOC": {
+    "filas": 649265,
+    "ultima": null
+   },
+   "PS_PAY_TRMS_NET": {
+    "filas": 1793,
+    "ultima": null
+   },
+   "PS_PAY_TRMS_TIME": {
+    "filas": 4779,
+    "ultima": null
+   },
+   "PS_PHYSICAL_INV": {
+    "filas": 5106381,
+    "ultima": null
+   },
+   "PS_PO_HDR": {
+    "filas": 777118,
+    "ultima": null
+   },
+   "PS_PRODKIT_COMPS": {
+    "filas": 2206,
+    "ultima": null
+   },
+   "PS_PROD_ITEM": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_PROD_ITEM_LNG": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_PROD_UOM": {
+    "filas": 145574,
+    "ultima": null
+   },
+   "PS_SET_CNTRL_REC": {
+    "filas": null,
+    "ultima": null
+   },
+   "PS_SP_BU_OM_OPRVW": {
+    "filas": 86709,
+    "ultima": null
+   },
+   "PS_TRANSACTION_INV": {
+    "filas": 39073491,
+    "ultima": null
+   },
+   "PS_UNITS_CVT_TBL": {
+    "filas": 251,
+    "ultima": null
+   },
+   "PS_VENDOR": {
+    "filas": 56557,
+    "ultima": null
+   },
+   "PS_VENDOR_ADDR": {
+    "filas": 62919,
+    "ultima": null
+   },
+   "PS_VENDOR_CNTCT": {
+    "filas": 64970,
+    "ultima": null
+   },
+   "PS_VENDOR_LOC": {
+    "filas": 81008,
+    "ultima": null
+   },
+   "PS_VENDOR_PAY": {
+    "filas": 80892,
+    "ultima": null
+   },
+   "PS_VNDR_BANK_ACCT": {
+    "filas": 81952,
+    "ultima": null
+   },
+   "PS_VNDR_CNTCT_PHN": {
+    "filas": 43584,
+    "ultima": null
+   },
+   "alamos_putaway_sequence_wh_02": {
+    "filas": 2405,
+    "ultima": "2026-10-07"
+   },
+   "articulos_product_life": {
+    "filas": 5945,
+    "ultima": "2026-11-12"
+   },
+   "codigos_bloqueo_averia": {
+    "filas": 27,
+    "ultima": "2026-10-15"
+   },
+   "codigos_bloqueo_averia_v2": {
+    "filas": 27,
+    "ultima": "2026-11-13"
+   },
+   "inventario_fecha_expiracion_vacia": {
+    "filas": 876,
+    "ultima": "2026-11-12"
+   },
+   "inventario_final": {
+    "filas": 5059,
+    "ultima": "2026-11-15"
+   },
+   "items_temporal": {
+    "filas": 46807,
+    "ultima": "2026-09-04"
+   },
+   "lkp_inventarios_pb3": {
+    "filas": 34584,
+    "ultima": "2026-10-17"
+   },
+   "lkp_item_kit": {
+    "filas": 386,
+    "ultima": "2026-10-15"
+   },
+   "lkp_item_pb3": {
+    "filas": 13817,
+    "ultima": "2026-10-10"
+   },
+   "lkp_item_reference_v2": {
+    "filas": 1333,
+    "ultima": "2026-04-17"
+   },
+   "lkp_item_reference_v3": {
+    "filas": 42181,
+    "ultima": "2026-04-20"
+   },
+   "lkp_ubicaciones_pb3": {
+    "filas": 24128,
+    "ultima": "2026-10-09"
+   },
+   "madrid_putaway_sequence_wh_01": {
+    "filas": 21075,
+    "ultima": "2026-09-28"
+   },
+   "maestro_wms_articulos": {
+    "filas": 43461,
+    "ultima": "2026-08-05"
+   },
+   "pb1_barcode": {
+    "filas": 531,
+    "ultima": "2026-05-06"
+   },
+   "pb1_items": {
+    "filas": 8477,
+    "ultima": "2026-05-06"
+   },
+   "pb1_items_pt2": {
+    "filas": 630,
+    "ultima": "2026-05-06"
+   },
+   "pb1_ubicaciones": {
+    "filas": 5216,
+    "ultima": "2026-05-06"
+   },
+   "pb2_items": {
+    "filas": 43611,
+    "ultima": "2026-06-24"
+   },
+   "puertas_uat_ingesta": {
+    "filas": 559,
+    "ultima": "2026-11-11"
+   },
+   "snapshot_inventario_enviado_oracle": {
+    "filas": 34579,
+    "ultima": "2026-11-11"
+   },
+   "t_company_whse": {
+    "filas": 228,
+    "ultima": null
+   },
+   "t_fwd_pick_bse": {
+    "filas": null,
+    "ultima": null
+   },
+   "t_item_master": {
+    "filas": null,
+    "ultima": null
+   },
+   "t_item_master_bse": {
+    "filas": null,
+    "ultima": null
+   },
+   "t_item_uom": {
+    "filas": null,
+    "ultima": null
+   },
+   "t_location": {
+    "filas": null,
+    "ultima": null
+   },
+   "t_location_relation": {
+    "filas": 102194,
+    "ultima": null
+   },
+   "t_sto_attrib_collection_detail": {
+    "filas": null,
+    "ultima": null
+   },
+   "t_stored_item": {
+    "filas": null,
+    "ultima": null
+   },
+   "t_stored_item_bse": {
+    "filas": null,
+    "ultima": null
+   },
+   "t_tran_log": {
+    "filas": 90038919,
+    "ultima": null
+   },
+   "ubicaciones_creadas_wms": {
+    "filas": 21863,
+    "ultima": "2026-11-11"
+   },
+   "ubicaciones_reempaque": {
+    "filas": 49,
+    "ultima": "2026-08-05"
+   },
+   "ubicaciones_temporal": {
+    "filas": 24303,
+    "ultima": "2026-09-04"
+   },
+   "ubicaciones_type_facility": {
+    "filas": 22048,
+    "ultima": "2026-11-14"
+   },
+   "uom_class": {
+    "filas": 72,
+    "ultima": "2026-08-05"
+   },
+   "vida_util": {
+    "filas": 322,
+    "ultima": "2026-08-05"
+   },
+   "vida_util_materiales": {
+    "filas": 26,
+    "ultima": "2026-10-10"
+   }
+  },
+  "silver": {
+   "maestro_wms_articulos": {
+    "filas": 43188,
+    "ultima": "2026-08-06"
+   },
+   "ps_aj_bu_item_uom": {
+    "filas": 4197,
+    "ultima": "2026-08-06"
+   },
+   "ps_aj_invuom_wms": {
+    "filas": 263098,
+    "ultima": "2026-08-06"
+   },
+   "ps_aj_master_item": {
+    "filas": 179830,
+    "ultima": "2026-08-06"
+   },
+   "ps_aj_uomstock_dim": {
+    "filas": 256714,
+    "ultima": "2026-08-06"
+   },
+   "ps_bu_items_inv": {
+    "filas": 1423325,
+    "ultima": "2026-08-06"
+   },
+   "ps_inv_item_uom": {
+    "filas": 372102,
+    "ultima": "2026-08-06"
+   },
+   "ps_master_item_tbl": {
+    "filas": 187129,
+    "ultima": "2026-08-06"
+   },
+   "ps_prod_item": {
+    "filas": 115697,
+    "ultima": "2026-08-06"
+   },
+   "ps_prod_item_lng": {
+    "filas": 140374,
+    "ultima": "2026-08-06"
+   },
+   "ps_set_cntrl_rec": {
+    "filas": 4331285,
+    "ultima": "2026-08-06"
+   },
+   "t_fwd_pick_bse": {
+    "filas": 2384,
+    "ultima": "2026-08-06"
+   },
+   "t_item_master": {
+    "filas": 281298,
+    "ultima": "2026-08-06"
+   },
+   "t_item_master_bse": {
+    "filas": 55624,
+    "ultima": "2026-08-06"
+   },
+   "t_item_uom": {
+    "filas": 379845,
+    "ultima": "2026-08-06"
+   },
+   "t_location": {
+    "filas": 77197,
+    "ultima": "2026-08-06"
+   },
+   "ubicaciones_reempaque": {
+    "filas": 49,
+    "ultima": "2026-08-06"
+   },
+   "uom_class": {
+    "filas": 72,
+    "ultima": "2026-08-06"
+   },
+   "vida_util": {
+    "filas": 321,
+    "ultima": "2026-08-06"
+   }
+  },
+  "gold": {
+   "articulos": {
+    "filas": 46815,
+    "ultima": "2026-08-17"
+   },
+   "codigo_barras": {
+    "filas": 2163,
+    "ultima": "2026-08-17"
+   },
+   "lkp_item_pb3": {
+    "filas": 46815,
+    "ultima": "2026-08-17"
+   },
+   "ubicaciones": {
+    "filas": 24305,
+    "ultima": "2026-08-17"
+   }
+  }
+ }
+}

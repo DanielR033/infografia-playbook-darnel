@@ -111,7 +111,7 @@ export default function Pb1OracleFusion({ onClose }) {
         </p>
         <div className="warnbox">
           Estos archivos son muestras de datos de PB1, no las plantillas oficiales de carga; aun así se
-          cuentan las cantidades para el contraste. Proveedores está pendiente del archivo.
+          cuentan las cantidades para el contraste.
         </div>
 
         <div className="cards">

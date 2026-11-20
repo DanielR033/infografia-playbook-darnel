@@ -6,6 +6,8 @@ import ErpCalidadDatos from "./ErpCalidadDatos.jsx";
 import BsWmsDashboard from "./BsWmsDashboard.jsx";
 import SeguimientoComite from "./SeguimientoComite.jsx";
 import CutoverDashboard from "./CutoverDashboard.jsx";
+import ImpactoCx from "./ImpactoCx.jsx";
+import FabricDashboard from "./FabricDashboard.jsx";
 
 const erpInvHojas = [
   "Resumen",
@@ -3061,7 +3063,9 @@ function App() {
     { id: "erp", label: "ERP" },
     { id: "erp-inv", label: "ERP Inventario" },
     { id: "bs-wms", label: "BS WMS" },
-    { id: "cutover", label: "Cutover" }
+    { id: "cutover", label: "Cutover" },
+    { id: "impacto-cx", label: "Impacto CX" },
+    { id: "fabric", label: "Microsoft Fabric" }
   ];
 
   // Enrutamiento por URL (#hash): permite abrir/compartir una pestaña concreta.
@@ -3070,7 +3074,7 @@ function App() {
     try { window.history.replaceState(null, "", "#" + id); } catch (e) { /* noop */ }
   };
   useEffect(() => {
-    const ids = new Set(["comite", "general", "transversales", "metodologia", "brief", "uat", "items", "barcode", "locations", "erp", "erp-inv", "bs-wms", "cutover"]);
+    const ids = new Set(tabs.map((t) => t.id));
     const desdeHash = () => {
       const h = decodeURIComponent((window.location.hash || "").replace(/^#/, ""));
       if (ids.has(h)) setTabActiva(h);
@@ -4940,6 +4944,8 @@ function App() {
       {tabActiva === "bs-wms" && <BsWmsDashboard />}
 
       {tabActiva === "cutover" && <CutoverDashboard />}
+      {tabActiva === "impacto-cx" && <ImpactoCx />}
+      {tabActiva === "fabric" && <FabricDashboard />}
 
       {tabActiva !== "general" && detalle && (
         <>

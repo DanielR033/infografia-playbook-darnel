@@ -1,0 +1,1562 @@
+{
+ "fuente": {
+  "Clientes": "Muestra_Clientes_Grupo Ajover Darnel CO y PA_oct27.xlsx",
+  "Artículos": "DAR_Maestro_Items_PB1_con_LOV.xlsx",
+  "Proveedores": "proveedores.xlsx"
+ },
+ "hojas": [
+  {
+   "maestro": "Clientes",
+   "hoja": "Clientes CO",
+   "registros": 30,
+   "cols": [
+    {
+     "col": "Unidad De Negocio",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "HZ_IMP_ACCTSITES_T"
+    },
+    {
+     "col": "NOMBRE",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Tipo de Contribuyente",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "TIPO",
+     "ok": false,
+     "conDatos": 0,
+     "destino": null
+    },
+    {
+     "col": "Concepto",
+     "ok": false,
+     "conDatos": 0,
+     "destino": null
+    },
+    {
+     "col": "Regimen",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Tipo de registro Fiscal",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Tipos de identificación",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Numero de identificación-incluido digito sin separación",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "País",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Linea dirección 1",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Linea Dirección2",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Barrio",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Localidad",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Departamento",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Ciudad",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Centro poblado",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Codigo postal",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Metodo Pago",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUST_PAY_METHOD_INT_ALL"
+    },
+    {
+     "col": "Tipo Pago",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUST_PAY_METHOD_INT_ALL"
+    },
+    {
+     "col": "Banco",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "RA_CUSTOMER_BANKS_INT_ALL"
+    },
+    {
+     "col": "Cuenta",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUSTOMER_BANKS_INT_ALL"
+    },
+    {
+     "col": "CUENTA",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "HZ_IMP_ACCOUNTS_T"
+    },
+    {
+     "col": "TIPO PERFIL",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUSTOMER_PROFILES_INT_ALL"
+    },
+    {
+     "col": "COBRADOR",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUSTOMER_PROFILES_INT_ALL"
+    },
+    {
+     "col": "CAMPOS DESCRIPTIVOS LACLS A NIVEL DE SITIO",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_ACCTSITES_T"
+    },
+    {
+     "col": "Tipo de Documento",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Primer Nombre",
+     "ok": true,
+     "conDatos": 11,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Segundo Nombre",
+     "ok": true,
+     "conDatos": 9,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Primer Apellido",
+     "ok": true,
+     "conDatos": 11,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Segundo Apellido",
+     "ok": true,
+     "conDatos": 9,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Actividad Economica",
+     "ok": true,
+     "conDatos": 21,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Naturaleza",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Direccion Primaria",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "HZ_IMP_PARTYSITES_T"
+    },
+    {
+     "col": "No Responsable Impuesto a las Ventas IVA",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Tipo de Establecimiento",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Número de Registro Comercial",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Responsabilidades",
+     "ok": true,
+     "conDatos": 30,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Obligaciones (RUT 54 Box)",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    }
+   ]
+  },
+  {
+   "maestro": "Clientes",
+   "hoja": "Clientes PA",
+   "registros": 7,
+   "cols": [
+    {
+     "col": "CANAL",
+     "ok": false,
+     "conDatos": 7,
+     "destino": "HZ_IMP_ACCTSITES_T"
+    },
+    {
+     "col": "Unidad De Negocio",
+     "ok": true,
+     "conDatos": 1,
+     "destino": "HZ_IMP_ACCTSITES_T"
+    },
+    {
+     "col": "NOMBRE",
+     "ok": true,
+     "conDatos": 7,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "Tipo de Contribuyente",
+     "ok": true,
+     "conDatos": 7,
+     "destino": "HZ_IMP_PARTIES_T"
+    },
+    {
+     "col": "TIPO",
+     "ok": false,
+     "conDatos": 0,
+     "destino": null
+    },
+    {
+     "col": "Concepto",
+     "ok": false,
+     "conDatos": 0,
+     "destino": null
+    },
+    {
+     "col": "Regimen",
+     "ok": true,
+     "conDatos": 7,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Tipo de Registro Fiscal",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Estado de Registro Fiscal",
+     "ok": true,
+     "conDatos": 7,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Numero de identificación-incluido digito sin separación antecedido con palabra DV",
+     "ok": true,
+     "conDatos": 7,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "País",
+     "ok": true,
+     "conDatos": 7,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Linea dirección 1",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Linea Dirección2",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Provincia",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Distrito",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_LOCATIONS_T"
+    },
+    {
+     "col": "Metodo Pago",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUST_PAY_METHOD_INT_ALL"
+    },
+    {
+     "col": "Tipo Pago",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUST_PAY_METHOD_INT_ALL"
+    },
+    {
+     "col": "Banco",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "RA_CUSTOMER_BANKS_INT_ALL"
+    },
+    {
+     "col": "Cuenta",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUSTOMER_BANKS_INT_ALL"
+    },
+    {
+     "col": "CUENTA",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "HZ_IMP_ACCOUNTS_T"
+    },
+    {
+     "col": "TIPO PERFIL",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUSTOMER_PROFILES_INT_ALL"
+    },
+    {
+     "col": "COBRADOR",
+     "ok": false,
+     "conDatos": 0,
+     "destino": "RA_CUSTOMER_PROFILES_INT_ALL"
+    },
+    {
+     "col": "CAMPOS DESCRIPTIVOS LACLS A NIVEL DE SITIO",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_ACCTSITES_T"
+    },
+    {
+     "col": "Condiciones de Entrega",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_ACCTSITES_T"
+    },
+    {
+     "col": "Manera Entrega CAFÉ",
+     "ok": true,
+     "conDatos": 0,
+     "destino": "HZ_IMP_ACCTSITES_T"
+    }
+   ]
+  },
+  {
+   "maestro": "Artículos",
+   "hoja": "Artículos",
+   "registros": 1895,
+   "cols": [
+    {
+     "col": "Módulo",
+     "grupo": null,
+     "conDatos": 1895,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Tipo de artículo",
+     "grupo": null,
+     "conDatos": 1895,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Producto",
+     "grupo": null,
+     "conDatos": 1895,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Descripción",
+     "grupo": null,
+     "conDatos": 1895,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "UOM Primaria",
+     "grupo": null,
+     "conDatos": 1895,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Organizacion",
+     "grupo": null,
+     "conDatos": 1895,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Clase de artículo",
+     "grupo": null,
+     "conDatos": 1890,
+     "destino": "EGP_ITEM_CATEGORIES_INTERFACE"
+    },
+    {
+     "col": "Tipo de artículo de estructura",
+     "grupo": "MANUFACTURA",
+     "conDatos": 411,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Fabricar en trabajo en proceso (WIP)",
+     "grupo": "MANUFACTURA",
+     "conDatos": 845,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Habilitado para costeo",
+     "grupo": "MANUFACTURA",
+     "conDatos": 845,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Valor de activo de inventario",
+     "grupo": "MANUFACTURA",
+     "conDatos": 845,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Incluir en acumulación de costos",
+     "grupo": "MANUFACTURA",
+     "conDatos": 845,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Habilitar seguimiento de activos",
+     "grupo": "SERVICIO (MANTENIMIENTO)",
+     "conDatos": 986,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Habilitar mantenimiento de activos",
+     "grupo": "SERVICIO (MANTENIMIENTO)",
+     "conDatos": 986,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Clase de activo",
+     "grupo": "SERVICIO (MANTENIMIENTO)",
+     "conDatos": 986,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Artículo de inventario",
+     "grupo": "INVENTARIO",
+     "conDatos": 851,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Almacenable",
+     "grupo": "INVENTARIO",
+     "conDatos": 855,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Habilitado para transacciones",
+     "grupo": "INVENTARIO",
+     "conDatos": 855,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Reservable",
+     "grupo": "INVENTARIO",
+     "conDatos": 854,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Control de lotes",
+     "grupo": "INVENTARIO",
+     "conDatos": 771,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Control de serie",
+     "grupo": "INVENTARIO",
+     "conDatos": 597,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Generación de números de serie",
+     "grupo": "INVENTARIO",
+     "conDatos": 1,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Control de expiración",
+     "grupo": "INVENTARIO",
+     "conDatos": 0,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Días de vencimiento",
+     "grupo": "INVENTARIO",
+     "conDatos": 0,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Habilitado para conteos cíclicos",
+     "grupo": "INVENTARIO",
+     "conDatos": 854,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Categoría de Inventario",
+     "grupo": "INVENTARIO",
+     "conDatos": 0,
+     "destino": "EGP_ITEM_CATEGORIES_INTERFACE"
+    },
+    {
+     "col": "Artículo pedido por clientes",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 497,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Habilitado para ordenes de venta?",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 518,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Despachable",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 518,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Back to Back?",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 496,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Transferible Internamente",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 518,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Habilitado para ordenes de transferencia",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 518,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Código de impuesto para ventas",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 485,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Clasificación Fiscal para ventas",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 492,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Artículo facturable",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 496,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Facturación habilitada",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 496,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Categoría Precios",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 210,
+     "destino": "EGP_ITEM_CATEGORIES_INTERFACE"
+    },
+    {
+     "col": "Categoría Cubo de Ventas",
+     "grupo": "GESTION DE PEDIDOS (INTERNOS Y A CLIENTES)",
+     "conDatos": 256,
+     "destino": "EGP_ITEM_CATEGORIES_INTERFACE"
+    },
+    {
+     "col": "Posición Arancelaria",
+     "grupo": "COMPRAS",
+     "conDatos": 876,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Artículo comprado",
+     "grupo": "COMPRAS",
+     "conDatos": 452,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Habilitado para comprar",
+     "grupo": "COMPRAS",
+     "conDatos": 447,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Impositivo para compras",
+     "grupo": "COMPRAS",
+     "conDatos": 36,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Código de impuesto para compras",
+     "grupo": "COMPRAS",
+     "conDatos": 26,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Clasificación Fiscal para compras",
+     "grupo": "COMPRAS",
+     "conDatos": 1713,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Categoría de activos (Sólo activos fijos)",
+     "grupo": "COMPRAS",
+     "conDatos": 5,
+     "destino": "EGP_ITEM_CATEGORIES_INTERFACE"
+    },
+    {
+     "col": "Precio de lista (Por defecto: 1)",
+     "grupo": "COMPRAS",
+     "conDatos": 457,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Categoría de Compras",
+     "grupo": "COMPRAS",
+     "conDatos": 482,
+     "destino": "EGP_ITEM_CATEGORIES_INTERFACE"
+    },
+    {
+     "col": "Fabricar o comprar",
+     "grupo": "PLANEACION (REABASTECIMIENTO)",
+     "conDatos": 792,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Método de planeación de inventario",
+     "grupo": "PLANEACION (REABASTECIMIENTO)",
+     "conDatos": 776,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Cantidad máxima",
+     "grupo": "PLANEACION (REABASTECIMIENTO)",
+     "conDatos": 21,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Cantidad Mínima",
+     "grupo": "PLANEACION (REABASTECIMIENTO)",
+     "conDatos": 21,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Cantidad mínima de orden",
+     "grupo": "PLANEACION (REABASTECIMIENTO)",
+     "conDatos": 21,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Cantidad máxima de orden",
+     "grupo": "PLANEACION (REABASTECIMIENTO)",
+     "conDatos": 21,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Unidad de medida logística (UML)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 313,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Peso UML (kg)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 454,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Volumen UML (m3)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 351,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Largo UML (cm)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 337,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Ancho UML (cm)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 337,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Alto UML (cm)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 337,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Peligroso (Si/No)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 413,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Anidable (Si/No)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 298,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Apilable (Si/No)",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 298,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Código de Barras",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 428,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Codigo Original",
+     "grupo": "LOGISTICA DE TRANSPORTE Y ALMACENAMIENTO (OTM/WMS)",
+     "conDatos": 0,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Tipo Embobinado",
+     "grupo": "Observaciones",
+     "conDatos": 0,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    },
+    {
+     "col": "Color (pelicula)",
+     "grupo": "Observaciones",
+     "conDatos": 0,
+     "destino": "EGP_SYSTEM_ITEMS_INTERFACE"
+    }
+   ]
+  },
+  {
+   "maestro": "Proveedores",
+   "hoja": "Proveedores CO",
+   "registros": 127,
+   "cols": [
+    {
+     "col": "Nombre Proveedor",
+     "grupo": "PERFIL",
+     "conDatos": 127,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Tipo de organización fiscal",
+     "grupo": "PERFIL",
+     "conDatos": 127,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Tipo de proveedor",
+     "grupo": "PERFIL",
+     "conDatos": 127,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Tipo de contribuyente",
+     "grupo": "PERFIL",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "CLASIFICACION SUGERIDA (VALIDAR)",
+     "grupo": "PERFIL",
+     "conDatos": 111,
+     "destino": null
+    },
+    {
+     "col": "JUSTIFICACION Y VALIDACION REQUERIDA",
+     "grupo": "PERFIL",
+     "conDatos": 111,
+     "destino": null
+    },
+    {
+     "col": "TIPO DE CONTRIBUYENTE NUEVA",
+     "grupo": "PERFIL",
+     "conDatos": 1,
+     "destino": null
+    },
+    {
+     "col": "Regimen",
+     "grupo": "PERFIL",
+     "conDatos": 118,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Tipo de registro Fiscal",
+     "grupo": "PERFIL",
+     "conDatos": 111,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Tipos de identificación",
+     "grupo": "PERFIL",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Numero de identificación-incluido digito sin separación",
+     "grupo": "PERFIL",
+     "conDatos": 110,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Usar retención de impuestos",
+     "grupo": "PERFIL",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Cargo de Director ejecutivo",
+     "grupo": "PERFIL",
+     "conDatos": 50,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Nombre de Director ejecutivo",
+     "grupo": "PERFIL",
+     "conDatos": 49,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Unidad de negocio",
+     "grupo": "DIRECCION",
+     "conDatos": 111,
+     "destino": "POZ_SITE_ASSIGNMENTS_INT"
+    },
+    {
+     "col": "Nombre dirección",
+     "grupo": "DIRECCION",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "País",
+     "grupo": "DIRECCION",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Linea dirección 1",
+     "grupo": "DIRECCION",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Linea Dirección2",
+     "grupo": "DIRECCION",
+     "conDatos": 0,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Barrio",
+     "grupo": "DIRECCION",
+     "conDatos": 44,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Localidad",
+     "grupo": "DIRECCION",
+     "conDatos": 48,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Departamento",
+     "grupo": "DIRECCION",
+     "conDatos": 49,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Ciudad",
+     "grupo": "DIRECCION",
+     "conDatos": 49,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Centro poblado",
+     "grupo": "DIRECCION",
+     "conDatos": 0,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Codigo postal",
+     "grupo": "DIRECCION",
+     "conDatos": 50,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Objetivo de dirección",
+     "grupo": "DIRECCION",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Telefono",
+     "grupo": "DIRECCION",
+     "conDatos": 25,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Correo electronico",
+     "grupo": "DIRECCION",
+     "conDatos": 46,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Contactos: Nombre",
+     "grupo": "DIRECCION",
+     "conDatos": 50,
+     "destino": "POZ_SUP_CONTACTS"
+    },
+    {
+     "col": "Contactos: Cargo",
+     "grupo": "DIRECCION",
+     "conDatos": 50,
+     "destino": "POZ_SUP_CONTACTS"
+    },
+    {
+     "col": "Contactos: Correo Eléctronico",
+     "grupo": "DIRECCION",
+     "conDatos": 0,
+     "destino": "POZ_SUP_CONTACTS"
+    },
+    {
+     "col": "Metodos de pago",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 111,
+     "destino": "IBY_TEMP_EXT_PAYEES"
+    },
+    {
+     "col": "Pais de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 111,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Numero de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 87,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Nombre banco",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 84,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Nombre de cuenta",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 84,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Tipo de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 79,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "IBAN",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "ABBA",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 3,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "SWIFT",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 4,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Pais de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Numero de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Nombre banco",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Numero de sucursal",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 0,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "IBAN",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 0,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "SWIFT",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Condición de pago",
+     "grupo": "SITIO",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_SITES_INT"
+    },
+    {
+     "col": "Grupo de pago",
+     "grupo": "SITIO",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_SITES_INT"
+    },
+    {
+     "col": "Combinación contable distribución pasivo",
+     "grupo": "SITIO",
+     "conDatos": 111,
+     "destino": "POZ_SITE_ASSIGNMENTS_INT"
+    },
+    {
+     "col": "Combinación contable distribución Anticipo",
+     "grupo": "SITIO",
+     "conDatos": 111,
+     "destino": "POZ_SITE_ASSIGNMENTS_INT"
+    },
+    {
+     "col": "Relacion Pago de Terceros - Proveedor de Pago",
+     "grupo": "SITIO",
+     "conDatos": 1,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Relacion Pago de Terceros - Nombre Dirección",
+     "grupo": "SITIO",
+     "conDatos": 1,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Relacion Pago de Terceros - De Fecha",
+     "grupo": "SITIO",
+     "conDatos": 1,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Relacion Pago de Terceros - A Fecha",
+     "grupo": "SITIO",
+     "conDatos": 1,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Relacion Pago de Terceros - Descripción",
+     "grupo": "SITIO",
+     "conDatos": 1,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Tipo de Documento",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Primer Nombre",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Segundo Nombre",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 1,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Primer Apellido",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 1,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Segundo Apellido",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 1,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Actividad Economica",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 99,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Naturaleza",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Direccion Primaria",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 111,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "No Responsable Impuesto a las Ventas IVA",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 107,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Tipos de Contribuyentes en Colombia",
+     "grupo": "CAMPOS DESCRIPTIVOS AL NIVEL DE DIRECCIÓN",
+     "conDatos": 52,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "AGREGAR EJEMPLO DE CAMARA DE COMERCIO",
+     "grupo": "DOCUMENTACIÓN",
+     "conDatos": 0,
+     "destino": "Supplier_Profile_Attachments"
+    },
+    {
+     "col": "ANEXAR RUT",
+     "grupo": "DOCUMENTACIÓN",
+     "conDatos": 0,
+     "destino": "Supplier_Profile_Attachments"
+    },
+    {
+     "col": "AGREGAR CERTIFICACION PES (Solo para proveedores del exterior)",
+     "grupo": "DOCUMENTACIÓN",
+     "conDatos": 0,
+     "destino": "Supplier_Profile_Attachments"
+    }
+   ]
+  },
+  {
+   "maestro": "Proveedores",
+   "hoja": "Proveedores PA",
+   "registros": 77,
+   "cols": [
+    {
+     "col": "Nombre Proveedor",
+     "grupo": "PERFIL",
+     "conDatos": 77,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Tipo de organización fiscal",
+     "grupo": "PERFIL",
+     "conDatos": 77,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Tipo de proveedor",
+     "grupo": "PERFIL",
+     "conDatos": 77,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Tipo de contribuyente",
+     "grupo": "PERFIL",
+     "conDatos": 68,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Tipos de identificación",
+     "grupo": "PERFIL",
+     "conDatos": 4,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Código de Régimen Fiscal",
+     "grupo": "PERFIL",
+     "conDatos": 68,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Tipo de Registro Fiscal",
+     "grupo": "PERFIL",
+     "conDatos": 68,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Estado de Registro Fiscal",
+     "grupo": "PERFIL",
+     "conDatos": 68,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Numero de identificación-incluido digito sin separación antecedido con palabra DV",
+     "grupo": "PERFIL",
+     "conDatos": 68,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Usar retención de impuestos",
+     "grupo": "PERFIL",
+     "conDatos": 68,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Código de tipo de declaración de impuestos",
+     "grupo": "PERFIL",
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Código de declaración de impuestos - Tipo de Persona",
+     "grupo": "PERFIL",
+     "conDatos": 68,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Código de declaración de impuestos - Concepto para Anexo 72",
+     "grupo": "PERFIL",
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Código de declaración de impuestos - Concepto para Formulario 94 (Detalle de otros Costos y Gastos)",
+     "grupo": "PERFIL",
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Código de declaración de impuestos - Concepto para Formulario 43 (Compras e Importaciones de Bienes y Servicios)",
+     "grupo": "PERFIL",
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Código de declaración de impuestos - Origen de Factura de Proveedor",
+     "grupo": "PERFIL",
+     "conDatos": 0,
+     "destino": "Configuración fiscal (perfil tributario)"
+    },
+    {
+     "col": "Cargo de Director ejecutivo",
+     "grupo": "PERFIL",
+     "conDatos": 1,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Nombre de Director ejecutivo",
+     "grupo": "PERFIL",
+     "conDatos": 1,
+     "destino": "POZ_SUPPLIERS_INT"
+    },
+    {
+     "col": "Unidad de negocio",
+     "grupo": "DIRECCION",
+     "conDatos": 68,
+     "destino": "POZ_SITE_ASSIGNMENTS_INT"
+    },
+    {
+     "col": "Nombre dirección",
+     "grupo": "DIRECCION",
+     "conDatos": 68,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "País",
+     "grupo": "DIRECCION",
+     "conDatos": 67,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Linea dirección 1",
+     "grupo": "DIRECCION",
+     "conDatos": 67,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Linea Dirección2",
+     "grupo": "DIRECCION",
+     "conDatos": 0,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Provincia",
+     "grupo": "DIRECCION",
+     "conDatos": 1,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Distrito",
+     "grupo": "DIRECCION",
+     "conDatos": 1,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Objetivo de dirección",
+     "grupo": "DIRECCION",
+     "conDatos": 68,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Telefono",
+     "grupo": "DIRECCION",
+     "conDatos": 0,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Correo electronico",
+     "grupo": "DIRECCION",
+     "conDatos": 35,
+     "destino": "POZ_SUPPLIER_ADDRESSES_INT"
+    },
+    {
+     "col": "Contactos: Nombre",
+     "grupo": "DIRECCION",
+     "conDatos": 0,
+     "destino": "POZ_SUP_CONTACTS"
+    },
+    {
+     "col": "Contactos: Cargo",
+     "grupo": "DIRECCION",
+     "conDatos": 0,
+     "destino": "POZ_SUP_CONTACTS"
+    },
+    {
+     "col": "Contactos: Correo Eléctronico",
+     "grupo": "DIRECCION",
+     "conDatos": 0,
+     "destino": "POZ_SUP_CONTACTS"
+    },
+    {
+     "col": "Metodos de pago",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 67,
+     "destino": "IBY_TEMP_EXT_PAYEES"
+    },
+    {
+     "col": "Pais de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 67,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Numero de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 52,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Nombre banco",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 16,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Nombre de cuenta",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Tipo de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 21,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "IBAN",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 0,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "ABBA",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 0,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "SWIFT",
+     "grupo": "PAGOS - CUENTAS BANCARIAS",
+     "conDatos": 0,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Pais de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Numero de cuenta bancaria",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Nombre banco",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Numero de sucursal",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 0,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "IBAN",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 0,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "SWIFT",
+     "grupo": "PAGOS - CUENTAS INTERMEDIARIAS",
+     "conDatos": 1,
+     "destino": "IBY_TEMP_EXT_BANK_ACCTS"
+    },
+    {
+     "col": "Condición de pago",
+     "grupo": "SITIO",
+     "conDatos": 68,
+     "destino": "POZ_SUPPLIER_SITES_INT"
+    },
+    {
+     "col": "Grupo de pago",
+     "grupo": "SITIO",
+     "conDatos": 68,
+     "destino": "POZ_SUPPLIER_SITES_INT"
+    },
+    {
+     "col": "Combinación contable distribución pasivo",
+     "grupo": "SITIO",
+     "conDatos": 68,
+     "destino": "POZ_SITE_ASSIGNMENTS_INT"
+    },
+    {
+     "col": "Combinación contable distribución Anticipo",
+     "grupo": "SITIO",
+     "conDatos": 68,
+     "destino": "POZ_SITE_ASSIGNMENTS_INT"
+    },
+    {
+     "col": "Relacion Pago de Terceros - Proveedor de Pago",
+     "grupo": "SITIO",
+     "conDatos": 0,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Relacion Pago de Terceros - Nombre Dirección",
+     "grupo": "SITIO",
+     "conDatos": 0,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Relacion Pago de Terceros - De Fecha",
+     "grupo": "SITIO",
+     "conDatos": 0,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Relacion Pago de Terceros - A Fecha",
+     "grupo": "SITIO",
+     "conDatos": 0,
+     "destino": "Third_Party_Pay_Relationships"
+    },
+    {
+     "col": "Relacion Pago de Terceros - Descripción",
+     "grupo": "SITIO",
+     "conDatos": 0,
+     "destino": "Third_Party_Pay_Relationships"
+    }
+   ]
+  }
+ ]
+}

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import PLAN from "./cutoverPlan.json";
 
 /* ---- Contenido técnico y funcional (editorial) ---- */
-const PLANTILLAS = [
+export const PLANTILLAS = [
   { n: "Items", gen: 5 },
   { n: "Items facility code", gen: 3 },
   { n: "Items kits", gen: 3 },
@@ -12,6 +12,8 @@ const PLANTILLAS = [
   { n: "Ubicaciones de inventarios", gen: 3, bs: true },
 ];
 const GEN_TOTAL = PLANTILLAS.reduce((s, p) => s + p.gen, 0);
+// Tiempo de extracción de tablas origen medido en la BS (Azurian), en minutos.
+export const EXTRACCION_MIN = 75;
 
 const FUNCIONAL = [
   { tema: "Fecha de Freeze", detalle: "Pendiente de definición y de responsable.", resp: "Por definir", fecha: "", estado: "Pendiente" },

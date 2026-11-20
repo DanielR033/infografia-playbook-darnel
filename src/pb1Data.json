@@ -1,32 +1,299 @@
 {
  "maestros": [
   {
-   "key": "clientes", "nombre": "Clientes",
+   "key": "clientes",
+   "nombre": "Clientes",
    "archivo": "Muestra_Clientes_Grupo_Ajover_Darnel_CO_y_PA_oct27.xlsx",
-   "en_pb1": 153, "volumen": 55700, "columnas": 45,
+   "en_pb1": 153,
+   "volumen": 55700,
+   "columnas": 45,
    "nota": "Muestra base de clientes (Colombia y Panamá). En formato de plantilla Oracle: Colombia 30 + Panamá 7 = 37 registros.",
-   "chips": [["Colombia (formato plantilla)", 30], ["Panamá (formato plantilla)", 7]],
+   "chips": [
+    [
+     "Colombia (formato plantilla)",
+     30
+    ],
+    [
+     "Panamá (formato plantilla)",
+     7
+    ]
+   ],
    "dist": [
-    {"t": "Por unidad de negocio", "items": [["CAV10", 65], ["CAV25", 41], ["CAV20", 14], ["CAV70", 13], ["CAV21", 5], ["CAV01", 3], ["CAV15", 2], ["(sin dato)", 3]]},
-    {"t": "Por moneda", "items": [["COP", 138], ["USD", 12], ["(sin dato)", 3]]},
-    {"t": "Por estado", "items": [["Activo", 152], ["Inactivo", 1]]}
+    {
+     "t": "Por unidad de negocio",
+     "items": [
+      [
+       "CAV10",
+       65
+      ],
+      [
+       "CAV25",
+       41
+      ],
+      [
+       "CAV20",
+       14
+      ],
+      [
+       "CAV70",
+       13
+      ],
+      [
+       "CAV21",
+       5
+      ],
+      [
+       "CAV01",
+       3
+      ],
+      [
+       "CAV15",
+       2
+      ],
+      [
+       "(sin dato)",
+       3
+      ]
+     ]
+    },
+    {
+     "t": "Por moneda",
+     "items": [
+      [
+       "COP",
+       138
+      ],
+      [
+       "USD",
+       12
+      ],
+      [
+       "(sin dato)",
+       3
+      ]
+     ]
+    },
+    {
+     "t": "Por estado",
+     "items": [
+      [
+       "Activo",
+       152
+      ],
+      [
+       "Inactivo",
+       1
+      ]
+     ]
+    }
    ]
   },
   {
-   "key": "articulos", "nombre": "Artículos",
+   "key": "articulos",
+   "nombre": "Artículos",
    "archivo": "DAR_Maestro_Items_PB1_con_LOV.xlsx",
-   "en_pb1": 1895, "volumen": 28000, "columnas": 67,
+   "en_pb1": 1895,
+   "volumen": 28000,
+   "columnas": 67,
    "nota": "Incluye además 335 conversiones de unidad de medida (UOM) y 5 estructuras BOM (kits).",
-   "chips": [["Conversiones UOM", 335], ["Estructuras BOM (kits)", 5]],
+   "chips": [
+    [
+     "Conversiones UOM",
+     335
+    ],
+    [
+     "Estructuras BOM (kits)",
+     5
+    ]
+   ],
    "dist": [
-    {"t": "Por tipo de artículo", "items": [["AM", 986], ["PT", 295], ["ME", 208], ["INT", 142], ["MP", 94], ["REP", 82], ["REP-CONS", 43], ["SERV", 20], ["DDS", 12], ["PPE", 5], ["PZ", 5], ["PT-KIT", 3]]},
-    {"t": "Por módulo", "items": [["MNT", 1018], ["MFG", 436], ["PRC", 228], ["OM", 172], ["PH", 22], ["SERV", 14]]}
+    {
+     "t": "Por tipo de artículo",
+     "items": [
+      [
+       "AM",
+       986
+      ],
+      [
+       "PT",
+       295
+      ],
+      [
+       "ME",
+       208
+      ],
+      [
+       "INT",
+       142
+      ],
+      [
+       "MP",
+       94
+      ],
+      [
+       "REP",
+       82
+      ],
+      [
+       "REP-CONS",
+       43
+      ],
+      [
+       "SERV",
+       20
+      ],
+      [
+       "DDS",
+       12
+      ],
+      [
+       "PPE",
+       5
+      ],
+      [
+       "PZ",
+       5
+      ],
+      [
+       "PT-KIT",
+       3
+      ]
+     ]
+    },
+    {
+     "t": "Por módulo",
+     "items": [
+      [
+       "MNT",
+       1018
+      ],
+      [
+       "MFG",
+       436
+      ],
+      [
+       "PRC",
+       228
+      ],
+      [
+       "OM",
+       172
+      ],
+      [
+       "PH",
+       22
+      ],
+      [
+       "SERV",
+       14
+      ]
+     ]
+    }
    ]
   },
   {
-   "key": "proveedores", "nombre": "Proveedores",
-   "archivo": null, "en_pb1": null, "volumen": 5638, "columnas": null, "pendiente": true,
-   "nota": "Archivo de la plantilla de proveedores pendiente de entrega; se incorporará al recibirlo."
+   "key": "proveedores",
+   "nombre": "Proveedores",
+   "archivo": "1Maestro Proveedores Grupo Ajover Darnel_Col_Pan.xlsx",
+   "en_pb1": 204,
+   "volumen": 5638,
+   "columnas": 68,
+   "pendiente": false,
+   "nota": "Plantilla de proveedores en formato Oracle: Colombia 127 + Panamá 77 = 204 registros.",
+   "chips": [
+    [
+     "Colombia (formato plantilla)",
+     127
+    ],
+    [
+     "Panamá (formato plantilla)",
+     77
+    ]
+   ],
+   "dist": [
+    {
+     "t": "Por tipo de proveedor",
+     "items": [
+      [
+       "Comercializadora",
+       39
+      ],
+      [
+       "Comercializadora de Vehiculos",
+       30
+      ],
+      [
+       "Transportadores",
+       13
+      ],
+      [
+       "Manufactura y producción",
+       13
+      ],
+      [
+       "Logística y cadena de suminist",
+       12
+      ],
+      [
+       "Industrial",
+       12
+      ],
+      [
+       "Financieros",
+       11
+      ],
+      [
+       "Servicios admon y corporativos",
+       10
+      ],
+      [
+       "Otros",
+       64
+      ]
+     ]
+    },
+    {
+     "t": "Por tipo de organización fiscal",
+     "items": [
+      [
+       "Sociedad extranjera",
+       58
+      ],
+      [
+       "Soc por acciones simplificadas",
+       48
+      ],
+      [
+       "Sociedad anonima",
+       38
+      ],
+      [
+       "Soc de responsabilidad ltda",
+       15
+      ],
+      [
+       "Nacional",
+       8
+      ],
+      [
+       "Sociedad",
+       7
+      ],
+      [
+       "Corporación",
+       6
+      ],
+      [
+       "Nacional /Exterior",
+       5
+      ],
+      [
+       "Otros",
+       19
+      ]
+     ]
+    }
+   ]
   }
  ]
 }

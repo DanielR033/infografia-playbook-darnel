@@ -28,6 +28,20 @@ export const CORTE = "2026-11-20"; // fecha de corte del tablero (actualizar cad
 const nf = (n) => n.toLocaleString("es-CO");
 const pct = (a, b) => (b ? (a / b) * 100 : null);
 const pctTxt = (v, d = 1) => v.toLocaleString("es-CO", { minimumFractionDigits: d, maximumFractionDigits: d }) + " %";
+
+// Nota desplegable para el pie de un gauge (texto largo sin romper el estilo).
+function VerMas({ children }) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <span style={{ display: "block", marginTop: 4 }}>
+      <button type="button" onClick={() => setOpen((o) => !o)}
+        style={{ appearance: "none", border: 0, background: "transparent", color: "#0058a8", font: "inherit", fontSize: ".72rem", fontWeight: 600, cursor: "pointer", padding: 0, textDecoration: "underline" }}>
+        {open ? "Ver menos ▴" : "Ver más ▾"}
+      </button>
+      {open && <span style={{ display: "block", fontSize: ".72rem", color: "var(--muted)", fontWeight: 400, marginTop: 4, lineHeight: 1.4, textAlign: "left" }}>{children}</span>}
+    </span>
+  );
+}
 const hm = (min) => (min >= 60 ? `${Math.floor(min / 60)} h ${String(min % 60).padStart(2, "0")}` : `${min} min`);
 const dia = (iso) => new Date(iso + "T00:00:00");
 const fechaLarga = (iso) => dia(iso).toLocaleDateString("es-CO", { day: "2-digit", month: "short", year: "numeric" });
@@ -132,7 +146,7 @@ function calcular() {
     plant: { n: plantAuto.length, total: PLANTILLAS.length, genMin, v: pct(plantAuto.length, PLANTILLAS.length) },
     bs: { plant: bsPlant, v: bsPlant.reduce((s, p) => s + p.nota, 0) / bsPlant.length, conManual: bsPlant.filter((p) => p.manual > 0).length },
     bi: { total: mapeoBI.total, rev: revisados, blanco: pm["(en blanco)"] || 0, noExiste: pm["No Existe"] || 0, v: pct(revisados, mapeoBI.total) },
-    val: { n: inv.length, total: inv.length, validadas: validadas.length, porEstado, v: pct(inv.length, inv.length) },
+    val: { n: inv.length, total: inv.length, validadas: validadas.length, porEstado, v: pct(1, 2) },
     ext: { n: tabExt, total: tabTot, v: pct(tabExt, tabTot) },
     universo, cruzePb1,
     vaciasBronze: Object.entries(bronze).filter(([t, v]) => /^PS/.test(t) && v.filas === 0).map(([t]) => t),
@@ -164,7 +178,7 @@ export default function IndicadoresProyecto({ irA, abrirBI }) {
         <Gauge value={k.bi.v} decimals={1} label="Pre-mapeo reportes BI"
           foot={`${k.bi.rev} de ${k.bi.total} campos revisados`} />
         <Gauge value={k.val.v} decimals={0} label="Plantillas ERP validadas (26C)"
-          foot={<>{k.val.n} de {k.val.total} objetos en alcance<span className="sub">Oracle confirmará si las plantillas seteadas corresponden a la migración</span></>} />
+          foot={<>{k.val.n}/{k.val.total} objetos validados<VerMas>El 50 % corresponde a la consolidación de todas las plantillas en referencia a la documentación de Oracle relacionada en el inventario. El 50 % restante está asociado a la confirmación de Oracle de que las plantillas sean las correspondientes y las fechas.</VerMas></>} />
         <Gauge value={k.ext.v} decimals={1} label="Extracción de fuentes ERP"
           foot={`${k.ext.n} de ${k.ext.total} tablas PeopleSoft`} />
         <div className="gauge ip-cx">
@@ -246,7 +260,7 @@ export default function IndicadoresProyecto({ irA, abrirBI }) {
                 <td className="r n">{k.bi.rev} / {k.bi.total}</td><td>{linkBI}</td></tr>
               <tr><td>Plantillas ERP validadas (26C)</td>
                 <td>
-                  Los {k.val.total} objetos en alcance tienen su plantilla ERP seteada por el frente de datos ({k.val.total}/{k.val.total}). Confirmar que las plantillas seteadas corresponden a la migración 26C es responsabilidad de Oracle y no se semaforiza. Desglose por estado del inventario:{" "}
+                  {k.val.total}/{k.val.total} objetos validados. El 50 % del indicador corresponde a la consolidación de todas las plantillas en referencia a la documentación de Oracle relacionada en el inventario (frente de datos); el 50 % restante está asociado a la confirmación de Oracle de que las plantillas sean las correspondientes y las fechas. Desglose por estado del inventario:{" "}
                   {Object.entries(k.val.porEstado).map(([e, n], i) => <span key={e}>{i > 0 && " · "}{e} <b>{n}</b></span>)}.
                   <div style={{ marginTop: 8 }}><b>Mapeo probado en PB1</b>: columnas de las plantillas de negocio de PB1 que caen en cada hoja de la plantilla ERP.</div>
                   <table className="ip-sub">

@@ -3146,13 +3146,7 @@ function App() {
   return (
     <main className="layout">
       <header className="hero">
-        <p className="pill">Fase actual: Playbook 3 (SIT)</p>
         <h1>Infografía de avance - Frente de Datos</h1>
-        <p className="subtitle">
-          Contexto inicial: ya se realizaron sesiones de entendimiento de
-          plantillas (paso a paso por tabla y columna) y se negoció acceso a
-          Microsoft Fabric con workspace dedicado para procesamiento.
-        </p>
       </header>
 
       <nav className="tabs card">

@@ -9,6 +9,22 @@ const AGENDA = [
   {
     etiqueta: "En curso",
     fecha: "",
+    titulo: "Impacto CX · cruce con plantillas ERP",
+    desc: "Cruce de lo que Oracle CX escribe en Fusion (parties, ítems) con las plantillas de carga ERP: entidades, hojas FBDI y evidencia de extracción.",
+    tab: "impacto-cx",
+    nuevo: true,
+  },
+  {
+    etiqueta: "En curso",
+    fecha: "",
+    titulo: "Microsoft Fabric · plataforma de extracción",
+    desc: "Estado del workspace de extracción: filas por capa (bronze, silver, gold), ejecuciones de pipelines y notebooks, y consumo estimado de capacidad.",
+    tab: "fabric",
+    nuevo: true,
+  },
+  {
+    etiqueta: "En curso",
+    fecha: "",
     titulo: "PB1 Oracle Fusion",
     desc: "Datos de las plantillas usadas en la primera prueba (PB1) de Oracle Fusion —Clientes, Artículos y Proveedores— contrastados contra el volumen inicial del ERP.",
     overlay: "pb1",

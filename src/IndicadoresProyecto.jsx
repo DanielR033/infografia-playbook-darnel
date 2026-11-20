@@ -132,7 +132,7 @@ function calcular() {
     plant: { n: plantAuto.length, total: PLANTILLAS.length, genMin, v: pct(plantAuto.length, PLANTILLAS.length) },
     bs: { plant: bsPlant, v: bsPlant.reduce((s, p) => s + p.nota, 0) / bsPlant.length, conManual: bsPlant.filter((p) => p.manual > 0).length },
     bi: { total: mapeoBI.total, rev: revisados, blanco: pm["(en blanco)"] || 0, noExiste: pm["No Existe"] || 0, v: pct(revisados, mapeoBI.total) },
-    val: { n: validadas.length, total: inv.length, porEstado, v: pct(validadas.length, inv.length) },
+    val: { n: inv.length, total: inv.length, validadas: validadas.length, porEstado, v: pct(inv.length, inv.length) },
     ext: { n: tabExt, total: tabTot, v: pct(tabExt, tabTot) },
     universo, cruzePb1,
     vaciasBronze: Object.entries(bronze).filter(([t, v]) => /^PS/.test(t) && v.filas === 0).map(([t]) => t),
@@ -163,8 +163,8 @@ export default function IndicadoresProyecto({ irA, abrirBI }) {
           foot={`${k.bs.plant.length} de ${k.bs.plant.length} plantillas enviadas y cargadas · ${k.bs.conManual} con ajuste manual`} />
         <Gauge value={k.bi.v} decimals={1} label="Pre-mapeo reportes BI"
           foot={`${k.bi.rev} de ${k.bi.total} campos revisados`} />
-        <Gauge value={k.val.v} decimals={1} label="Plantillas ERP validadas (26C)"
-          foot={`${k.val.n} de ${k.val.total} objetos en alcance`} />
+        <Gauge value={k.val.v} decimals={0} label="Plantillas ERP validadas (26C)"
+          foot={<>{k.val.n} de {k.val.total} objetos en alcance<span className="sub">Oracle confirmará si las plantillas seteadas corresponden a la migración</span></>} />
         <Gauge value={k.ext.v} decimals={1} label="Extracción de fuentes ERP"
           foot={`${k.ext.n} de ${k.ext.total} tablas PeopleSoft`} />
         <div className="gauge ip-cx">
@@ -246,7 +246,7 @@ export default function IndicadoresProyecto({ irA, abrirBI }) {
                 <td className="r n">{k.bi.rev} / {k.bi.total}</td><td>{linkBI}</td></tr>
               <tr><td>Plantillas ERP validadas (26C)</td>
                 <td>
-                  Objetos del inventario de migración con estado «Validado…» ÷ objetos en alcance. Desglose:{" "}
+                  Los {k.val.total} objetos en alcance tienen su plantilla ERP seteada por el frente de datos ({k.val.total}/{k.val.total}). Confirmar que las plantillas seteadas corresponden a la migración 26C es responsabilidad de Oracle y no se semaforiza. Desglose por estado del inventario:{" "}
                   {Object.entries(k.val.porEstado).map(([e, n], i) => <span key={e}>{i > 0 && " · "}{e} <b>{n}</b></span>)}.
                   <div style={{ marginTop: 8 }}><b>Mapeo probado en PB1</b>: columnas de las plantillas de negocio de PB1 que caen en cada hoja de la plantilla ERP.</div>
                   <table className="ip-sub">

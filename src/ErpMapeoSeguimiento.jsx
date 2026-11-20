@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import DATA from "./erpDashData.json";
 import COLS from "./erpDashCols.json";
+import FUENTES from "./erpFuentes.json";
 
 /* ---- datos planos (una vez) ---- */
 const PO = DATA.por_objeto; // 0id 1obj 2maestro 3mod ...
@@ -72,6 +73,25 @@ const CSS = `
 .erpmap .lnk{appearance:none;border:0;background:transparent;font-family:var(--mono);font-weight:600;font-size:.82rem;color:var(--c-blue);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
 .erpmap .draft{font-size:.78rem;color:var(--warn);background:var(--warn-s);border-radius:8px;padding:4px 10px;font-weight:600}
 .erpmap .hint{font-size:.8rem;color:var(--c-mut);background:var(--c-soft);border-left:3px solid var(--c-blue);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:14px}
+.erpmap .sect{font-size:1.05rem;font-weight:700;color:var(--c-blue-d);margin:26px 0 2px}
+.erpmap .sectd{font-size:.86rem;color:var(--c-mut);margin:0 0 14px;max-width:80ch;line-height:1.5}
+.erpmap .fu-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.erpmap .fu-k{background:linear-gradient(180deg,#fcfeff,#eefaf4);border:1px solid #cfe8dc;border-radius:12px;padding:13px 15px}
+.erpmap .fu-k .v{font-family:var(--mono);font-weight:600;font-size:1.4rem;color:var(--ok)}
+.erpmap .fu-k .l{font-size:.73rem;color:var(--c-mut);margin-top:6px;line-height:1.25}
+.erpmap .fu-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.erpmap .fu-kpis{grid-template-columns:1fr 1fr}.erpmap .fu-cards{grid-template-columns:1fr}}
+.erpmap .fu-c{border:1px solid var(--c-bd);border-radius:12px;background:#fff;padding:16px;border-top:3px solid var(--ok)}
+.erpmap .fu-c .fn{font-weight:700;color:var(--c-ink)}
+.erpmap .fu-c .fb{font-family:var(--mono);font-weight:600;font-size:1.7rem;color:var(--ok);line-height:1;margin:8px 0 2px}
+.erpmap .fu-c .fl{font-size:.74rem;color:var(--c-mut)}
+.erpmap .fu-c .fmeta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.erpmap .fu-c .mchip{font-family:var(--mono);font-size:.7rem;background:var(--c-soft);border:1px solid var(--c-bd);border-radius:999px;padding:2px 9px;color:var(--c-blue-d)}
+.erpmap .fu-c .flist{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.erpmap .fu-c .tchip{font-family:var(--mono);font-size:.7rem;border-radius:6px;padding:2px 7px;border:1px solid}
+.erpmap .fu-c .tchip.vista{background:#e3eefb;color:var(--c-blue-d);border-color:#cfe0f5}
+.erpmap .fu-c .tchip.base{background:var(--ok-s);color:var(--ok);border-color:#cfe8dc}
+.erpmap .fu-c .tchip.sis{background:#eef0f3;color:var(--c-mut);border-color:var(--c-bd)}
 /* overlay */
 .erpmap-drill{position:fixed;inset:0;z-index:5200;background:#eef1f5;display:flex;flex-direction:column;font-family:inherit;color:var(--c-ink)}
 .erpmap-drill .dh{background:linear-gradient(120deg,#003b70,#0058a8 70%,#00a7e1);color:#fff}
@@ -205,6 +225,38 @@ export default function ErpMapeoSeguimiento() {
         <div className="kpi"><div className="v">{maes.length}</div><div className="l">Maestros · {mods.length} módulos</div></div>
       </div>
 
+      <div className="sect">Fuentes identificadas por maestro</div>
+      <p className="sectd">
+        Aunque el mapeo columna a columna está por ejecutarse, ya se identificaron las tablas fuente
+        (prospecto) de PeopleSoft que nutrirán cada maestro y, por ende, sus objetos y módulos. Estas
+        son las únicas por maestro.
+      </p>
+      <div className="fu-kpis">
+        <div className="fu-k"><div className="v">{FUENTES.maestros.length}</div><div className="l">Maestros con fuentes identificadas</div></div>
+        <div className="fu-k"><div className="v">{FUENTES.maestros.reduce((s, m) => s + m.fuentes.length, 0)}</div><div className="l">Tablas fuente únicas identificadas</div></div>
+        <div className="fu-k"><div className="v">{FUENTES.maestros.reduce((s, m) => s + m.objetos, 0)}</div><div className="l">Objetos de carga que nutren</div></div>
+        <div className="fu-k"><div className="v">{[...new Set(FUENTES.maestros.flatMap((m) => m.modulos))].length}</div><div className="l">Módulos cubiertos</div></div>
+      </div>
+      <div className="fu-cards">
+        {FUENTES.maestros.map((m) => (
+          <div className="fu-c" key={m.maestro}>
+            <div className="fn">{m.maestro}</div>
+            <div className="fb">{m.fuentes.length}</div>
+            <div className="fl">tablas fuente identificadas</div>
+            <div className="fmeta">
+              {m.modulos.map((md) => <span className="mchip" key={md}>{md}</span>)}
+              <span className="mchip">{m.objetos} objeto{m.objetos !== 1 ? "s" : ""}</span>
+            </div>
+            <div className="flist">
+              {m.fuentes.map((f, i) => (
+                <span className={`tchip ${f.tipo === "Vista" ? "vista" : f.tipo === "Tabla sistema" ? "sis" : "base"}`} key={i} title={f.tipo}>{f.tabla}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="sect">% de avance de mapeo</div>
       <div className="two">
         <div className="box">
           <h4>% mapeo por módulo</h4>

@@ -1954,7 +1954,30 @@ const erpVolumetria = [
     volumenNota: "Identificados por el área funcional; se debe contrastar con las reglas iniciales que remita Laura Maya y el listado de fuentes que confirme Eliany Salamanca.",
     lineaBase:
       "En validación por parte de Laura Maya con las diferentes áreas de negocio involucradas. El inventario de tablas está en validación por parte de Eliany Salamanca.",
-    fuentes: []
+    fuentes: [
+      { tabla: "PS_PROD_ITEM", tipo: "Tabla base" },
+      { tabla: "PS_MASTER_ITEM_TBL", tipo: "Tabla base" },
+      { tabla: "PS_PROD_ITEM_LNG", tipo: "Tabla base" },
+      { tabla: "PS_PROD_COMPTTRS", tipo: "Tabla base" },
+      { tabla: "PS_AJ_PROD_ITEM", tipo: "Tabla base" },
+      { tabla: "PS_AJ_PROD_ALIAS", tipo: "Tabla base" },
+      { tabla: "PS_LC_PROD_INF_TBL", tipo: "Tabla base" },
+      { tabla: "PS_LC_PROD_IMP_TBL", tipo: "Tabla base" },
+      { tabla: "PS_AJ_CARAC_PRODUC", tipo: "Tabla base" },
+      { tabla: "PS_PRODUCT_VW", tipo: "Vista" },
+      { tabla: "PS_AJ_CRE_PROD_GRP", tipo: "Tabla base" },
+      { tabla: "PS_PROD_PGRP_LNK", tipo: "Tabla base" },
+      { tabla: "PS_PROD_GROUP_TBL", tipo: "Tabla base" },
+      { tabla: "PS_PROD_GROUP_LNG", tipo: "Tabla base" },
+      { tabla: "PS_PRODCTLG_TBL", tipo: "Tabla base" },
+      { tabla: "PS_PRODCTLG_PROD", tipo: "Tabla base" },
+      { tabla: "PS_PRODCTLG_P", tipo: "Tabla base" },
+      { tabla: "PS_AJ_CTLG_PROD", tipo: "Tabla base" },
+      { tabla: "PS_PRODCTLG_PGRP", tipo: "Tabla base" },
+      { tabla: "PS_AJ_CTLG_CPROD", tipo: "Tabla base" },
+      { tabla: "PS_PROD_UOM", tipo: "Tabla base" },
+      { tabla: "PS_PROD_UOM_CURR", tipo: "Tabla base" }
+    ]
   }
 ];
 

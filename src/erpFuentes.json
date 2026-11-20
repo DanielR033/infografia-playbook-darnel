@@ -1,0 +1,211 @@
+{
+ "maestros": [
+  {
+   "maestro": "Proveedores",
+   "cols": "Maestro Proveedores",
+   "modulos": [
+    "PAY"
+   ],
+   "objetos": 9,
+   "fuentes": [
+    {
+     "tabla": "PS_AJ_VENDOR_LOC_V",
+     "tipo": "Vista"
+    },
+    {
+     "tabla": "PS_AJ_INF_PROV_VW",
+     "tipo": "Vista"
+    },
+    {
+     "tabla": "PS_VENDOR",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_VENDOR_LOC",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_VENDOR_ADDR",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_VENDOR_PAY",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_VENDOR_CNTCT",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_VNDR_BANK_ACCT",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_VNDR_CNTCT_PHN",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_LC_VNDR_ID_TBL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_LC_VNDR_INF_TBL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_LC_ACT_ECNM_DTL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_LC_ACT_ECNM_TBL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_VNDR_RSPN",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_DOCS_VENDOR",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PSXLATITEM",
+     "tipo": "Tabla sistema"
+    }
+   ]
+  },
+  {
+   "maestro": "Clientes",
+   "cols": "Maestra de Clientes",
+   "modulos": [
+    "REC"
+   ],
+   "objetos": 1,
+   "fuentes": [
+    {
+     "tabla": "PS_AJ_RIESG_CLIENT",
+     "tipo": "Vista"
+    },
+    {
+     "tabla": "PS_CUSTOMER",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_XLATTABLE",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_SP_BU_OM_OPRVW",
+     "tipo": "Vista"
+    },
+    {
+     "tabla": "PS_CUST_TEAM",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_ALTA_CLIENTE",
+     "tipo": "Vista"
+    }
+   ]
+  },
+  {
+   "maestro": "Artículos",
+   "cols": "Maestra de productos",
+   "modulos": [
+    "PHUB",
+    "WMS"
+   ],
+   "objetos": 3,
+   "fuentes": [
+    {
+     "tabla": "PS_PROD_ITEM",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_MASTER_ITEM_TBL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PROD_ITEM_LNG",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PROD_COMPTTRS",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_PROD_ITEM",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_PROD_ALIAS",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_LC_PROD_INF_TBL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_LC_PROD_IMP_TBL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_CARAC_PRODUC",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PRODUCT_VW",
+     "tipo": "Vista"
+    },
+    {
+     "tabla": "PS_AJ_CRE_PROD_GRP",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PROD_PGRP_LNK",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PROD_GROUP_TBL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PROD_GROUP_LNG",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PRODCTLG_TBL",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PRODCTLG_PROD",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PRODCTLG_P",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_CTLG_PROD",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PRODCTLG_PGRP",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_AJ_CTLG_CPROD",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PROD_UOM",
+     "tipo": "Tabla base"
+    },
+    {
+     "tabla": "PS_PROD_UOM_CURR",
+     "tipo": "Tabla base"
+    }
+   ]
+  }
+ ]
+}

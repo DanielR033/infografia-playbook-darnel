@@ -1,9 +1,26 @@
 import React, { useState } from "react";
 import MapeoReportesBI from "./MapeoReportesBI.jsx";
+import Pb1OracleFusion from "./Pb1OracleFusion.jsx";
 
 /* Temas del comité semana a semana. Agregar nuevos ítems al inicio del arreglo.
    tab: id de la pestaña destino (debe existir en el arreglo `tabs` de App.jsx). */
 const AGENDA = [
+  {
+    etiqueta: "En curso",
+    fecha: "",
+    titulo: "PB1 Oracle Fusion",
+    desc: "Datos de las plantillas usadas en la primera prueba (PB1) de Oracle Fusion —Clientes y Artículos— contrastados contra el volumen inicial del ERP (Proveedores pendiente).",
+    overlay: "pb1",
+    nuevo: true,
+  },
+  {
+    etiqueta: "En curso",
+    fecha: "",
+    titulo: "Presentación seguimiento mapeo de datos Oracle Fusion",
+    desc: "Avance del mapeo de columnas de las plantillas de Oracle Fusion: % por módulo, maestro y objeto, con el detalle de qué está mapeado y qué no.",
+    tab: "erp-inv",
+    nuevo: true,
+  },
   {
     etiqueta: "En curso",
     fecha: "",
@@ -68,11 +85,17 @@ const CSS = `
 
 export default function SeguimientoComite({ onNavigate }) {
   const [verMapeo, setVerMapeo] = useState(false);
+  const [verPb1, setVerPb1] = useState(false);
   const go = (tab) => typeof onNavigate === "function" && onNavigate(tab);
-  const abrir = (a) => { if (a.overlay === "mapeo-bi") setVerMapeo(true); else go(a.tab); };
+  const abrir = (a) => {
+    if (a.overlay === "mapeo-bi") setVerMapeo(true);
+    else if (a.overlay === "pb1") setVerPb1(true);
+    else go(a.tab);
+  };
   return (
     <section className="card comite">
       {verMapeo && <MapeoReportesBI onClose={() => setVerMapeo(false)} />}
+      {verPb1 && <Pb1OracleFusion onClose={() => setVerPb1(false)} />}
       <style>{CSS}</style>
       <p className="cm-eyebrow">Comité de datos</p>
       <h2 style={{ marginTop: 6 }}>Seguimiento semanal</h2>

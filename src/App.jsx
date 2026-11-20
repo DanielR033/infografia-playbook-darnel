@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import erpInventario from "./erpInventario.json";
 import ErpInventarioDashboard from "./ErpInventarioDashboard.jsx";
+import ErpMapeoSeguimiento from "./ErpMapeoSeguimiento.jsx";
 import ErpCalidadDatos from "./ErpCalidadDatos.jsx";
 import BsWmsDashboard from "./BsWmsDashboard.jsx";
 import SeguimientoComite from "./SeguimientoComite.jsx";
@@ -4864,7 +4865,7 @@ function App() {
         </>
       )}
 
-      {tabActiva === "erp-inv" && <ErpInventarioDashboard />}
+      {tabActiva === "erp-inv" && <><ErpMapeoSeguimiento /><ErpInventarioDashboard /></>}
 
       {tabActiva === "bs-wms" && <BsWmsDashboard />}
 

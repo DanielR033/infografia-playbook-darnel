@@ -167,13 +167,6 @@ export default function ErpMapeoSeguimiento() {
   const toggle = (f) => setOv((prev) => { const s = new Set(prev); const k = key(f); s.has(k) ? s.delete(k) : s.add(k); return s; });
   const setMany = (fs, val) => setOv((prev) => { const s = new Set(prev); fs.forEach((f) => { const k = key(f); val ? s.add(k) : s.delete(k); }); return s; });
   const resetBase = () => { try { localStorage.removeItem(LS); } catch (e) {} setOv(new Set(FLAT.filter((f) => f.base).map(key))); };
-  const exportar = () => {
-    const payload = { generado: new Date().toISOString(), total: TOTAL, mapeadas: Array.from(ov) };
-    const blob = new Blob([JSON.stringify(payload, null, 1)], { type: "application/json" });
-    const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-    a.download = "erp_mapeo_avance.json"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  };
-
   const hayDraft = ov.size !== FLAT.filter((f) => f.base).length;
 
   // por módulo (ordenado)
@@ -201,7 +194,6 @@ export default function ErpMapeoSeguimiento() {
 
       <div className="tools">
         <button className="btn primary" onClick={() => setDrill({ all: true })}>Ver y marcar todas las columnas</button>
-        <button className="btn" onClick={exportar}>Exportar avance (.json)</button>
         {hayDraft && <button className="btn ghost" onClick={resetBase}>Restablecer</button>}
         {hayDraft && <span className="draft">Borrador local · {nf(ov.size)} marcadas en este navegador</span>}
       </div>
@@ -273,12 +265,6 @@ export default function ErpMapeoSeguimiento() {
           </tbody>
         </table>
       </div>
-
-      <p className="hint">
-        El avance se guarda en este navegador. Marca columnas en el detalle y usa <b>Exportar avance</b>
-        {" "}para consolidar el estado y compartirlo (yo lo puedo fijar como línea base del tablero para
-        que todos vean el mismo %).
-      </p>
 
       {drill && <Drill drill={drill} ov={ov} isMap={isMap} toggle={toggle} setMany={setMany}
         q={q} setQ={setQ} filtro={filtro} setFiltro={setFiltro} openObj={openObj} setOpenObj={setOpenObj} agg={agg} onClose={() => setDrill(null)} />}

@@ -1,0 +1,111 @@
+{
+ "fuente": "47 sesiones grabadas del Playback 1 (Prisma)",
+ "abiertos": [
+  {"n": 1, "tema": "Lógica y gobernanza del código (único y primero)", "maestro": "Transversal", "resp": "Datos + Funcional", "impacto": "Alto",
+   "detalle": "En PeopleSoft el código es casi el último dato; en Fusion el objeto nace con código y no se puede crear sin él. Falta definir cómo se genera, quién lo crea y la numeración/consecutivos para artículos, clientes, proveedores y terceros. Es crítico en el flujo de repuestos/MNT: sin código no se puede comprar ni mover."},
+  {"n": 2, "tema": "Unificar geografía (tildes) y formato de dirección", "maestro": "Clientes / Proveedores", "resp": "Datos", "impacto": "Alto",
+   "detalle": "La geografía está inconsistente (p. ej. «Bogotá» con y sin tilde) y es fuente de error de carga; hay que unificarla antes de cargar. Direcciones 1 y 2 son campos abiertos; barrio/localidad (dirección 3) no vienen en el formato estándar; no hay validación a nivel de dirección; la habilitación de «dirección 4» quedó pendiente."},
+  {"n": 3, "tema": "Listas de valores (LOV) pendientes → workbook de configuración", "maestro": "Transversal", "resp": "Funcional por módulo", "impacto": "Medio",
+   "detalle": "Recurrente en todas las sesiones: «falta definir esta lista de valores». Las LOV definitivas quedan en el workbook de configuración (valores permitidos, mayúsculas/minúsculas, cómo queda el ambiente real). Sin ellas la carga no cuadra."},
+  {"n": 4, "tema": "Plantilla fiscal CO/PA y reglas de impuesto por unidad de negocio", "maestro": "Clientes / Proveedores", "resp": "Impuestos", "impacto": "Alto",
+   "detalle": "La parte fiscal/localización (régimen) es una plantilla distinta —otro servicio— que resuelve los clientes compartidos CO/PA (una línea de régimen por país). Las reglas de retención (IVA, ICA, renta) se definen por unidad de negocio. Si faltan los campos fiscales, el motor de impuestos calcula en cero."},
+  {"n": 5, "tema": "Flexfields (DFF) por maestro: datos sin campo estándar", "maestro": "Transversal", "resp": "Datos + Funcional", "impacto": "Medio",
+   "detalle": "Varios datos del negocio no tienen campo estándar en Fusion y se resuelven con segmentos descriptivos (DFF): país de fabricación, incremento de venta, tercero en GL, director ejecutivo del proveedor, atributos de transporte. Falta levantar la lista de DFF por maestro y mapear cada dato no estándar a su segmento."},
+  {"n": 6, "tema": "Calendario y región de cliente (OTM ↔ ERP)", "maestro": "Clientes", "resp": "Logística / OTM", "impacto": "Alto",
+   "detalle": "No existe un calendario por cliente nativo en Oracle: se gestiona en OTM (ID de calendario, p. ej. C03) y debe compartirse con el ERP al dar de alta el cliente; se evalúa una extensión/flexfield. La región es obligatoria por cliente (sin región no hay planificación). Las reglas de carga a piso vs. pallet por cliente están por definir."},
+  {"n": 7, "tema": "Carga de proveedores existentes: ¿potencial o autorizado?", "maestro": "Proveedores", "resp": "Compras / Abastecimiento", "impacto": "Medio",
+   "detalle": "Definir cómo cargar los proveedores actuales («gasto autorizado»): ¿como potenciales o como autorizados? Afecta el estado inicial del maestro y los cuestionarios/integraciones que se disparan en la promoción potencial → autorizado."},
+  {"n": 8, "tema": "Terceros compartidos proveedor ↔ cliente", "maestro": "Clientes / Proveedores", "resp": "Datos", "impacto": "Medio",
+   "detalle": "Los terceros que son a la vez proveedor y cliente requieren validación en la migración: «de proveedor a cliente es sencillo, de cliente a proveedor es más complejo». Se arrastra además un tema de contactos del proyecto anterior."},
+  {"n": 9, "tema": "Conversiones y unidad de medida (gobernanza, secundaria vacía)", "maestro": "Artículos", "resp": "Maestra de productos", "impacto": "Alto",
+   "detalle": "La unidad de medida primaria es inmutable; las conversiones (factor) sí se pueden cambiar y requieren gobernanza (quién, cómo). La UOM secundaria queda vacía cuando el control de inventario/precio es solo en la primaria. La conversión estándar (p. ej. millar↔unidad) debe venir definida por artículo."},
+  {"n": 10, "tema": "Clasificación fiscal del artículo / artículo «dummy»", "maestro": "Artículos / AR", "resp": "Impuestos + Productos", "impacto": "Alto",
+   "detalle": "El artículo de OM necesita clasificación fiscal para que el motor calcule impuestos. Una factura con un artículo inexistente obliga a crear un artículo «dummy» o a revisar el flujo (dependencia maestro de artículos ↔ AR)."},
+  {"n": 11, "tema": "Facturas de exportación: ¿por pedido o manual?", "maestro": "Clientes / OM", "resp": "AR / OM", "impacto": "Medio",
+   "detalle": "Issue abierto: manejar las facturas de exportación por pedido con código de producto o como factura manual. Define el flujo de exportación y la clasificación fiscal asociada."},
+  {"n": 12, "tema": "Banco intermediario / SWIFT (pagos al exterior)", "maestro": "Proveedores", "resp": "Tesorería / AP", "impacto": "Medio",
+   "detalle": "Validar el escenario de banco intermediario / SWIFT-BIC para proveedores del exterior. El archivo plano de pagos toma la cuenta bancaria del proveedor para enviarla al banco; si el formato no está completo, el pago falla."},
+  {"n": 13, "tema": "Banco de preguntas y vigencias de documentos (POQ)", "maestro": "Proveedores", "resp": "Compras + Oracle", "impacto": "Medio",
+   "detalle": "Alcance contractual de quién crea el banco de preguntas de calificación; reglas internacional/nacional incompletas (quedaron de tarea); formato de evaluación/reevaluación interno pendiente; el reporte de vigencias de documentos (certificado bancario, etc.) es un desarrollo/customización y no hay aviso automático de vencimiento."}
+ ],
+ "transversal": [
+  {"t": "El código deja de ser el último dato y pasa a ser obligatorio y primero", "insight": "En Fusion el objeto nace con código, único e inmutable; los nombres pueden ser multi-idioma (tablas _LNG). No se puede borrar un objeto ya asociado a otro.", "abierto": "Definir la lógica y la gobernanza del código para todos los maestros."},
+  {"t": "Operación multi-país (Colombia + Panamá)", "insight": "Estructura Entidad legal → Unidad de negocio → reference data set. Reglas de impuestos, régimen y plantillas fiscales separadas por país/unidad de negocio.", "abierto": "Tratamiento especial de terceros compartidos CO/PA en extracción y validación."},
+  {"t": "Geografía y direcciones", "insight": "Formato de dirección por país (obligatorios con asterisco); código postal y país de origen. La georreferenciación de OTM es automática pero falla en 50–70 % de los casos.", "abierto": "Unificar geografía (tildes) antes de cargar; control humano para verificar/aprobar direcciones nuevas."},
+  {"t": "Clasificación fiscal e impuestos", "insight": "El motor depende de la calidad tributaria del tercero + la clasificación fiscal del producto; si faltan, el cálculo da cero. Reglas de retención por unidad de negocio y casuística (gran contribuyente, autorretenedor, exentos).", "abierto": "Consolidar con impuestos (AP/AR) las reglas de retención que no se pasaron."},
+  {"t": "Campos flexibles (DFF)", "insight": "Datos del negocio sin campo estándar se resuelven con segmentos descriptivos: país de fabricación, incremento de venta, tercero en GL, director ejecutivo del proveedor, atributos de transporte.", "abierto": "Levantar la lista de DFF por maestro y mapear cada dato no estándar."},
+  {"t": "Listas de valores (LOV) y workbook de configuración", "insight": "Las LOV definitivas quedan en el workbook de configuración (valores permitidos, formato).", "abierto": "Consolidar las LOV pendientes por módulo."},
+  {"t": "Idioma, moneda y mayúsculas", "insight": "Cargar en el idioma correcto (código único, nombres por idioma). Multimoneda con tasa corporativa. Al cargar, los textos pasan a mayúscula automáticamente.", "abierto": "Definir si se activan todas las monedas o solo las usadas."},
+  {"t": "Fechas reales y fechas legacy", "insight": "En las plantillas hay que poner la fecha de creación real del registro, no la fecha de migración.", "abierto": "Consistente con el hallazgo de calidad: fechas placeholder anteriores a 1900 en PeopleSoft."},
+  {"t": "Gobernanza del dato", "insight": "Responsable único del maestro para cambios sensibles (UOM, descripciones, conversiones). El equipo funcional actúa como repetidor del conocimiento hacia datos.", "abierto": "Asignar responsables de gobernanza por maestro."},
+  {"t": "Dependencias entre maestros", "insight": "Artículo ↔ Cliente/AR (artículo dummy), Artículo ↔ Precios/Impuestos/Categorías, Cliente ↔ Proveedor (compartidos), Cliente ↔ OTM (calendario/región), Vendedor ↔ HCM.", "abierto": "Mapear el orden de carga que respete estas dependencias."},
+  {"t": "Calendarios / OTM (logística)", "insight": "No existe calendario por cliente nativo; se gestiona en OTM y se comparte con el ERP. Dirección oficial vs. sustituta (la sustituta prevalece en el ruteo).", "abierto": "Región obligatoria por cliente; reglas de carga a piso vs. pallet."},
+  {"t": "Alcance de carga en PB1", "insight": "PB1 no incluye cargas masivas FBDI (archivo plano que se descarga de PeopleSoft, se concilia e importa); se trabajan en ciclos posteriores. Las versiones de plantilla FBDI cambian.", "abierto": "Transacciones por integración que fallan quedan «pendientes» sin notificación: requieren monitoreo."}
+ ],
+ "maestros": [
+  {"nombre": "Artículos (Items)",
+   "sesiones": "FPH Creación y Gestión de Artículos y Categorías · MFG Introducción/Data maestra · MFG Importación · O2C/QP Creación de ítems y precios",
+   "insights": [
+    "Perfil/plantilla por naturaleza del artículo (manufacturado, comprado, facturado, servicio, repuesto): la plantilla precarga los atributos operacionales mínimos. Imprescindible identificar la naturaleza en la extracción de PeopleSoft para asignar la plantilla correcta.",
+    "Clase de artículo primero, luego la plantilla (orden de diligenciamiento: clase → plantilla por defecto → atributos).",
+    "Unidad de medida primaria inmutable; las conversiones (factor) sí se cambian. La UOM secundaria queda vacía cuando el control es solo en la primaria.",
+    "Conversión estándar obligatoria por artículo (ej. millar↔unidad).",
+    "Despacho con UOM distinta por bodega: el mismo artículo se despacha en cajas por Madrid y en PQ por Álamos.",
+    "Categorías funcionales obligatorias: todo artículo necesita categoría por defecto (precios, inventario/costos).",
+    "Código de barras: se asigna automáticamente por regla (país de fabricación + flag); hay casos manuales (marca propia) que requieren el campo editable. Responsable: equipo WMS.",
+    "Multi-organización: nace en la organización maestra (OMA); habilitación por unidad de negocio/inventario; marcar «no transferible».",
+    "Control por lote: declararlo al definir el ítem. Artículo empaquetado (OTM): se crea la cabecera; faltan capas, cantidad por capa y commodity."
+   ],
+   "abiertos": [
+    "Lógica y gobernanza del código y de las conversiones (control humano indefectible).",
+    "Validación cruzada del artículo con otros módulos antes de decidir las plantillas.",
+    "Definir si los campos vacíos (ej. UOM secundaria) van vacíos en la plantilla.",
+    "Posición arancelaria / jerarquía y catálogo específico de zona franca.",
+    "Manejar el cambio de paradigma «código primero» en el flujo de creación de repuestos."
+   ]},
+  {"nombre": "Clientes",
+   "sesiones": "Definir Cliente · AR Creación y Gestión de Facturas/Notas · AR Cobros, Disputas y Ajustes",
+   "insights": [
+    "Dos plantillas distintas: (1) Party + Cuenta + Sitio (plantilla única) y (2) plantilla fiscal / localización (otro servicio), que resuelve los clientes compartidos CO/PA (línea de régimen por país).",
+    "El cliente ya existe: viene de Oracle CX como prospecto → cliente. En la carga, en muchos casos no se crea, se actualiza (nombre) y se asocian contactos. Cuidado con el desorden en contactos.",
+    "Persona vs. organización; contacto por persona (el correo es el dato clave).",
+    "Fecha de creación real del cliente en la plantilla (no la de migración).",
+    "Vendedor (salesperson): viene de HCM; debe llegar con código + nombre (no solo nombre).",
+    "Identificación y tipo de documento: validación por tipo (NIT jurídico vs. natural, dígito de verificación). Clasificación tributaria única por país.",
+    "Dirección tributaria a nivel de sitio; marca de exención (San Andrés/Guainía/Vichada) por sitio con código diferente.",
+    "Condición de pago se hereda del cliente; canal de ventas asociado.",
+    "Calendario de cliente: crear y asociar los calendarios entregados; el formato de factura debe traer el formato Darnel / factura nacional."
+   ],
+   "abiertos": [
+    "Unificar la geografía (tildes) antes de la carga; «dirección 4» pendiente.",
+    "Plantilla fiscal separada para clientes compartidos CO/PA.",
+    "Facturas de exportación: ¿por pedido con código de producto o factura manual?",
+    "Reglas de retención/impuestos que no se pasaron.",
+    "Quién tiene la tarea del código y la descripción.",
+    "Artículo dummy para artículos inexistentes en facturación manual.",
+    "Reversión de inventario en notas crédito cuando la mercancía no entra a bodega."
+   ]},
+  {"nombre": "Proveedores",
+   "sesiones": "AP Crear y Gestionar Proveedores · POQ Registro/Perfil · POQ Creación de preguntas · POS Negociaciones, Confirmaciones y Avisos de Envío",
+   "insights": [
+    "Tipología: proveedor potencial (datos básicos) vs. gasto autorizado (recibe OC y pagos). La promoción la hace el administrador de proveedores y dispara integración y cuestionarios.",
+    "Autorregistro por link/portal (URL distinta por unidad de negocio y por ambiente). La carga masiva no va por portal.",
+    "Número de registro fiscal / tipo de documento por localización, con dígito de verificación (valida NIT+DV; una vez puesto no se cambia).",
+    "Correo del portal: no usar dominio @darnel. Si el correo del contacto ya tiene cuenta de usuario, el sistema no deja crear otra.",
+    "Categorías de producto/servicio que el proveedor selecciona; reglas de aprobación por categoría.",
+    "Impuestos/retención: calidad tributaria del proveedor; «no responsable de IVA» / «no obligados a facturar» a nivel de dirección (impacto en medios magnéticos).",
+    "Sitios: sitio de pago, moneda de pago principal; retención de pagos con motivo obligatorio (auditoría).",
+    "Cuenta bancaria: el archivo plano de pagos toma estos datos para el banco (matriz de bancos).",
+    "Información adicional (DFF) que alimenta variables de contratos (ej. director ejecutivo). ASN/envío (POS): país de origen, LPN proveedor, código de barras, NP en importadas."
+   ],
+   "abiertos": [
+    "Cómo cargar los proveedores existentes: ¿potenciales o autorizados?",
+    "Consecutivo/numeración del proveedor.",
+    "Validación de terceros compartidos (proveedor↔cliente) en la migración.",
+    "Escenario de banco intermediario / SWIFT (exterior).",
+    "Alcance contractual de quién crea el banco de preguntas (POQ); reglas internacional/nacional incompletas.",
+    "Reporte de vigencias de documentos del perfil (desarrollo/customización).",
+    "Reglas de aprobación variables por tipo de cambio de perfil; trazabilidad campo a campo para auditoría."
+   ]}
+ ]
+}

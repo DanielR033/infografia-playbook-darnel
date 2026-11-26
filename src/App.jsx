@@ -8,6 +8,7 @@ import SeguimientoComite from "./SeguimientoComite.jsx";
 import CutoverDashboard from "./CutoverDashboard.jsx";
 import ImpactoCx from "./ImpactoCx.jsx";
 import FabricDashboard from "./FabricDashboard.jsx";
+import Pb1Fusion from "./Pb1Fusion.jsx";
 
 const erpInvHojas = [
   "Resumen",
@@ -3065,7 +3066,8 @@ function App() {
     { id: "bs-wms", label: "BS WMS" },
     { id: "cutover", label: "Cutover" },
     { id: "impacto-cx", label: "Impacto CX" },
-    { id: "fabric", label: "Microsoft Fabric" }
+    { id: "fabric", label: "Microsoft Fabric" },
+    { id: "pb1-fusion", label: "PB1 Fusion" }
   ];
 
   // Enrutamiento por URL (#hash): permite abrir/compartir una pestaña concreta.
@@ -4940,6 +4942,7 @@ function App() {
       {tabActiva === "cutover" && <CutoverDashboard />}
       {tabActiva === "impacto-cx" && <ImpactoCx />}
       {tabActiva === "fabric" && <FabricDashboard />}
+      {tabActiva === "pb1-fusion" && <Pb1Fusion />}
 
       {tabActiva !== "general" && detalle && (
         <>

@@ -4807,61 +4807,6 @@ function App() {
           </section>
 
           <section className="card">
-            <h2>Caso Artículos: ~28.000 artículos preexistentes</h2>
-            <p className="entity-summary">
-              La copia del productivo al ambiente de pruebas dejó el playback con artículos ya
-              cargados. Es el caso más crítico y marca el apoyo del frente de Datos.
-            </p>
-            <div className="blocker-grid">
-              {erpCasoArticulos.map((fila, i) => (
-                <article className="blocker-card" key={fila.titulo}>
-                  <span>{i + 1}</span>
-                  <strong>{fila.titulo}</strong>
-                  <p>{fila.detalle}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <section className="card">
-            <h2>Revisiones propuestas para profundización</h2>
-            <p className="entity-summary">
-              Reuniones con BPOs y líderes técnicos para obtener el preliminar de fuentes y los
-              conteos / volumetrías iniciales de cada maestro.
-            </p>
-            <div className="cadence-list">
-              {erpRevisiones.map((fila) => (
-                <div className="cadence-item" key={fila.maestro}>
-                  <span>{fila.fecha}</span>
-                  <strong>{fila.maestro}</strong>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="card">
-            <h2>Maestros en alcance: disposición y preguntas clave para Datos</h2>
-            <p className="entity-summary">{erpMaestrosIntro}</p>
-            <div className="grid">
-              {erpMaestros.map((fila) => (
-                <article className="subcard maestro-card" key={fila.maestro}>
-                  <div className="maestro-head">
-                    <h3>{fila.maestro}</h3>
-                    <span className={`tag ${fila.estado}`}>{estadoLabel[fila.estado]}</span>
-                  </div>
-                  <p>{fila.disposicion}</p>
-                  <p className="mini-title">Preguntas clave para Datos</p>
-                  <ul className="maestro-preguntas">
-                    {fila.preguntas.map((q) => (
-                      <li key={q}>{q}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <section className="card">
             <h2>Reglas de volumetría y fuentes por maestro</h2>
             <p className="entity-summary">
               Resultado de las tres sesiones con BPOs y líderes técnicos: la regla inicial de línea
@@ -4904,35 +4849,7 @@ function App() {
             </div>
           </section>
 
-          <section className="card">
-            <h2>Actividades clave de la semana</h2>
-            <p className="entity-summary">
-              Avances del frente de Datos sobre las fuentes PS: identificación de tablas, ingesta en
-              Fabric, análisis exploratorio y definición del universo de proveedores a migrar.
-            </p>
-            <ol className="act-semana">
-              {erpActividadesSemana.map((texto, i) => (
-                <li key={i}>{texto}</li>
-              ))}
-            </ol>
-          </section>
-
           <ErpCalidadDatos />
-
-          <section className="card">
-            <h2>Objetivo de esta versión y próximos pasos</h2>
-            <p className="entity-summary">
-              El gerente del proyecto busca medir y validar el impacto y la magnitud de los datos;
-              hacia eso apunta esta primera versión.
-            </p>
-            <div className="task-list">
-              {erpProximosPasos.map((texto) => (
-                <div className="task-item" key={texto}>
-                  <p>{texto}</p>
-                </div>
-              ))}
-            </div>
-          </section>
         </>
       )}
 

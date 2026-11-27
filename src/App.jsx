@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import erpInventario from "./erpInventario.json";
 import ErpInventarioDashboard from "./ErpInventarioDashboard.jsx";
 import ErpMapeoSeguimiento from "./ErpMapeoSeguimiento.jsx";
+import Pb2Plan from "./Pb2Plan.jsx";
 import ErpCalidadDatos from "./ErpCalidadDatos.jsx";
 import BsWmsDashboard from "./BsWmsDashboard.jsx";
 import SeguimientoComite from "./SeguimientoComite.jsx";
@@ -4935,7 +4936,7 @@ function App() {
         </>
       )}
 
-      {tabActiva === "erp-inv" && <><ErpMapeoSeguimiento /><ErpInventarioDashboard /></>}
+      {tabActiva === "erp-inv" && <><Pb2Plan /><ErpMapeoSeguimiento /><ErpInventarioDashboard /></>}
 
       {tabActiva === "bs-wms" && <BsWmsDashboard />}
 

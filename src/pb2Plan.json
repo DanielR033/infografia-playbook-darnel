@@ -1,0 +1,343 @@
+{
+ "fuente": "Planeación PB2 (cuadro recibido 26-11-2026) × levantamiento de plantillas ERP (inventario de migración 26C)",
+ "lineas": [
+  {
+   "pri": "A",
+   "objeto": "Proveedores",
+   "modulo": "PAY",
+   "objetosPB2": 9,
+   "resp": "Marlene Villa y Diego Rios",
+   "s1": "15-Dec-2026",
+   "s2": "22-Dec-2026",
+   "c1": "06-Jan-2027",
+   "c2": "13-Jan-2027",
+   "nota": "9 objetos de proveedor, cada uno con su plantilla FBDI. No incluye «Facturas abiertas y anticipos» (Cuentas por pagar).",
+   "plantillas": [
+    {
+     "id": "P01",
+     "archivo": "SupplierImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 1,
+     "cols": 156
+    },
+    {
+     "id": "P02",
+     "archivo": "SupplierSiteImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 2,
+     "cols": 211
+    },
+    {
+     "id": "P03",
+     "archivo": "SupplierContactImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 2,
+     "cols": 97
+    },
+    {
+     "id": "P04",
+     "archivo": "SupplierBankAccountImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 3,
+     "cols": 67
+    },
+    {
+     "id": "P05",
+     "archivo": "SupplierAddressImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 1,
+     "cols": 110
+    },
+    {
+     "id": "P06",
+     "archivo": "SupplierSiteAssignmentImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 1,
+     "cols": 16
+    },
+    {
+     "id": "P07",
+     "archivo": "SupplierProductsandServicesCategoryImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 1,
+     "cols": 5
+    },
+    {
+     "id": "P08",
+     "archivo": "SupplierBusinessClassificationImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 1,
+     "cols": 18
+    },
+    {
+     "id": "P09",
+     "archivo": "SupplierAttachmentImportTemplate.xlsm",
+     "maestro": "Maestro Proveedores",
+     "lectura": "Plantilla leída",
+     "hojas": 3,
+     "cols": 33
+    }
+   ],
+   "nPlant": 9,
+   "nHojas": 15,
+   "nCols": 713,
+   "nObjInv": 9,
+   "estados": {
+    "Validado": 8,
+    "Validado - corregir enlace": 1
+   }
+  },
+  {
+   "pri": "A",
+   "objeto": "Catálogos, categorías y maestro de artículos",
+   "modulo": "PHUB",
+   "objetosPB2": 2,
+   "resp": "Andres de la Ossa",
+   "s1": "16-Dec-2026",
+   "s2": "28-Dec-2026",
+   "c1": "07-Jan-2027",
+   "c2": "14-Jan-2027",
+   "nota": "Maestro de artículos (ItemImportTemplate) + catálogos/categorías. Estructuras/BOM (P13, 4 hojas · 307 col) está levantado pero fuera de esta línea.",
+   "plantillas": [
+    {
+     "id": "P11",
+     "archivo": "ItemImportTemplate.xlsm",
+     "maestro": "Maestra de productos",
+     "lectura": "Plantilla leída",
+     "hojas": 17,
+     "cols": 1365
+    },
+    {
+     "id": "P12",
+     "archivo": "EgpCatalogImportTemplate.xlsm",
+     "maestro": "Maestra de productos",
+     "lectura": "Plantilla leída",
+     "hojas": 5,
+     "cols": 254
+    }
+   ],
+   "nPlant": 2,
+   "nHojas": 22,
+   "nCols": 1619,
+   "nObjInv": 2,
+   "estados": {
+    "Validado - homologar versión": 2
+   }
+  },
+  {
+   "pri": "A",
+   "objeto": "Ítems en WMS",
+   "modulo": "WMS",
+   "objetosPB2": 1,
+   "resp": "Gustavo Jimenez",
+   "s1": "16-Dec-2026",
+   "s2": "28-Dec-2026",
+   "c1": "07-Jan-2027",
+   "c2": "14-Jan-2027",
+   "nota": "Ítem de WMS Cloud vía Input Interface / API (no FBDI): hojas y columnas a nivel de especificación. No incluye «Inventario» (línea aparte).",
+   "plantillas": [
+    {
+     "id": "P41",
+     "archivo": "Input Interface de WMS (ITM_Item, IBR_ItemBarcode, LOC_Location) o API init_stage_interface (entity=item)",
+     "maestro": "Maestra de productos",
+     "lectura": "API/spec — campos clave",
+     "hojas": 3,
+     "cols": 3
+    }
+   ],
+   "nPlant": 1,
+   "nHojas": 3,
+   "nCols": 3,
+   "nObjInv": 1,
+   "estados": {
+    "Validado - corregir enlace": 1
+   }
+  },
+  {
+   "pri": "A",
+   "objeto": "Clientes",
+   "modulo": "REC",
+   "objetosPB2": 1,
+   "resp": "Juan Cardenas, Juan Manuel",
+   "s1": "17-Dec-2026",
+   "s2": "29-Dec-2026",
+   "c1": "08-Jan-2027",
+   "c2": "15-Jan-2027",
+   "nota": "1 plantilla (CustomerImportTemplate) que agrupa clientes, cuentas, contactos y sitios en 19 hojas. No incluye transacciones ni recibos (Cuentas por cobrar).",
+   "plantillas": [
+    {
+     "id": "P10",
+     "archivo": "CustomerImportTemplate.xlsm",
+     "maestro": "Maestra de Clientes",
+     "lectura": "Plantilla leída",
+     "hojas": 19,
+     "cols": 1254
+    }
+   ],
+   "nPlant": 1,
+   "nHojas": 19,
+   "nCols": 1254,
+   "nObjInv": 4,
+   "estados": {
+    "Validado": 4
+   }
+  },
+  {
+   "pri": "A",
+   "objeto": "Activos mantenibles",
+   "modulo": "MNT",
+   "objetosPB2": 1,
+   "resp": "Franklin Cardozo",
+   "s1": "17-Dec-2026",
+   "s2": "29-Dec-2026",
+   "c1": "08-Jan-2027",
+   "c2": "15-Jan-2027",
+   "nota": "No incluye «Órdenes de mantenimiento abiertas» (P31), que es línea aparte.",
+   "plantillas": [
+    {
+     "id": "P14",
+     "archivo": "CseInstalledBaseAssetImport.xlsm",
+     "maestro": "Gestión del mantenimiento",
+     "lectura": "Plantilla leída",
+     "hojas": 5,
+     "cols": 313
+    }
+   ],
+   "nPlant": 1,
+   "nHojas": 5,
+   "nCols": 313,
+   "nObjInv": 1,
+   "estados": {
+    "Validado": 1
+   }
+  },
+  {
+   "pri": "A",
+   "objeto": "Tarifas y equipos de transporte",
+   "modulo": "OTM",
+   "objetosPB2": 2,
+   "resp": "Javier de Cunto",
+   "s1": "17-Dec-2026",
+   "s2": "29-Dec-2026",
+   "c1": "08-Jan-2027",
+   "c2": "15-Jan-2027",
+   "nota": "Oracle Transportation (OTM): carga vía CSVUtil/REST, no FBDI. Tarifas requiere cambiar mecanismo. «Equipos de transporte» por confirmar con el funcional.",
+   "plantillas": [
+    {
+     "id": "P37",
+     "archivo": "Archivos CSV por tabla (CSVUtil) o XML de integración (RateOffering / RateGeo)",
+     "maestro": "Gestión de transportes",
+     "lectura": "API/spec — campos clave",
+     "hojas": 6,
+     "cols": 8
+    },
+    {
+     "id": "P38",
+     "archivo": "REST OTM: POST /shipments (View and Update)",
+     "maestro": "Gestión de transportes",
+     "lectura": "API/spec — campos clave",
+     "hojas": 3,
+     "cols": 7
+    },
+    {
+     "id": "P39",
+     "archivo": "REST OTM: POST /orderReleases (View and Update)",
+     "maestro": "Gestión de transportes",
+     "lectura": "API/spec — campos clave",
+     "hojas": 3,
+     "cols": 6
+    }
+   ],
+   "nPlant": 3,
+   "nHojas": 12,
+   "nCols": 21,
+   "nObjInv": 3,
+   "estados": {
+    "Cambiar mecanismo": 1,
+    "Validado": 2
+   }
+  },
+  {
+   "pri": "A",
+   "objeto": "Presupuesto controlable",
+   "modulo": "FCR / GL",
+   "objetosPB2": 2,
+   "resp": "Catalina Calderon",
+   "s1": "17-Dec-2026",
+   "s2": "29-Dec-2026",
+   "c1": "08-Jan-2027",
+   "c2": "15-Jan-2027",
+   "nota": "Presupuesto (BudgetImportTemplate) + saldos iniciales GL (JournalImportTemplate). Saldos iniciales: requiere definición.",
+   "plantillas": [
+    {
+     "id": "P15",
+     "archivo": "JournalImportTemplate.xlsm",
+     "maestro": "Gestion Contable",
+     "lectura": "Plantilla leída",
+     "hojas": 1,
+     "cols": 149
+    },
+    {
+     "id": "P16",
+     "archivo": "BudgetImportTemplate.xlsm",
+     "maestro": "Control presupuestal",
+     "lectura": "Plantilla leída",
+     "hojas": 2,
+     "cols": 379
+    }
+   ],
+   "nPlant": 2,
+   "nHojas": 3,
+   "nCols": 528,
+   "nObjInv": 2,
+   "estados": {
+    "Requiere definición": 1,
+    "Validado": 1
+   }
+  },
+  {
+   "pri": "A",
+   "objeto": "Activos fijos",
+   "modulo": "ASM",
+   "objetosPB2": 1,
+   "resp": "Franklin Cardozo, Diego Rios",
+   "s1": "17-Dec-2026",
+   "s2": "29-Dec-2026",
+   "c1": "08-Jan-2027",
+   "c2": "15-Jan-2027",
+   "nota": "FixedAssetMassAdditionsImportTemplate.",
+   "plantillas": [
+    {
+     "id": "P20",
+     "archivo": "FixedAssetMassAdditionsImportTemplate.xlsm",
+     "maestro": "Gestión de activos",
+     "lectura": "Plantilla leída",
+     "hojas": 3,
+     "cols": 493
+    }
+   ],
+   "nPlant": 1,
+   "nHojas": 3,
+   "nCols": 493,
+   "nObjInv": 1,
+   "estados": {
+    "Validado": 1
+   }
+  }
+ ],
+ "tot": {
+  "lineas": 8,
+  "objetosPB2": 19,
+  "plantillas": 20,
+  "hojas": 82,
+  "cols": 4944
+ }
+}

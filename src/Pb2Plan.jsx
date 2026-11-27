@@ -7,7 +7,6 @@ const CSS = `
  --crit:#a33a34;--crit-soft:#f6ddd9;--info:#2d5b8e;--info-soft:#dbe6f2;--blue:#2d5b8e;
  --mfont:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fg)}
 .pb2p *{box-sizing:border-box}
-.pb2p{padding:4px 0 10px}
 .pb2p .eyebrow{font-family:var(--mfont);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;margin:0}
 .pb2p .h2{font-size:1.4rem;font-weight:700;margin:6px 0 0;letter-spacing:-.01em;color:var(--navy)}
 .pb2p .lead{color:var(--muted);max-width:76ch;margin:8px 0 0;font-size:.95rem;line-height:1.5}
@@ -91,13 +90,6 @@ export default function Pb2Plan() {
       <style>{CSS}</style>
       <p className="eyebrow">Playback 2 · Frente de datos</p>
       <h2 className="h2">Planeación PB2: alcance, plantillas y fechas</h2>
-      <p className="lead">
-        PB2 es la primera migración real con plantillas oficiales de datos. El plan recibido define
-        {" "}{T.lineas} líneas de alcance ({T.objetosPB2} objetos). Aquí se cruzan contra el levantamiento
-        de plantillas ERP ya realizado (inventario de migración 26C) para dimensionar cuántas plantillas,
-        hojas y columnas hay que trabajar. Recordar: una plantilla puede agrupar varios objetos en varias
-        hojas y muchas columnas.
-      </p>
 
       <div className="kpis">
         <div className="kpi"><div className="v">{T.lineas}</div><div className="l">Líneas de alcance PB2</div></div>
@@ -113,7 +105,7 @@ export default function Pb2Plan() {
         <table>
           <thead><tr>
             <th>Objeto de datos / alcance</th><th>Módulo</th><th className="r">Objetos</th>
-            <th className="r">Plantillas</th><th className="r">Hojas</th><th className="r">Columnas</th><th>Estado del levantamiento</th>
+            <th className="r">Plantillas</th><th className="r">Hojas</th><th className="r">Columnas</th>
           </tr></thead>
           <tbody>
             {L.map((x, i) => (
@@ -125,12 +117,9 @@ export default function Pb2Plan() {
                   <td className="r big">{x.nPlant}</td>
                   <td className="r big">{x.nHojas}</td>
                   <td className="r big">{nf(x.nCols)}</td>
-                  <td>{Object.entries(x.estados).map(([e, n], k) => (
-                    <span className={`st ${toneEstado(e)}`} key={k}>{e}{n > 1 ? ` ×${n}` : ""}</span>
-                  ))}</td>
                 </tr>
                 {open[i] && (
-                  <tr className="det"><td colSpan={7}><div className="detbox">
+                  <tr className="det"><td colSpan={6}><div className="detbox">
                     <p className="nota">{x.nota}</p>
                     <table className="ptab">
                       <thead><tr><th>Plantilla</th><th>Archivo</th><th>Lectura</th><th className="r">Hojas</th><th className="r">Columnas</th></tr></thead>
@@ -155,7 +144,7 @@ export default function Pb2Plan() {
             <tr>
               <td>Total PB2</td><td></td>
               <td className="r">{T.objetosPB2}</td><td className="r">{T.plantillas}</td>
-              <td className="r">{T.hojas}</td><td className="r">{nf(T.cols)}</td><td></td>
+              <td className="r">{T.hojas}</td><td className="r">{nf(T.cols)}</td>
             </tr>
           </tfoot>
         </table>

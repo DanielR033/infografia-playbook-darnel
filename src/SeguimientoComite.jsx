@@ -69,7 +69,7 @@ const ACCESOS = [
   { tab: "erp-inv", titulo: "ERP Inventario", desc: "Dimensionamiento de la migración a Oracle Fusion 26C." },
   { tab: "erp", titulo: "ERP", desc: "Avance del frente ERP: volumetría y calidad de datos." },
   { tab: "fabric", titulo: "Microsoft Fabric", desc: "Ejecuciones, tiempos, almacenamiento y capacidad del workspace de migración." },
-  { tab: "impacto-cx", titulo: "Impacto CX", desc: "Oracle CX ya pobló Artículos y Clientes en ERP Fusion: volúmenes, secuencia e impacto en la estrategia." },
+  { tab: "impacto-cx", titulo: "Impacto CX", desc: "Impacto del sistema comercial en clientes y artículos: hallazgos, unidades de medida, decisiones y plazos." },
 ];
 
 const CSS = `

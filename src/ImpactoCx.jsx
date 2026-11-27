@@ -1,5 +1,6 @@
 import React from "react";
 import { CX_CIFRAS, cruceCx } from "./cxCruce.js";
+import { toneOf, UMBRAL } from "./controlUi.jsx";
 
 /* ===== estilos aislados, mismo lenguaje navy/teal del dashboard ERP ===== */
 const CX_CSS = `
@@ -88,6 +89,17 @@ const CX_CSS = `
 .impactocx .cxfoot{color:var(--muted);font-size:.8rem;padding-block:22px;border-top:1px solid var(--border);margin-top:22px}
 .impactocx .cxfoot b{color:var(--fg);font-weight:600}
 .impactocx .status{display:inline-block;font-family:var(--mfont);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);border:1px solid #e3d2a6;background:var(--warn-soft);border-radius:4px;padding:.15rem .5rem;font-weight:600;margin-left:.6rem;vertical-align:middle}
+.impactocx .sem{display:inline-block;font-family:var(--mfont);font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px}
+.impactocx .sem.ok{background:var(--ok-soft);color:var(--ok)}.impactocx .sem.warn{background:var(--warn-soft);color:var(--warn)}.impactocx .sem.crit{background:var(--crit-soft);color:var(--crit)}
+.impactocx .bar{height:8px;background:var(--grid);border-radius:4px;overflow:hidden;min-width:120px}.impactocx .bar i{display:block;height:100%;background:var(--navy)}
+.impactocx .hal{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
+.impactocx .hal .dcard b.t{display:block;color:var(--navy);font-size:.95rem;line-height:1.35}
+.impactocx .hitos{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.impactocx .hito{border:1px solid var(--border);border-radius:10px;padding:8px 12px;background:var(--surface);font-size:.8rem}
+.impactocx .hito b{display:block;font-family:var(--mfont);color:var(--navy);font-size:.82rem}
+.impactocx .hito.lim{border-color:#d9b4b0;background:var(--crit-soft)}
+.impactocx table.dt td.q{font-weight:600;color:var(--navy);width:30%}
+@media(max-width:900px){.impactocx .hal{grid-template-columns:1fr}}
 @media(max-width:900px){
  .impactocx .kpis,.impactocx .res{grid-template-columns:1fr 1fr}
  .impactocx .c4,.impactocx .c6{grid-column:span 12}
@@ -95,139 +107,196 @@ const CX_CSS = `
 }
 `;
 
+
 export { CX_CIFRAS };
 const nf = (n) => n.toLocaleString("es-CO");
+const pf = (a, b) => (b ? (a / b) * 100 : null);
+const pt = (p) => (p === null ? "—" : `${p.toLocaleString("es-CO", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`);
 
-const KPIS = [
-  { v: "28.932", l: "Artículos únicos en ERP", foot: "Org OMA (maestra) · Activo · origen PIMDH", cls: "alt" },
-  { v: "324.960", l: "Clientes (parties) en ERP", foot: "Frente a ~55.700 planificados", cls: "critbar", crit: true },
-  { v: "7.631", l: "Parties inactivos cargados", foot: "Más 3 ITEM_NUMBER duplicados", cls: "warnbar" },
-  { v: "Todos", l: "Ambientes afectados", foot: "CX operativo sincroniza con los del proyecto", cls: "alt" },
+/* Cifras del análisis «Impacto del sistema comercial (Oracle CX) en la migración de clientes y artículos»
+   (corte 27-nov-2026). Fuentes: extracciones del ERP (ambiente de desarrollo) y PeopleSoft / WMS en
+   Microsoft Fabric (20-nov-2026). Solo valores agregados: el sitio es público. */
+const A = {
+  corte: "27-nov-2026",
+  // presencia en el ERP por universo
+  universos: [
+    { u: "Artículos activos de PeopleSoft", total: 86658, enErp: 21991 },
+    { u: "Artículos preparados para Oracle WMS Cloud", total: 46815, enErp: 12266 },
+    { u: "Artículos de la primera prueba (Playback 1)", total: 1185, enErp: 163 },
+  ],
+  // unidad principal igual entre pares de sistemas (artículos comparables)
+  unidad: [
+    { par: "WMS actual · Oracle WMS Cloud", p: 98.0 },
+    { par: "PeopleSoft · ERP", p: 85.7 },
+    { par: "PeopleSoft · WMS actual", p: 82.9 },
+    { par: "ERP · Oracle WMS Cloud", p: 58.5 },
+  ],
+  // personas y empresas del ERP según su cruce con PeopleSoft
+  clientes: [
+    { k: "Clientes del plan de migración", n: 72315, c: "#1f3a5f" },
+    { k: "Clientes de otras compañías del grupo o fuera del plan", n: 78798, c: "#5f88b0" },
+    { k: "Proveedores", n: 1204, c: "#9aa7b6" },
+    { k: "Sin registro en PeopleSoft (prospectos, consumidores o contactos, por confirmar)", n: 172643, c: "#c9a14a" },
+  ],
+};
+
+const HALLAZGOS = [
+  { t: "Un mismo artículo se identifica con códigos distintos según el sistema",
+    d: "El sistema comercial y Oracle WMS Cloud usan el código de producto; PeopleSoft y el WMS actual registran los movimientos con el código de artículo. Difieren en 2.235 artículos del ERP y 3.304 de Oracle WMS Cloud; 163 artículos existen dos veces en el ERP." },
+  { t: "La configuración de los artículos sincronizados no corresponde a su uso",
+    d: "Los 28.932 artículos quedaron con una sola configuración, sin clase ni tipo. El diseño de la primera prueba define 14 clases y 12 tipos con comportamiento propio en planeación, costos, lotes y ventas." },
+  { t: "La unidad de medida difiere entre sistemas",
+    d: "235 artículos del ERP están en unidades no aprobadas por el catálogo y 433 artículos activos de PeopleSoft tienen factores de conversión inconsistentes. ML corresponde a millar (1 millar = 1.000 unidades)." },
+  { t: "El ERP contiene una parte de los artículos de la operación",
+    d: "La sincronización solo llevó el catálogo de venta. Materias primas, empaques y repuestos deben crearse con la carga de migración y convivir con los artículos ya sincronizados." },
+  { t: "Los registros del sistema comercial no equivalen al universo de clientes del plan",
+    d: "El 92,5 % de los clientes del plan ya existe en el sistema comercial, con 1,6 registros por cliente en promedio. La carga debe definir el registro principal de cada empresa." },
+  { t: "Las decisiones condicionan 19 objetos de carga",
+    d: "14 dependen del código del artículo, 3 del cliente y 2 de ambos, con 8.404 columnas en 10 áreas del ERP." },
+];
+
+const PREGUNTAS = [
+  { q: "¿Los datos del ERP no alineados con PeopleSoft se eliminan o se modifican?",
+    r: "Depende de cada registro; no se recomienda eliminar ni modificar de forma masiva. Se elimina lo que no tiene uso ni restricciones, se corrigen los atributos, se inactiva lo que no puede eliminarse y se crea con la carga lo que falta. Microsoft Fabric mantiene la tabla de equivalencias entre sistemas y concilia en cada carga." },
+  { q: "¿El sistema comercial se originó en Estados Unidos?",
+    r: "Los datos no lo muestran. El 78,8 % de los artículos se creó desde octubre de 2023 con unidades en código español. Las unidades en inglés (EA, CS, BG) provienen de una carga de febrero y marzo de 2025 de una compañía de PeopleSoft con convenciones estadounidenses. Se solicitará a Oracle la fecha, el usuario y el sistema de origen de cada registro." },
+  { q: "¿Lo creado ya no se puede borrar?",
+    r: "Es parcialmente cierto. Un artículo sin transacciones ni referencias puede eliminarse; con transacciones abiertas, no. El número de artículo solo cambia con un parámetro de sitio que Oracle entrega desactivado. Las personas y empresas no se eliminan: se inactivan y, según su uso, se depuran o se fusionan." },
+  { q: "¿Qué cambios permite Oracle?",
+    r: "Permite inactivar artículos, asignarlos a organizaciones y agregar conversiones. Permite con condiciones eliminar artículos y cambiar el número, la unidad principal (desde la versión 24C y sin referencias) y los atributos operativos. No permite eliminar de forma directa una persona o empresa." },
+];
+
+const DECISIONES = [
+  { d: "Código único del artículo y regla de equivalencia", f: "09-dic-2026", s: "Gobierno del maestro" },
+  { d: "Sistema dueño del maestro", f: "09-dic-2026", s: "Gobierno del maestro" },
+  { d: "Consolidación del maestro entre compañías", f: "09-dic-2026", s: "Gobierno del maestro" },
+  { d: "Unidad principal por tipo de artículo", f: "14-dic-2026", s: "Unidades de medida" },
+  { d: "Configuración por tipo de artículo", f: "14-dic-2026", s: "Configuración" },
+  { d: "Plantas y bodegas por artículo", f: "14-dic-2026", s: "Configuración" },
+  { d: "Categorías y familias", f: "14-dic-2026", s: "Configuración" },
+  { d: "Rol de las personas y empresas", f: "14-dic-2026", s: "Clientes" },
+  { d: "Unidades de venta, precio y dual por tipo de artículo", f: "21-dic-2026", s: "Unidades de medida" },
+];
+
+const HITOS = [
+  { f: "10-dic", t: "Aceptación de Playback 1" },
+  { f: "15 a 17-dic", t: "Sesiones de plantilla 1" },
+  { f: "22 a 29-dic", t: "Sesiones de plantilla 2" },
+  { f: "06-ene", t: "Carga 1 de Playback 2" },
+  { f: "27-ene", t: "Inicio de Playback 2" },
+  { f: "Por definir", t: "Inicio de UAT · límite para cerrar ajustes", lim: true },
 ];
 
 export default function ImpactoCx() {
   const cx = cruceCx();
+  const ps = A.universos[0];
+  const totCli = A.clientes.reduce((a, c) => a + c.n, 0);
+  const erpCloud = A.unidad.find((u) => u.par === "ERP · Oracle WMS Cloud").p;
   return (
     <section className="impactocx">
       <style>{CX_CSS}</style>
 
-      {/* Resumen ejecutivo */}
       <section style={{ paddingTop: 8 }}>
         <p className="eyebrow">Análisis de impacto · Oracle CX</p>
-        <h2 className="h2">Oracle CX ya pobló los maestros en ERP Fusion
-          <span className="status">Borrador · uso interno</span>
-        </h2>
-        <p className="lead">Oracle CX está operativo y sincroniza directamente con ERP Fusion. Ya pobló los maestros de Artículos y Clientes en todos los ambientes del proyecto, antes de la carga de migración de maestros base. Esto redefine la estrategia de llaves, obliga a una ruta de anonimización y eleva el Staging a pieza central. Cifras tomadas de extracciones desde Fusion DAR DEV1 (BI Publisher).</p>
+        <h2 className="h2">Impacto del sistema comercial en la migración de clientes y artículos</h2>
+        <p className="lead">Durante Playback 1 el sistema comercial (Oracle CX) sincronizó hacia el ERP los clientes y artículos que ya administraba. El análisis compara esa información con PeopleSoft, el WMS actual y las plantillas de Oracle WMS Cloud, y define las decisiones que deben tomarse antes de cerrar las plantillas de carga de Playback 2. Corte {A.corte}.</p>
         <div className="kpis">
-          {KPIS.map((k, i) => (
-            <div className={`kpi ${k.cls}`} key={i}>
-              <div className={`v ${k.crit ? "crit" : ""}`}>{k.v}</div>
-              <div className="l">{k.l}</div>
-              <div className="foot">{k.foot}</div>
-            </div>
-          ))}
+          <div className="kpi alt"><div className="v">{nf(CX_CIFRAS.articulos)}</div><div className="l">Artículos sincronizados en el ERP</div><div className="foot">{nf(ps.enErp)} de {nf(ps.total)} activos de PeopleSoft ({pt(pf(ps.enErp, ps.total))})</div></div>
+          <div className="kpi warnbar"><div className="v">{nf(CX_CIFRAS.clientes)}</div><div className="l">Personas y empresas en el ERP</div><div className="foot">{nf(A.clientes[0].n)} corresponden a clientes del plan</div></div>
+          <div className="kpi critbar"><div className="v crit">{pt(erpCloud)}</div><div className="l">Unidad principal igual entre ERP y Oracle WMS Cloud</div><div className="foot">Artículos presentes en ambos sistemas</div></div>
+          <div className="kpi"><div className="v">{DECISIONES.length}</div><div className="l">Decisiones pendientes</div><div className="foot">Primera fecha límite: {DECISIONES[0].f}</div></div>
         </div>
-        <div className="note"><b>Cómo leerlo:</b> los dos archivos no son insumos de carga, son extracciones <em>desde</em> Fusion: evidencia de los registros ya existentes en el ambiente.</div>
       </section>
 
-      {/* 1 · Volúmenes */}
       <section>
-        <p className="eyebrow">1 · Volúmenes</p>
-        <h2 className="h2">Cargado frente a planificado</h2>
+        <p className="eyebrow">1 · Hallazgos</p>
+        <h2 className="h2">Conclusiones del análisis</h2>
+        <div className="hal">
+          {HALLAZGOS.map((h, i) => (
+            <div className="dcard" key={i}><h3>{String(i + 1).padStart(2, "0")}</h3><b className="t">{h.t}</b><p>{h.d}</p></div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <p className="eyebrow">2 · Unidades de medida</p>
+        <h2 className="h2">Unidad principal igual entre sistemas</h2>
         <div className="tablewrap">
           <table className="dt">
-            <thead><tr><th>Maestro</th><th className="right">Planificado</th><th className="right">Cargado por CX</th><th className="right">Diferencia</th><th>Observación</th></tr></thead>
+            <thead><tr><th>Sistemas comparados</th><th className="right">Artículos con la misma unidad</th><th>Semáforo</th></tr></thead>
             <tbody>
-              <tr><td>Clientes (HZ_PARTIES)</td><td className="right n">55.700</td><td className="right n">324.960</td><td className="right n up">+483 %</td><td>167.221 PERSON · 157.739 ORGANIZATION</td></tr>
-              <tr><td>Artículos (Product Hub)</td><td className="right n">~28.000</td><td className="right n">28.932</td><td className="right n ok">≈ completo</td><td>Catálogo de la org OMA ya presente</td></tr>
+              {A.unidad.map((u) => {
+                const t = toneOf(u.p);
+                return (
+                  <tr key={u.par}><td>{u.par}</td><td className="right n">{pt(u.p)}</td>
+                    <td><span className={`sem ${t}`}>{{ ok: "Verde", warn: "Ámbar", crit: "Rojo" }[t]}</span></td></tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
-        <div className="dgrid">
-          <div className="dcard c6">
-            <h3>Composición de clientes</h3>
-            <div className="stack"><i style={{ width: "51.5%", background: "#355e86" }} /><i style={{ width: "48.5%", background: "#8a98a8" }} /></div>
-            <div className="keyline">
-              <span><span className="sw" style={{ background: "#355e86" }} />PERSON <b>167.221 (51,5 %)</b></span>
-              <span><span className="sw" style={{ background: "#8a98a8" }} />ORGANIZATION <b>157.739 (48,5 %)</b></span>
-            </div>
-            <p>La mitad del universo son <code>PERSON</code>, compatibles con consumidores B2C del canal commerce; su inclusión en el maestro de clientes de ERP debe confirmarse.</p>
-          </div>
-          <div className="dcard c6">
-            <h3>Correspondencia de artículos con WMS</h3>
-            <div className="stack"><i style={{ width: "21%", background: "#2e7d55" }} /><i style={{ width: "79%", background: "#c3ccd6" }} /></div>
-            <div className="keyline">
-              <span><span className="sw" style={{ background: "#2e7d55" }} />Prefijo taxonomía WMS <b>6.217 (21 %)</b></span>
-              <span><span className="sw" style={{ background: "#c3ccd6" }} />Otros <b>22.715 (79 %)</b></span>
-            </div>
-            <p>El 21 % coincide con los prefijos de clasificación <em>putaway</em> de WMS, lo que indica un namespace de codificación común con PeopleSoft.</p>
-          </div>
+        <div className="note"><b>Lectura:</b> el WMS actual y Oracle WMS Cloud registran la unidad física de manipulación (caja, bolsa, paquete); PeopleSoft y el ERP, la unidad de control (millar, kilogramo). La carga y la integración deben aplicar el factor de cada artículo. Semáforo: verde ≥ {UMBRAL.verde} %, ámbar {UMBRAL.ambar} % a 89,9 %, rojo &lt; {UMBRAL.ambar} %.</div>
+      </section>
+
+      <section>
+        <p className="eyebrow">3 · Cobertura</p>
+        <h2 className="h2">Artículos de cada universo presentes en el ERP</h2>
+        <div className="tablewrap">
+          <table className="dt">
+            <thead><tr><th>Universo</th><th className="right">Artículos</th><th className="right">En el ERP</th><th className="right">%</th><th></th></tr></thead>
+            <tbody>
+              {A.universos.map((u) => {
+                const p = pf(u.enErp, u.total);
+                return (
+                  <tr key={u.u}><td>{u.u}</td><td className="right n">{nf(u.total)}</td><td className="right n">{nf(u.enErp)}</td><td className="right n">{pt(p)}</td>
+                    <td style={{ width: "22%" }}><div className="bar"><i style={{ width: `${p}%` }} /></div></td></tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </section>
 
-      {/* 2 · Secuencia */}
       <section>
-        <p className="eyebrow">2 · Secuencia de integración</p>
-        <h2 className="h2">CX escribe en ERP antes de la carga de migración</h2>
-        <div className="flow">
-          <div className="fnode"><div className="k">Origen</div><div className="nm">Oracle CX</div><div className="ds">Operativo y en uso</div></div>
-          <div className="farrow">→</div>
-          <div className="fnode"><div className="k">Integración</div><div className="nm">Fusion · TCA / PIMDH</div><div className="ds">Parties e ítems</div></div>
-          <div className="farrow">→</div>
-          <div className="fnode erp"><div className="k">Destino</div><div className="nm">ERP Fusion</div><div className="ds">Maestros ya poblados</div></div>
-        </div>
-        <div className="crit-note">La carga de migración de maestros base (Ola 1) estaba prevista para ejecutarse primero y definir las llaves. Al ejecutarse después de CX, encuentra Artículos y Clientes ya creados con llaves asignadas por Fusion (<code>ITEM_NUMBER</code>, <code>PARTY_NUMBER</code>). <b>Los registros ya cargados no pueden eliminarse.</b></div>
-      </section>
-
-      {/* 3 · Estrategia */}
-      <section>
-        <p className="eyebrow">3 · Estrategia</p>
-        <h2 className="h2">Impactos en la estrategia de migración</h2>
-        <div className="dgrid">
-          <div className="dcard c6"><h3>Llaves</h3>
-            <b style={{ color: "var(--navy)" }}>La estrategia de llaves propias queda invalidada</b>
-            <p>El plan asumía que la llave la definía el dato migrado (extraer a Excel, entregar a Oracle, cargar). CX ya fijó las llaves; la migración debe <b>adoptar</b> <code>ITEM_NUMBER</code> y <code>PARTY_NUMBER</code> existentes en lugar de generarlos. El enfoque pasa de insertar a <b>reconciliar y complementar</b>.</p>
+        <p className="eyebrow">4 · Clientes</p>
+        <h2 className="h2">Composición de las personas y empresas del ERP</h2>
+        <div className="dcard" style={{ marginTop: 16 }}>
+          <div className="stack">{A.clientes.map((c) => <i key={c.k} style={{ width: `${pf(c.n, totCli)}%`, background: c.c }} />)}</div>
+          <div className="keyline">
+            {A.clientes.map((c) => <span key={c.k}><span className="sw" style={{ background: c.c }} />{c.k} <b>{nf(c.n)} ({pt(pf(c.n, totCli))})</b></span>)}
           </div>
-          <div className="dcard c6"><h3>Datos</h3>
-            <b style={{ color: "var(--navy)" }}>El saneamiento debe ser por anonimización, no por borrado</b>
-            <p>Dado que lo cargado no se puede eliminar, los registros fuera de alcance o de prueba requieren una <b>estrategia de anonimización</b>, con regla, alcance de registros y ambientes definidos.</p>
-          </div>
-          <div className="dcard c6"><h3>Arquitectura</h3>
-            <b style={{ color: "var(--navy)" }}>El Staging pasa a ser la pieza central</b>
-            <p>Para mantener <b>PeopleSoft, ERP Fusion, CX y los módulos adicionales</b> sincronizados, el Staging deja de ser opcional: concentra la conciliación y el gobierno de llaves, y debe <b>versionar el universo por ambiente y fecha de corte</b>.</p>
-          </div>
-          <div className="dcard c6"><h3>Alcance</h3>
-            <b style={{ color: "var(--navy)" }}>El maestro de clientes crece 5,8 veces</b>
-            <p>324.960 frente a 55.700 planificados. Los 167.221 <code>PERSON</code> corresponden, con alta probabilidad, a consumidores del canal commerce no contemplados en el maestro de clientes de ERP; su inclusión impacta AR y la deduplicación.</p>
-          </div>
+          <p>Cruce por nombre con PeopleSoft sobre {nf(totCli)} registros. La extracción disponible no incluye la cuenta de cliente; el rol definitivo de cada registro se confirma con esa información.</p>
         </div>
       </section>
 
-      {/* 4 · Cruce */}
       <section>
-        <p className="eyebrow">4 · Cruce de universos</p>
-        <h2 className="h2">Correspondencia de ítems WMS – CX/ERP</h2>
-        <p className="lead">Aunque son módulos independientes, sus universos de ítems deben coincidir: todo ítem de WMS debe existir en CX/ERP. Según el diccionario WMS (D020, regla columna K), la identidad del ítem (<code>part_a</code>) es el <code>INV_ITEM_ID</code> de PeopleSoft (SETID COR01, solo activos; kits por <code>PRODUCT_ID</code>).</p>
-        <div className="join">
-          <h3 style={{ margin: 0, fontFamily: "var(--mfont)", fontSize: ".7rem", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>Llave de unión</h3>
-          <div className="joinrow">
-            <span className="token">WMS <b>part_a</b> = PeopleSoft <b>INV_ITEM_ID</b></span>
-            <span className="eq">=</span>
-            <span className="token">Fusion <b>ITEM_NUMBER</b></span>
-          </div>
-          <p style={{ margin: ".7rem 0 0", fontSize: ".84rem", color: "var(--muted)", lineHeight: 1.5 }}>El extracto de CX no incluye <code>SOURCE_SYSTEM_REFERENCE</code> (0 de 28.935): no existe columna puente, por lo que la unión es por valor literal del código. La coincidencia del 21 % de prefijos confirma el namespace común con PeopleSoft.</p>
+        <p className="eyebrow">5 · Preguntas de la sesión</p>
+        <h2 className="h2">Respuestas a las preguntas planteadas</h2>
+        <div className="tablewrap">
+          <table className="dt">
+            <thead><tr><th>Pregunta</th><th>Respuesta</th></tr></thead>
+            <tbody>{PREGUNTAS.map((p) => <tr key={p.q}><td className="q">{p.q}</td><td>{p.r}</td></tr>)}</tbody>
+          </table>
         </div>
-        <div className="res">
-          <div className="rescard"><div className="t g">Coincidentes</div><div className="h">WMS presentes en CX/ERP</div><div className="v">Cantidad por calcular</div><span className="pill p-pend">Pendiente</span></div>
-          <div className="rescard"><div className="t r">Faltantes</div><div className="h">WMS ausentes en CX/ERP</div><div className="v">Rompen la integración WMS–ERP</div><span className="pill p-pend">Pendiente</span></div>
-          <div className="rescard"><div className="t b">Adicionales</div><div className="h">CX/ERP fuera del universo WMS</div><div className="v">Cantidad por calcular</div><span className="pill p-pend">Pendiente</span></div>
-        </div>
-        <div className="warn-note"><b>Insumo requerido:</b> la lista de <code>INV_ITEM_ID</code> activos de WMS (SETID COR01), proveniente de la extracción PeopleSoft / consulta ITM de Fabric. El archivo D020 disponible es el mapeo de campos, no los datos. Con esa lista, el cruce contra los 28.932 ítems de CX se completa con cifras exactas.</div>
+        <div className="note">Las condiciones de Oracle deben validarse en la versión instalada. Fuente: documentación de Oracle Fusion Cloud SCM y Customer Data Management.</div>
       </section>
 
-      {/* 5 · Profundización */}
       <section>
-        <p className="eyebrow">5 · Profundización</p>
+        <p className="eyebrow">6 · Decisiones y plazos</p>
+        <h2 className="h2">Decisiones pendientes y ruta según el plan del proyecto</h2>
+        <div className="hitos">{HITOS.map((h) => <div className={`hito ${h.lim ? "lim" : ""}`} key={h.t}><b>{h.f}</b>{h.t}</div>)}</div>
+        <div className="tablewrap">
+          <table className="dt">
+            <thead><tr><th>Decisión</th><th>Sesión</th><th>Fecha límite</th></tr></thead>
+            <tbody>{DECISIONES.map((d) => <tr key={d.d}><td><b>{d.d}</b></td><td>{d.s}</td><td className="n" style={{ whiteSpace: "nowrap" }}>{d.f}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <div className="note"><b>Criterio de las fechas:</b> cada decisión debe estar tomada antes de que las sesiones de plantilla de Playback 2 la incorporen. Corregir después exige volver a preparar, cargar y probar los datos; después del inicio de UAT aplican además las restricciones de Oracle sobre artículos con transacciones.</div>
+      </section>
+
+      {/* 7 · Profundización */}
+      <section>
+        <p className="eyebrow">7 · Profundización</p>
         <h2 className="h2">Más allá del party: entidades que se cruzan con las plantillas ERP</h2>
         <p className="lead">Para operar, CX no usa solo el party y el ítem: también direcciones, usos de dirección, contactos, cuentas y categorías. Las plantillas de carga del ERP cargan esas mismas entidades en las mismas tablas de Fusion. Hoy está analizado el maestro base; la profundización no se puede medir todavía porque falta la extracción desde Fusion.</p>
         <div className="kpis" style={{ gridTemplateColumns: "repeat(3,1fr)" }}>
@@ -256,33 +325,9 @@ export default function ImpactoCx() {
         <div className="note"><b>Columna «En PB1»:</b> columnas de la plantilla de negocio de PB1 que corresponden a esa hoja, con datos / definidas. En PB1 las direcciones, cuentas y medios de pago quedaron <b>definidas y validadas, pero sin datos</b>: es el mismo vacío de profundización que aparece en CX. Fuente: Muestra_Clientes (CO y PA) y DAR_Maestro_Items_PB1. La lista de entidades se valida con el funcional de CX.</div>
       </section>
 
-      {/* 6 · Riesgos y decisiones */}
-      <section>
-        <p className="eyebrow">6 · Riesgos y decisiones</p>
-        <h2 className="h2">Riesgos abiertos y decisiones pendientes</h2>
-        <div className="dgrid">
-          <div className="dcard c6"><h3>Riesgos</h3>
-            <div className="risk">
-              <div className="ri"><b>Universo en movimiento.</b><p>La sincronización continua altera la foto (324.960 / 28.932) durante la preparación de la carga.</p></div>
-              <div className="ri"><b>Cross-references duplicados.</b><p>Un <code>SOURCE_SYSTEM_CODE</code> distinto en la migración genera referencias duplicadas sobre el mismo registro.</p></div>
-              <div className="ri"><b>PII fuera de alcance.</b><p>167 mil registros <code>PERSON</code> elevan la exposición y el ruido en AR.</p></div>
-            </div>
-          </div>
-          <div className="dcard c6"><h3>Decisiones pendientes</h3>
-            <ol className="dec">
-              <li><b>Confirmar a CX como sistema de registro</b> de Artículos y Clientes, o revertir la sincronización si no estaba prevista.</li>
-              <li><b>Entregar el universo WMS activo</b> (<code>INV_ITEM_ID</code>, SETID COR01) para cerrar el cruce con cifras.</li>
-              <li><b>Definir el Staging como hub de conciliación</b> entre PeopleSoft, Fusion, CX y módulos, con versionado por corte.</li>
-              <li><b>Aprobar la estrategia de anonimización</b>: regla, alcance de registros y ambientes.</li>
-              <li><b>Reencaminar la Ola 1</b> de inserción a reconciliación, adoptando las llaves de CX.</li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
       <div className="cxfoot">
-        <b>Documento de trabajo — borrador para revisión interna.</b><br />
-        Fuentes: Articulos_OMA_FBDI_26C (EGP_SYSTEM_ITEMS_INTERFACE — 28.935 filas, 28.932 ítems únicos); Info Cabecera Clientes Dev1 (HZ_PARTIES — 324.960 parties); DAR_D020_MapeoDatos_SCM_WMS_ITEMS (regla columna K). Ambiente: Oracle Fusion DAR DEV1. Cifras de clientes y artículos: valores agregados, sin datos personales.
+        <b>Resumen del análisis presentado al comité.</b> El documento completo incluye la evidencia por artículo y por sistema, ejemplos y el listado en Excel.<br />
+        Fuentes: extracciones del ERP en el ambiente de desarrollo (artículos de la organización maestra: {nf(CX_CIFRAS.articulos)}; personas y empresas: {nf(CX_CIFRAS.clientes)}); PeopleSoft y WMS actual en Microsoft Fabric (20-nov-2026); reglas de carga de Oracle WMS Cloud en Fabric; catálogo de unidades aprobado por el equipo de Product Hub; plan del proyecto (Playback 1 y 2). Valores agregados, sin datos personales.
       </div>
     </section>
   );

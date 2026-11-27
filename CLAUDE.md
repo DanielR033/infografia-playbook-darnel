@@ -161,7 +161,7 @@ Otras cuentas del Azure CLI de este equipo pertenecen a otros clientes: no usarl
 - Artículos ERP: 4 de 22 tablas fuente en bronze.
 - Pipeline 15-nov falló por un nombre mal escrito: `t_stored_item_nse` (debe ser `t_stored_item_bse`).
 - Silver y gold sin actualizar desde agosto (06-ago / 17-ago).
-- La pestaña Impacto CX está marcada "Borrador · uso interno" y el sitio de GitHub Pages es público.
+- Impacto CX resume el análisis CX completo (documento local, no versionado): solo cifras agregadas, sin códigos ni nombres, porque el sitio es público.
 
 ## Rama de respaldo
 

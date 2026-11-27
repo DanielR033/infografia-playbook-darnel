@@ -4,7 +4,7 @@ import DATA from "./mapeoReportesBI.json";
 const CSS = `
 .mapbi{--c-blue:#0058a8;--c-blue-d:#003b70;--c-cyan:#00a7e1;--c-ink:#1f2b3a;--c-mut:#5b6b7a;
  --c-bd:#d9e3ef;--c-soft:#f3f8fd;--ok:#0f8f6c;--ok-s:#e6f7ef;--teal:#2e7d7a;--warn:#c67c12;--warn-s:#fdf2dc;
- --crit:#b5323b;--crit-s:#fbe3e4;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+ --crit:#b5323b;--crit-s:#fbe3e4;--zaid:#3f72af;--zaid-s:#e7eef8;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
  position:fixed;inset:0;z-index:5000;background:#eef1f5;display:flex;flex-direction:column;color:var(--c-ink);
  font-family:inherit}
 .mapbi .mb-head{background:linear-gradient(120deg,var(--c-blue-d),var(--c-blue) 70%,var(--c-cyan));color:#fff}
@@ -58,13 +58,14 @@ const CSS = `
 .mapbi .st.anot{background:#dcebe9;color:var(--teal)}
 .mapbi .st.blanco{background:var(--warn-s);color:var(--warn)}
 .mapbi .st.noex{background:var(--crit-s);color:var(--crit)}
+.mapbi .st.zaid{background:var(--zaid-s);color:var(--zaid)}
 .mapbi .count{font-size:.78rem;color:var(--c-mut);font-family:var(--mono);margin-bottom:8px;display:block}
 @media(max-width:820px){.mapbi .kpis{grid-template-columns:1fr 1fr}.mapbi .trow{grid-template-columns:150px 1fr 48px}}
 `;
 
 const nf = (n) => Number(n).toLocaleString("es-CO");
-const COLORS = { Revisado: "var(--ok)", "Revisado - Anotación": "var(--teal)", "(en blanco)": "var(--warn)", "No Existe": "var(--crit)" };
-const stClass = (s) => s === "Revisado" ? "rev" : s === "Revisado - Anotación" ? "anot" : s === "No Existe" ? "noex" : "blanco";
+const COLORS = { Revisado: "var(--ok)", "Revisado - Anotación": "var(--teal)", "Revisado - Zaid": "var(--zaid)", "(en blanco)": "var(--warn)", "No Existe": "var(--crit)" };
+const stClass = (s) => s === "Revisado" ? "rev" : s === "Revisado - Anotación" ? "anot" : s === "Revisado - Zaid" ? "zaid" : s === "No Existe" ? "noex" : "blanco";
 
 export default function MapeoReportesBI({ onClose }) {
   const [q, setQ] = useState("");
@@ -142,6 +143,7 @@ export default function MapeoReportesBI({ onClose }) {
                   <span className="tt">
                     {t.rev > 0 && <span style={{ width: t.rev / t.total * 100 + "%", background: "var(--ok)" }} />}
                     {t.anot > 0 && <span style={{ width: t.anot / t.total * 100 + "%", background: "var(--teal)" }} />}
+                    {t.zaid > 0 && <span style={{ width: t.zaid / t.total * 100 + "%", background: "var(--zaid)" }} />}
                     {t.blanco > 0 && <span style={{ width: t.blanco / t.total * 100 + "%", background: "var(--warn)" }} />}
                     {t.noexiste > 0 && <span style={{ width: t.noexiste / t.total * 100 + "%", background: "var(--crit)" }} />}
                   </span>

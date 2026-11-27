@@ -69,9 +69,9 @@ function calcular() {
     return { ...p, auto, manual, tot, nota: p.enviada && p.cargo ? pct(auto, tot) : 0 };
   });
 
-  // 3 · Pre-mapeo reportes BI
+  // 3 · Pre-mapeo reportes BI (todos los estados «Revisado*»: revisado, anotación y pendiente de Zaid)
   const pm = Object.fromEntries(mapeoBI.premapeo);
-  const revisados = (pm["Revisado"] || 0) + (pm["Revisado - Anotación"] || 0);
+  const revisados = mapeoBI.premapeo.filter((p) => p[0].startsWith("Revisado")).reduce((a, p) => a + p[1], 0);
 
   // 4 · Plantillas ERP validadas (inventario de migración, sin "Fuera de alcance")
   const inv = erpDash.inventario.filter((r) => r[7] !== "Fuera de alcance");
@@ -256,7 +256,7 @@ export default function IndicadoresProyecto({ irA, abrirBI }) {
                 </td>
                 <td className="r n">{pctTxt(k.bs.v)}</td><td>{link("bs-wms", "BS WMS")}</td></tr>
               <tr><td>Pre-mapeo reportes BI</td>
-                <td>Campos «Revisado» + «Revisado – Anotación» ÷ total. {k.bi.blanco} en blanco y {k.bi.noExiste} «No existe».</td>
+                <td>Campos «Revisado» (incluye «Revisado – Anotación» y «Revisado – Zaid», pendientes de validación) ÷ total. {k.bi.blanco} en blanco y {k.bi.noExiste} «No existe».</td>
                 <td className="r n">{k.bi.rev} / {k.bi.total}</td><td>{linkBI}</td></tr>
               <tr><td>Plantillas ERP validadas (26C)</td>
                 <td>

@@ -112,6 +112,21 @@ const CSS = `
 .bswms table.inv td{padding:8px 11px;border-bottom:1px solid #eef3f8}
 .bswms table.inv tr.tot td{font-weight:700;background:var(--c-soft);border-top:2px solid var(--c-bd)}
 @media(max-width:860px){.bswms .sem-sum{grid-template-columns:1fr 1fr}.bswms .inv-kpis{grid-template-columns:1fr 1fr}}
+.bswms code{font-family:var(--mono);font-size:.82em;background:#eef3f8;color:var(--c-blue-d);border:1px solid var(--c-bd);border-radius:5px;padding:1px 6px;white-space:nowrap}
+.bswms .uom-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:6px 0 8px}
+@media(max-width:860px){.bswms .uom-grid{grid-template-columns:1fr}}
+.bswms .uom-b{border:1px solid var(--c-bd);border-radius:12px;background:#fff;padding:14px 16px}
+.bswms .uom-b .ub-t{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--c-blue);font-weight:700;margin-bottom:7px}
+.bswms .uom-b p{margin:0;font-size:.85rem;color:var(--c-ink);line-height:1.55}
+.bswms ol.uom-steps{margin:4px 0 10px;padding-left:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:9px}
+.bswms ol.uom-steps li{position:relative;padding:10px 14px 10px 44px;border:1px solid var(--c-bd);border-radius:10px;background:linear-gradient(180deg,#fcfeff,#f4f9fe);font-size:.85rem;color:var(--c-ink);line-height:1.5;counter-increment:s}
+.bswms ol.uom-steps li::before{content:counter(s);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:var(--c-blue);color:#fff;font-family:var(--mono);font-size:.78rem;font-weight:600;display:grid;place-items:center}
+.bswms .jira-box{border:1px solid var(--c-bd);border-left:5px solid var(--ok);border-radius:14px;background:var(--ok-s);padding:16px 18px;margin-top:22px}
+.bswms .jira-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bswms .jira-h .jk{font-family:var(--mono);font-weight:700;font-size:.9rem;color:var(--c-blue-d)}
+.bswms .jchip{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:3px 10px}
+.bswms .jchip.ok{background:var(--ok);color:#fff}
+.bswms .jira-box p{margin:9px 0 0;font-size:.86rem;color:var(--c-ink);line-height:1.55}
 `;
 
 const nf = (n) => (n == null || n === "") ? "—" : Number(n).toLocaleString("es-CO");
@@ -414,6 +429,63 @@ export default function BsWmsDashboard() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* ---------- REQUERIMIENTO: Conversión inventario Madrid → UoM Álamos ---------- */}
+      <hr className="topic-sep" />
+      <div className="topic-head">
+        <span className="te">● Requerimiento funcional · Implementado</span>
+        <h3>Conversión del inventario de Madrid a la Unidad de Medida de Álamos</h3>
+        <p>
+          A solicitud del equipo funcional se implementó el requerimiento «Convertir el inventario de
+          Madrid a la Unidad de Medida de Álamos». A continuación, la lógica aplicada en la extracción.
+        </p>
+      </div>
+
+      <div className="uom-grid">
+        <div className="uom-b">
+          <span className="ub-t">Universo</span>
+          <p>Se toma el inventario de <code>t_stored_item</code> en estado A y H, con <code>{"type = 'STORAGE'"}</code>. La bodega 01 se envía con el factor de Álamos como referencia de conversión.</p>
+        </div>
+        <div className="uom-b">
+          <span className="ub-t">Unidad destino</span>
+          <p><code>lkp_item_pb3</code> define la unidad primaria (<code>primary_uom_code</code>), la unidad de caja (<code>case_uom_code</code>) y <code>std_case_qty</code>.</p>
+        </div>
+        <div className="uom-b">
+          <span className="ub-t">Factor de Álamos</span>
+          <p>El CTE <code>uom_conv</code> toma de <code>t_item_uom</code> los factores de la bodega 05 (<code>{"wh_id = '05'"}</code>). Se une a la línea por <code>item_number</code> y <code>uom</code>.</p>
+        </div>
+      </div>
+
+      <div className="subt">Cálculo de la cantidad (<code>qty_convertida</code>)</div>
+      <ol className="uom-steps">
+        <li>Si la unidad de origen es la primaria, la cantidad pasa tal cual.</li>
+        <li>Si es la unidad de caja y <code>{"std_case_qty > 0"}</code>, se multiplica por <code>std_case_qty</code>.</li>
+        <li>Si hay factor de la bodega 05 para esa unidad, se multiplica por ese factor.</li>
+        <li>Si ninguna aplica, la cantidad queda vacía y el filtro <code>{"shipped_qty <> ''"}</code> descarta la línea.</li>
+      </ol>
+
+      <div className="uom-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+        <div className="uom-b">
+          <span className="ub-t">Diagnóstico</span>
+          <p>Cada línea trae <code>_estado_qty</code>, <code>_uom_origen</code> y <code>_uom_primaria_lkp</code>, que indican por qué regla se convirtió.</p>
+        </div>
+        <div className="uom-b">
+          <span className="ub-t">Después de convertir</span>
+          <p>Se suma la cantidad cuando hay duplicados de la misma llave y estado, se aplica la regla A/H y recién ahí se formatea <code>shipped_qty</code>.</p>
+        </div>
+      </div>
+
+      <div className="jira-box">
+        <div className="jira-h">
+          <span className="jk">JIRA C400402681-2520</span>
+          <span className="jchip ok">Resuelto</span>
+        </div>
+        <p>
+          Se disponibilizó una plantilla extraída nuevamente para la certificación del cambio. Sumado al
+          requerimiento de contemplar la conversión del inventario de Madrid a la Unidad de Medida de Álamos,
+          se realizará otra extracción para certificar ambas puntas.
+        </p>
       </div>
     </section>
   );
